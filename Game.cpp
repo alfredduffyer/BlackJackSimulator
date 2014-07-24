@@ -48,7 +48,7 @@ void Game::init(Shoe* shoe, int min, int max, int nbBoxes)
 	this->players = (Player**) malloc(this->nbBoxes * sizeof(Player*));
 	this->boxes = (Box*) malloc(this->nbBoxes * sizeof(Box));
 	
-	this->dealer = new Player(-1, -1, new System_Dealer());
+	this->dealer = new Player((char*) "Dealer", -1, -1, new System_Dealer());
 	this->dealerBox = new Box();
 }
 
@@ -142,6 +142,16 @@ void Game::bet()
 			}
 		}
 	}
+	
+	for (i = 0 ; i < this->nbBoxes ; i++)
+	{
+		printf(" [%d] total bet is %d", i, this->boxes[i].getBet());
+		if (!this->boxes[i].isFree())
+		{
+			printf(" (%s)", this->boxes[i].getName());
+		}
+		puts("");
+	}
 }
 
 void Game::deal()
@@ -178,13 +188,13 @@ Box Game::deal(int boxIndex)
 	if (boxIndex >= 0)
 	{
 		this->boxes[boxIndex].add(card.value);
-		printf("Dealing %d to box %d, player has now %d\n", card.value, boxIndex, this->boxes[boxIndex].getValue());
+		//printf("Dealing %d to box %d, player has now %d\n", card.value, boxIndex, this->boxes[boxIndex].getValue());
 		return this->boxes[boxIndex];
 	}
 	else
 	{
 		this->dealerBox->add(card.value);
-		printf("Dealing %d to dealer, has now %d\n", card.value, this->dealerBox->getValue());
+		//printf("Dealing %d to dealer, has now %d\n", card.value, this->dealerBox->getValue());
 		return *this->dealerBox;
 	}
 }
@@ -212,7 +222,7 @@ void Game::decision(Box box, int boxIndex)
 	while(!box.isNatural() && !box.isBusted() && (decision = box.decision(this->dealerBox->getHand(), true, true)) != STAND)
 	{
 		if (box.getValue() == 0)break;
-		printf("With %d, box %d makes the decision to %d\n", box.getValue(), boxIndex, decision);
+		//printf("With %d, box %d makes the decision to %d\n", box.getValue(), boxIndex, decision);
 		
 		if (decision == DRAW)
 		{
@@ -227,7 +237,7 @@ void Game::decision(Box box, int boxIndex)
 		
 		if (decision == SPLIT)
 		{
-			puts("Splitting that");
+			//puts("Splitting that");
 			break;
 		}
 	}
@@ -246,7 +256,7 @@ void Game::pay()
 		
 		status = this->boxes[i].getHand()->beats(this->dealerBox->getHand());
 		
-		printf("Box %d has status %d with dealer\n", i, status);
+		//printf("Box %d has status %d with dealer\n", i, status);
 		
 		if (status == 0)
 		{
@@ -266,27 +276,27 @@ void Game::play()
 {
 	while (1)
 	{
-		puts("Init Shoe");
+		puts("Initializing shoe...");
 		this->initShoe();
-	
+		
 		while (!this->shoe->isTheEnd())
 		{
-			puts("Init Turn");
+			puts("Initializing turn...");
 			this->initTurn();
-		
-			puts("Betting");
+			
+			puts("-Betting...");
 			this->bet();
-			puts("Dealing");
+			puts("Dealing first wave...");
 			this->deal();
-		
-			puts("Getting decisions");
+			
+			puts("Dealing second wave...");
 			this->decisions();
-		
-			puts("Paying players");
+			
+			puts("Paying players...");
 			this->pay();
-		
-			printf("\n\nCARDS LEFT : %d, LIMIT : %d\n\n", this->shoe->getIndex(), this->shoe->getLimit());
-			//sleep(1);
+			
+			printf("\n%d cards played, going to %d.\n\n", this->shoe->getIndex(), this->shoe->getLimit());
+			sleep(1);
 		}
 	}
 }

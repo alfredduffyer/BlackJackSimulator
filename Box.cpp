@@ -47,6 +47,11 @@ bool Box::isBusted()
 	return this->hand.getValue() > 21;
 }
 
+char* Box::getName()
+{
+	return this->player->getName();
+}
+
 void Box::tie()
 {
 	this->player->win(this->bet);

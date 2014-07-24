@@ -21,10 +21,12 @@ class Player
 		double stack;
 		int unit;
 		System* system;
+		char* name;
 	
 	public:
-		Player(double stack, int unit, System* system);
+		Player(char* name, double stack, int unit, System* system);
 		int bet();
+		char* getName();
 		int bet(int bet);
 		void win(double amount);
 		int getUnit();

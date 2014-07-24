@@ -13,11 +13,19 @@
 #include "System_Dealer.h"
 #include "Player.h"
 
-Player::Player(double stack, int unit, System* system)
+Player::Player(char* name, double stack, int unit, System* system)
 {
+	this->name = (char*) malloc(sizeof(char)*(strlen(name) + 1));
+	sprintf(this->name, "%s", name);
+	this->name[strlen(name)] = '\0';
 	this->stack = stack;
 	this->unit = unit;
 	this->system = system;
+}
+
+char* Player::getName()
+{
+	return this->name;
 }
 
 int Player::bet()

@@ -72,6 +72,9 @@
 #define PLAYING_9 0
 #define PLAYING_10 0
 
+// Activate the bet variation for counting methods
+#define ACTIVATE_BET_VARIATION 1
+
 
 
 

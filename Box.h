@@ -30,6 +30,7 @@ class Box
 		bool isFree();
 		bool isBusted();
 		bool isNatural();
+		char* getName();
 		void add(int value);
 		int getValue();
 		Hand* getHand();

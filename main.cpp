@@ -21,7 +21,7 @@ int main()
 {
 	srand(time(NULL));
 	
-	Player* self = new Player(200, 5, new System_BasicStrategy());
+	Player* self = new Player((char*) "Don Self", 200, 5, new System_BasicStrategy());
 	
 	puts("Instanciating Game...");
 	Game game(new Shoe(1), 5, 500, 7);
@@ -29,11 +29,11 @@ int main()
 	puts("Adding main player...");
 	game.addPlayer(self);
 	puts("Adding a BS player...");
-	game.addPlayer(new Player(-1, 5, new System_BasicStrategy()));
+	game.addPlayer(new Player((char*) "Michel", -1, 5, new System_BasicStrategy()));
 	puts("Adding another BS player...");
-	game.addPlayer(new Player(-1, 5, new System_BasicStrategy()));
+	game.addPlayer(new Player((char*) "Paul", -1, 5, new System_BasicStrategy()));
 	puts("Adding another BS player...");
-	game.addPlayer(new Player(-1, 5, new System_BasicStrategy()));
+	game.addPlayer(new Player((char*) "Bartangue", -1, 5, new System_BasicStrategy()));
 	
 	puts("Playing...");
 	game.play();
