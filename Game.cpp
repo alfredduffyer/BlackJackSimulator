@@ -188,13 +188,13 @@ Box Game::deal(int boxIndex)
 	if (boxIndex >= 0)
 	{
 		this->boxes[boxIndex].add(card.value);
-		//printf("Dealing %d to box %d, player has now %d\n", card.value, boxIndex, this->boxes[boxIndex].getValue());
+		printf(" [%d] gets a %d, total is now %d (%s)\n", boxIndex, card.value, this->boxes[boxIndex].getValue(), this->boxes[boxIndex].getName());
 		return this->boxes[boxIndex];
 	}
 	else
 	{
 		this->dealerBox->add(card.value);
-		//printf("Dealing %d to dealer, has now %d\n", card.value, this->dealerBox->getValue());
+		printf(" DDD gets a %d, total is now %d (%s)\n", card.value, this->dealerBox->getValue(), this->dealerBox->getName());
 		return *this->dealerBox;
 	}
 }
@@ -256,7 +256,7 @@ void Game::pay()
 		
 		status = this->boxes[i].getHand()->beats(this->dealerBox->getHand());
 		
-		//printf("Box %d has status %d with dealer\n", i, status);
+		printf(" [%d] has %d against %d, status is %d (%s)\n", i, this->boxes[i].getValue(), this->dealerBox->getValue(), status, this->boxes[i].getName());
 		
 		if (status == 0)
 		{
