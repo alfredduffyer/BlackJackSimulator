@@ -54,6 +54,11 @@ void Player::win(double amount)
 	this->stack += amount;
 }
 
+double Player::getStack()
+{
+	return this->stack;
+}
+
 int Player::getUnit()
 {
 	return this->unit;

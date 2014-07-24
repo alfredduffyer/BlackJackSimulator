@@ -16,6 +16,9 @@ void printHr();
 // Prints a card color with color
 void printCardColor(char color);
 
+// Prints a string with a color
+void printColor(int color, char* str);
+
 // Prints a matrix in a readable format
 void printMatrix(double** matrix, int y, int x);
 

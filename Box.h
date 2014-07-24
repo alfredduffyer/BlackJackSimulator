@@ -38,6 +38,7 @@ class Box
 		int getBet();
 		void tie();
 		void win();
+		double getStack();
 };
 
 #endif

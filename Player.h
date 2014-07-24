@@ -27,6 +27,7 @@ class Player
 		Player(char* name, double stack, int unit, System* system);
 		int bet();
 		char* getName();
+		double getStack();
 		int bet(int bet);
 		void win(double amount);
 		int getUnit();

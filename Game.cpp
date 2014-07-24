@@ -14,6 +14,7 @@
 #include "Player.h"
 #include "Box.h"
 #include "Game.h"
+#include <string.h>
 
 extern GlobalCount count;
 
@@ -246,6 +247,7 @@ void Game::decision(Box box, int boxIndex)
 void Game::pay()
 {
 	int i = 0, status = 0;
+	char text1[100], text2[50], text3[50];
 	
 	for (i = this->nbBoxes - 1 ; i >= 0 ; i--)
 	{
@@ -256,7 +258,8 @@ void Game::pay()
 		
 		status = this->boxes[i].getHand()->beats(this->dealerBox->getHand());
 		
-		printf(" [%d] has %d against %d, status is %d (%s)\n", i, this->boxes[i].getValue(), this->dealerBox->getValue(), status, this->boxes[i].getName());
+		sprintf(text1, " [%d] has %d against %d, status is %d (%s)\n", i, this->boxes[i].getValue(), this->dealerBox->getValue(), status, this->boxes[i].getName());
+		sprintf(text2, "  --> Had %1.1f, has now ", this->boxes[i].getStack());
 		
 		if (status == 0)
 		{
@@ -267,6 +270,20 @@ void Game::pay()
 			this->boxes[i].win();
 		}
 		
+		sprintf(text3, "%1.1f\n", this->boxes[i].getStack());
+		
+		if (strcmp(this->boxes[i].getName(), "Don Self") == 0)
+		{
+			printColor(C_RED, text1);
+			printColor(C_RED, text2);
+			printColor(C_RED, text3);
+		}
+		else
+		{
+			printf("%s", text1);
+			printf("%s", text2);
+			printf("%s", text3);
+		}
 	}
 	
 	

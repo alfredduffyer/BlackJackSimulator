@@ -52,6 +52,11 @@ char* Box::getName()
 	return this->player->getName();
 }
 
+double Box::getStack()
+{
+	return this->player->getStack();
+}
+
 void Box::tie()
 {
 	this->player->win(this->bet);
@@ -59,7 +64,7 @@ void Box::tie()
 
 void Box::win()
 {
-	this->player->win(this->bet * ( (this->isNatural()) ? 1.5 : 1 ));
+	this->player->win(this->bet * ( (this->isNatural()) ? 2.5 : 2 ));
 }
 
 bool Box::isNatural()

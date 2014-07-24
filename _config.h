@@ -72,6 +72,16 @@
 #define PLAYING_9 0
 #define PLAYING_10 0
 
+// Shell Colors
+#define C_BLACK 30
+#define C_RED 31
+#define C_GREEN 32
+#define C_YELLOW 33
+#define C_BLUE 34
+#define C_MAGENTA 35
+#define C_CYAN 36
+#define C_WHITE 37
+
 // Activate the bet variation for counting methods
 #define ACTIVATE_BET_VARIATION 1
 

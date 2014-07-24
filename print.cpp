@@ -50,6 +50,22 @@ void printCardColor(char color)
 	system("printf '\\033[0m'");
 }
 
+void printColor(int color, char* str)
+{
+	if (!LINUX)
+	{
+		printf("%s", str);
+		return;
+	}
+	
+	char command[50] = "";
+	
+	sprintf(command, "printf '\\033[1;%d;40m'", color);
+	system(command);
+	printf("%s", str);
+	system("printf '\\033[0m'");
+}
+
 void printMatrix(double** matrix, int y, int x)
 {
 	puts("");
