@@ -21,23 +21,23 @@ bool fffffffffff = false;
 
 int main()
 {
-	srand(time(NULL));
+	srand(getMilliTime());
 	
 	Player* self = new Player((char*) "Don Self", 1000, 5, new System_BasicStrategy());
 	
-	puts("Instanciating Game...");
+	//puts("Instanciating Game...");
 	Game game(new Shoe(1), 5, 500, 7);
 	
-	puts("Adding main player...");
+	//puts("Adding main player...");
 	game.addPlayer(self);
-	puts("Adding a BS player...");
+	//puts("Adding a BS player...");
 	game.addPlayer(new Player((char*) "Michel", -1, 5, new System_BasicStrategy()));
-	puts("Adding another BS player...");
+	//puts("Adding another BS player...");
 	game.addPlayer(new Player((char*) "Paul", -1, 5, new System_BasicStrategy()));
-	puts("Adding another BS player...");
+	//puts("Adding another BS player...");
 	game.addPlayer(new Player((char*) "Bartangue", -1, 5, new System_BasicStrategy()));
 	
-	puts("Playing...");
+	//puts("Playing...");
 	game.play();
 	
 	return 1;

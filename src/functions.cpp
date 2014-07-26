@@ -4,6 +4,7 @@
 #include "../headers/_config.h"
 #include "../headers/functions.h"
 #include <time.h>
+#include <sys/time.h>
 
 int strlen(char* str)
 {
@@ -15,6 +16,13 @@ int strlen(char* str)
 }
 
 int random(int min, int max)
+{
+	int value = randomTemp(min, max);
+	
+	return value % (max - min + 1) + min;
+}
+
+int randomTemp(int min, int max)
 {
 	return rand() % (max - min + 1) + min;
 }
@@ -32,3 +40,14 @@ void addToFile(char* fileName, char* str)
 	
 	fclose(fichier);
 }
+
+long int getMilliTime()
+{
+	struct timeval tv;
+	gettimeofday(&tv, NULL);
+	return (long int) (tv.tv_sec) * 1000 + (tv.tv_usec) / 1000 ;
+}
+
+
+
+

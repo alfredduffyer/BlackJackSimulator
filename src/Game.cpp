@@ -253,7 +253,7 @@ void Game::decision(int boxIndex)
 			{
 				break;
 			}
-			printColor(C_RED + 10, (char*)"Couldn't double down !! Just drawed a card\n");
+			//printColor(C_RED + 10, (char*)"Couldn't double down !! Just drawed a card\n");
 			//system("echo \"PAUSE\" && read a");
 		}
 		
@@ -272,7 +272,7 @@ void Game::decision(int boxIndex)
 			
 			
 			//if (DEBUG)printColor(C_YELLOW, (char*) "  --> Splitting that\n");
-			puts("  --> Splitting that");
+			//puts("  --> Splitting that");
 			//system("echo \"PAUSE\" && read a");
 			
 			int splitIndex = ++this->splitIndexes[boxIndex % this->nbBoxes];
@@ -393,10 +393,11 @@ void Game::play()
 				{
 					//char message[50];
 					//system("clear");
-					printf(/*message, */"[%d] Don Self has now %1.1f\n", handsPlayed, this->boxes[i].getStack());
+					//printf(/*message, */"[%d] Don Self has now %1.1f\n", handsPlayed, this->boxes[i].getStack());
 					//printColor(C_RED, message);
 					if (this->boxes[i].getStack() < 5)
 					{
+						printf("Don Self died in %d hands\n", handsPlayed);
 						return;
 					}
 					break;

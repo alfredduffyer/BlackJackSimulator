@@ -27,7 +27,7 @@
 #define CARDS_BURNED 5
 
 // Number of times the deck is shuffled
-#define TIMES_SHUFFLED 100
+#define TIMES_SHUFFLED 1
 
 // Shift of Hard Standing Table
 #define SHIFT_HS 12
