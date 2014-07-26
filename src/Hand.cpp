@@ -19,6 +19,12 @@ void Hand::reset()
 	this->softValue = 0;
 	this->size = 0;
 	this->pair = false;
+	this->isSplitted = false;
+}
+
+void Hand::setSplitted(bool isSplitted)
+{
+	this->isSplitted = isSplitted;
 }
 
 int Hand::add(int value)
@@ -53,7 +59,7 @@ bool Hand::isSoft()
 
 bool Hand::isNatural()
 {
-	return (this->size == 2 && this->value == 21);
+	return (!this->isSplitted && this->size == 2 && this->value == 21);
 }
 
 bool Hand::isBusted()

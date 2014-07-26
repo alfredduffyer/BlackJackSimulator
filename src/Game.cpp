@@ -51,11 +51,6 @@ void Game::init(Shoe* shoe, int min, int max, int nbBoxes)
 	this->boxes = (Box*) malloc((MAX_SPLIT * this->nbBoxes + this->nbBoxes) * sizeof(Box));
 	this->splitIndexes = (int*) malloc(sizeof(int) * this->nbBoxes);
 	
-	for (int i = 0 ; i < this->nbBoxes ; i++)
-	{
-		this->splitIndexes[i] = 0;
-	}
-	
 	this->dealer = new Player((char*) "Dealer", -1, -1, new System_Dealer());
 	this->dealerBox = new Box();
 }
@@ -77,6 +72,10 @@ void Game::resetBoxes()
 	for (i = 0 ; i < this->nbBoxes + MAX_SPLIT * this->nbBoxes ; i++)
 	{
 		this->boxes[i].reset();
+	}
+	for (i = 0 ; i < this->nbBoxes ; i++)
+	{
+		this->splitIndexes[i] = 0;
 	}
 	this->dealerBox->reset();
 }
@@ -204,7 +203,8 @@ Box Game::deal(int boxIndex)
 	{
 		this->boxes[boxIndex].add(card.value);
 		sprintf(message, "%s [%d] gets a %d, total is now %d (%s)\n", splitMessage, boxIndex, card.value, this->boxes[boxIndex].getValue(), this->boxes[boxIndex].getName());
-		if (DEBUG)printColor(C_RED + (boxIndex % 7), message);
+		if (DEBUG && strcmp(this->boxes[boxIndex].getName(), (char*) "Don Self") == 0)printColor(C_RED, message);
+		else if (DEBUG)printf("%s", message);
 		return this->boxes[boxIndex];
 	}
 	else
@@ -254,7 +254,7 @@ void Game::decision(int boxIndex)
 				break;
 			}
 			printColor(C_RED + 10, (char*)"Couldn't double down !! Just drawed a card\n");
-			system("echo \"PAUSE\" && read a");
+			//system("echo \"PAUSE\" && read a");
 		}
 		
 		if (decision == SPLIT)
@@ -270,31 +270,45 @@ void Game::decision(int boxIndex)
 				system("echo \"PAUSE\" && read a");
 			}
 			
-			this->splitIndexes[boxIndex % this->nbBoxes]++;
 			
-			if (DEBUG)printColor(C_YELLOW, (char*) "  --> Splitting that\n");
+			//if (DEBUG)printColor(C_YELLOW, (char*) "  --> Splitting that\n");
+			puts("  --> Splitting that");
 			//system("echo \"PAUSE\" && read a");
+			
+			int splitIndex = ++this->splitIndexes[boxIndex % this->nbBoxes];
 			
 			int value = this->boxes[boxIndex].getHand()->getSoftValue() / 2;
 			int bet = this->boxes[boxIndex].getBet();
 			Player* player = this->boxes[boxIndex].getPlayer();
+			int iIndex = 0;
+			int splitBoxIndex = (boxIndex % this->nbBoxes) + (this->nbBoxes * splitIndex);
 			
-			if (strcmp(player->getName(), "Don Self") == 0) fffffffffff = true;
+			//printf("[boxIndex: %d, this->nbBoxes: %d, splitIndex: %d, splitBoxIndex: %d]\n", boxIndex, this->nbBoxes, splitIndex, splitBoxIndex);
+			
+			//if (strcmp(player->getName(), "Don Self") == 0) fffffffffff = true;
 			
 			this->boxes[boxIndex].tie();
 			this->boxes[boxIndex].reset();
-			this->boxes[boxIndex].take(player, player->betAmount(bet));
+			this->boxes[boxIndex].take(player, player->betAmount(bet), true);
 			this->boxes[boxIndex].add(value);
 			
-			this->boxes[boxIndex+this->nbBoxes*this->splitIndexes[boxIndex % this->nbBoxes]].reset();
-			this->boxes[boxIndex+this->nbBoxes*this->splitIndexes[boxIndex % this->nbBoxes]].take(player, player->betAmount(bet));
-			this->boxes[boxIndex+this->nbBoxes*this->splitIndexes[boxIndex % this->nbBoxes]].add(value);
+			this->boxes[splitBoxIndex].reset();
+			this->boxes[splitBoxIndex].take(player, player->betAmount(bet), true);
+			this->boxes[splitBoxIndex].add(value);
 			
 			this->deal(boxIndex);
-			this->deal(boxIndex+this->nbBoxes*this->splitIndexes[boxIndex % this->nbBoxes]);
+			this->deal(splitBoxIndex);
 			
-			this->decision(boxIndex);
-			this->decision(boxIndex+this->nbBoxes*this->splitIndexes[boxIndex % this->nbBoxes]);
+			iIndex = boxIndex;
+			if (value != 1 || (this->boxes[iIndex].getHand()->isPair() && this->splitIndexes[iIndex % this->nbBoxes] < MAX_SPLIT))
+			{
+				this->decision(iIndex);
+			}
+			iIndex = splitBoxIndex;
+			if (value != 1 || (this->boxes[iIndex].getHand()->isPair() && this->splitIndexes[iIndex % this->nbBoxes] < MAX_SPLIT))
+			{
+				this->decision(iIndex);
+			}
 			
 			//system("echo \"Splitted. PAUSE\" && read a");
 			
@@ -378,6 +392,7 @@ void Game::play()
 				if (!this->boxes[i].isFree() && strcmp(this->boxes[i].getName(), "Don Self") == 0)
 				{
 					//char message[50];
+					//system("clear");
 					printf(/*message, */"[%d] Don Self has now %1.1f\n", handsPlayed, this->boxes[i].getStack());
 					//printColor(C_RED, message);
 					if (this->boxes[i].getStack() < 5)
@@ -388,13 +403,13 @@ void Game::play()
 				}
 			}
 			
-			/*
+			
 			if (fffffffffff)
 			{
 				system("echo \"PAUSE\" && read a");
 				fffffffffff = false;
 			}
-			*/
+			
 		}
 	}
 }

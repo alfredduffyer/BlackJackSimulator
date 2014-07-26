@@ -35,6 +35,7 @@ void System_BasicStrategy::initiate()
 	printBlackJackTables(this->hardDoublingDown, 10, 10, SHIFT_HDD);
 	printBlackJackTables(this->softDoublingDown, 9, 10, SHIFT_SDD, 'A');
 	printBlackJackTables(this->splittingPairs, 10, 10, SHIFT_SP, 'S');
+	sleep(10);
 	*/
 }
 
@@ -106,21 +107,24 @@ void System_BasicStrategy::initiate_hardDoublingDown()
 		}
 	}
 	
-	for (i = 1 ; i <= 10 ; i++)
+	for (i = 1 ; i < 10 ; i++)
 	{
-		this->hardDoublingDown[9][i%10] = -1;
+		this->hardDoublingDown[9][i] = -1;
 		if (i < 9)
 		{
-			this->hardDoublingDown[8][i%10] = -1;
+			this->hardDoublingDown[8][i] = -1;
 		}
 		if (i < 6)
 		{
-			this->hardDoublingDown[7][i%10] = -1;
+			this->hardDoublingDown[7][i] = -1;
 		}
 	}
 	
 	this->hardDoublingDown[6][4] = -1;
 	this->hardDoublingDown[6][5] = -1;
+	
+	// Changes
+	this->hardDoublingDown[9][0] = 1;
 }
 
 void System_BasicStrategy::initiate_softDoublingDown()
@@ -203,6 +207,10 @@ void System_BasicStrategy::initiate_splittingPairs()
 		this->splittingPairs[7][6] = 1;
 		this->splittingPairs[7][9] = 1;
 		this->splittingPairs[7][0] = 1;
+		
+		// Changes
+		this->splittingPairs[6][0] = 1;
+		this->splittingPairs[9][0] = 1;
 	}
 }
 

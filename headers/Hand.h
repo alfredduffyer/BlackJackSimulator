@@ -17,6 +17,7 @@ class Hand
 		int softValue;
 		int size;
 		bool pair;
+		bool isSplitted;
 	
 	public:
 		Hand();
@@ -30,6 +31,7 @@ class Hand
 		int getSize();
 		bool isBusted();
 		int beats(Hand* hand);
+		void setSplitted(bool isSplitted);
 };
 
 #endif

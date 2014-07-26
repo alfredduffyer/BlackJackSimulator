@@ -52,16 +52,16 @@
 #define STAND 100
 
 // Percentage of the shoe that won't be player
-#define WASTE_PROPORTION 30
+#define WASTE_PROPORTION 00
 
 // Percentage of time on which a player plays on two boxes
 #define PLAYING_ON_TWO_BOXES 20
 
 // Percentage of how much other players play (100 : all the time, 0 : none)
-#define GAME_PLAYING 70
+#define GAME_PLAYING 0
 
 // Playing x hand(s) index
-#define PLAYING_1 100
+#define PLAYING_1 10
 #define PLAYING_2 0
 #define PLAYING_3 0
 #define PLAYING_4 0
@@ -86,10 +86,10 @@
 #define ACTIVATE_BET_VARIATION 1
 
 // Activate the bet variation for counting methods
-#define MAX_SPLIT 2
+#define MAX_SPLIT 5
 
-#define DEBUG 1
-#define DEBUG_COLOR 0
+#define DEBUG 0
+#define DEBUG_COLOR 1
 
 
 

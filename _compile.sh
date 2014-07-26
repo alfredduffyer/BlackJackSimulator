@@ -2,13 +2,17 @@ rm src/*~
 rm headers/*~
 rm *~
 
+if ! [ "$1" = "x" ]; then
 if [ -f BlackJackSimulator ]; then
 rm BlackJackSimulator
+fi
 fi
 
 clear
 
+if ! [ "$1" = "x" ]; then
 g++ -Wall -Wextra -o BlackJackSimulator src/*.cpp
+fi
 
 if ! [ -f BlackJackSimulator ]; then
 printf '\033[1;31;40m'

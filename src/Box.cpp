@@ -50,8 +50,13 @@ void Box::add(int value)
 
 void Box::take(Player* player, int bet)
 {
+	this->take(player, bet, false);
+}
+void Box::take(Player* player, int bet, bool isSplitted)
+{
 	this->player = player;
 	this->bet = bet;
+	this->hand.setSplitted(isSplitted);
 }
 /*
 void Box::split(int handIndex)

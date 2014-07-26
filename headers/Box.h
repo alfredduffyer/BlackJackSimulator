@@ -28,6 +28,7 @@ class Box
 	public:
 		Box();
 		void take(Player* player, int bet);
+		void take(Player* player, int bet, bool isSplitted);
 		void reset();
 		bool isFree();
 		bool isBusted();
