@@ -16,12 +16,13 @@
 #include "../headers/Game.h"
 
 GlobalCount count;
+int Box::_stats[21][10];
 
 int main()
 {
 	srand(time(NULL));
 	
-	Player* self = new Player((char*) "Don Self", 200, 5, new System_BasicStrategy());
+	Player* self = new Player((char*) "Don Self", 1000, 5, new System_BasicStrategy());
 	
 	puts("Instanciating Game...");
 	Game game(new Shoe(1), 5, 500, 7);

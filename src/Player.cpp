@@ -40,9 +40,10 @@ int Player::bet(int bet)
 	if (this->stack != -1 && this->stack >= bet)
 	{
 		this->stack -= bet;
+		return bet;
 	}
 	
-	return bet;
+	return 0;
 }
 
 void Player::win(double amount)

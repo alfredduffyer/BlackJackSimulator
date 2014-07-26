@@ -39,6 +39,7 @@ class Box
 		void tie();
 		void win();
 		double getStack();
+		static int _stats[21][10];
 };
 
 #endif

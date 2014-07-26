@@ -40,9 +40,9 @@ System::System()
 
 bool System::split(int player, int dealer)
 {
-	player = (player == 1) ? 9 : player;
+	player = (player == 1) ? 11 : player;
 	//printf("[%d;%d]\n", player, dealer-1);
-	return (this->comparator < this->hardDoublingDown[player-SHIFT_SP][dealer-1]);
+	return (this->comparator > this->splittingPairs[player-SHIFT_SP][dealer-1]);
 }
 
 bool System::doubleDown(int player, int dealer, bool soft)
@@ -50,9 +50,9 @@ bool System::doubleDown(int player, int dealer, bool soft)
 	//printf("[%d;%d;%d]\n", player-SHIFT_SDD % 10, dealer-1, soft ? 1 : 0);
 	if (soft)
 	{
-		return (this->comparator < this->softDoublingDown[(player-SHIFT_SDD) % 10][dealer-1]);
+		return (this->comparator > this->softDoublingDown[(player-SHIFT_SDD) % 10][dealer-1]);
 	}
-	return (this->comparator < this->hardDoublingDown[player-SHIFT_HDD][dealer-1]);
+	return (this->comparator > this->hardDoublingDown[player-SHIFT_HDD][dealer-1]);
 }
 
 bool System::draw(int player, int dealer, bool soft)
@@ -85,38 +85,45 @@ int System::decision(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDo
 	int playerSoftValue = player->getSoftValue();
 	int playerValue = player->getValue();
 	int dealerValue = dealer->getSoftValue();
+	/*
+	if (playerSoftValue == 12 && (dealerValue == 7 || dealerValue == 8 || dealerValue == 9))
+	{
+		printf("(%d,%d) against a %d, canSplit=(%s), isPair=(%s)\n", playerSoftValue/2, playerSoftValue/2, dealerValue, canSplit?"true":"false", player->isPair()?"true":"false");
+		system("echo \"PAUSE\" && read a");
+	}
+	*/
 	
 	if (canSplit && player->isPair() && this->split(playerSoftValue/2, dealerValue))
 	{
-		printf("  --> Splitting a (%d,%d) against a %d\n", playerSoftValue, playerSoftValue, dealerValue);
+		if (DEBUG) printf("  --> Splitting a (%d,%d) against a %d\n", playerSoftValue/2, playerSoftValue/2, dealerValue);
 		return SPLIT;
 	}
 	
-	if (canDoubleDown && player->isSoft() && (playerSoftValue == 2 || (playerValue >= 13 && playerValue <= 20)) && this->doubleDown(playerValue, dealerValue, true))
+	if (canDoubleDown && player->isSoft() && (playerSoftValue == 2 || (playerValue >= 13 && playerValue < 20)) && this->doubleDown(playerValue, dealerValue, true))
 	{
-		printf("  --> Doubling down a soft %d against a %d\n", playerValue, dealerValue);
+		if (DEBUG) printf("  --> Doubling down a soft %d against a %d\n", playerValue, dealerValue);
 		return DOUBLEDOWN;
 	}
 	
 	if (canDoubleDown && !player->isSoft() && playerValue >= 2 && playerValue <= 11 && this->doubleDown(playerValue, dealerValue, false))
 	{
-		printf("  --> Doubling down a hard %d against a %d\n", playerValue, dealerValue);
+		if (DEBUG) printf("  --> Doubling down a hard %d against a %d\n", playerValue, dealerValue);
 		return DOUBLEDOWN;
 	}
 	
-	if (player->isSoft() && (playerValue < 17 || playerValue > 19 || this->draw(playerValue, dealerValue, true)))
+	if (player->isSoft() && playerValue >= 17 && playerValue <= 19 && this->draw(playerValue, dealerValue, true))
 	{
-		printf("  --> Drawing on a soft %d against a %d\n", playerValue, dealerValue);
+		if (DEBUG) printf("  --> Drawing on a soft %d against a %d\n", playerValue, dealerValue);
 		return DRAW;
 	}
 	
-	if (!player->isSoft() && (playerValue < 12 || playerValue > 19 || this->draw(playerValue, dealerValue, false)))
+	if (!player->isSoft() && playerValue < 20 && (playerValue < 12 || this->draw(playerValue, dealerValue, false)))
 	{
-		printf("  --> Drawing on a hard %d against a %d\n", playerValue, dealerValue);
+		if (DEBUG) printf("  --> Drawing on a hard %d against a %d\n", playerValue, dealerValue);
 		return DRAW;
 	}
 	
-	printf("  --> Standing on a %s %d against a %d\n", ((player->isSoft()) ? "soft" : "hard"), playerValue, dealerValue);
+	if (DEBUG) printf("  --> Standing on a %s %d against a %d\n", ((player->isSoft()) ? "soft" : "hard"), playerValue, dealerValue);
 	return STAND;
 }
 

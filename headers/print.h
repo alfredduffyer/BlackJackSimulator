@@ -26,4 +26,7 @@ void printMatrix(double** matrix, int y, int x);
 void printBlackJackTables(double** matrix, int y, int x, int plusy, char subsitute);
 void printBlackJackTables(double** matrix, int y, int x, int plusy);	// subsitute='0'
 
+// Prints a stats table
+void printStatTable(int table[21][10], bool split);
+
 #endif

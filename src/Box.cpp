@@ -13,9 +13,19 @@
 #include "../headers/System_Dealer.h"
 #include "../headers/Player.h"
 #include "../headers/Box.h"
+#include <string.h>
 
+// TMP
 Box::Box()
 {
+	for (int i = 0 ; i < 21 ; i++)
+	{
+		for (int j = 0 ; j < 10 ; j++)
+		{
+			Box::_stats[i][j] = -1;
+		}
+	}
+	
 	this->reset();
 }
 
@@ -87,9 +97,46 @@ Hand* Box::getHand()
 	return &this->hand;
 }
 
+
+// TMP
 int Box::decision(Hand* dealerHand, bool canSplit, bool canDoubleDown)
 {
-	return this->player->decision(&this->hand, dealerHand, canSplit, canDoubleDown);
+	int decision = this->player->decision(&this->hand, dealerHand, this->hand.isPair() && canSplit, this->hand.getSize() == 2 && canDoubleDown);
+	
+	if (false && strcmp(this->player->getName(), "Dealer") != 0 && this->hand.isPair())
+	{
+		system("clear");
+		int x = dealerHand->getSoftValue();
+		int y = this->hand.getSoftValue();
+		char error[100];
+		bool isError = false;
+		
+		if (decision == SPLIT)
+		{
+			isError = (Box::_stats[y-1][x-1] != -1 && Box::_stats[y-1][x-1] != 1);
+			sprintf(error, "Error found : stats[%d][%d] = %d, tried to change it to 1\n", y/2, x, Box::_stats[y-1][x-1]);
+			Box::_stats[y-1][x-1] = 1;
+		}
+		else
+		{
+			isError = (Box::_stats[y-1][x-1] != -1 && Box::_stats[y-1][x-1] != 0);
+			sprintf(error, "Error found : stats[%d][%d] = %d, tried to change it to 0\n", y/2, x, Box::_stats[y-1][x-1]);
+			Box::_stats[y-1][x-1] = 0;
+		}
+		
+		printStatTable(Box::_stats, true);
+		
+		if (isError)
+		{
+			puts("\n\n\n\n\n\n");
+			printColor(C_RED, error);
+			addToFile((char*) "statserror.txt", error);
+			system("echo \"PAUSE\" && read a");
+			//sleep(10);
+		}
+	}
+	
+	return decision;
 }
 
 

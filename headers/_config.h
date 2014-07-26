@@ -85,6 +85,7 @@
 // Activate the bet variation for counting methods
 #define ACTIVATE_BET_VARIATION 1
 
+#define DEBUG 0
 
 
 

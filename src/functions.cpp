@@ -18,3 +18,17 @@ int random(int min, int max)
 {
 	return rand() % (max - min + 1) + min;
 }
+
+void addToFile(char* fileName, char* str)
+{
+	FILE* fichier = NULL;
+	char filePath[50];
+	
+	sprintf(filePath, "output/%s", fileName);
+	
+	fichier = fopen(filePath, "a+");
+	
+	fprintf(fichier, "%s", str);
+	
+	fclose(fichier);
+}

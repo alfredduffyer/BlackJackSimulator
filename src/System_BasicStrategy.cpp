@@ -19,7 +19,7 @@ System_BasicStrategy::System_BasicStrategy() : System()
 int System_BasicStrategy::exception(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown)
 {
 	if (canSplit && canDoubleDown){}
-	return (!player->isSoft() && dealer->getValue() == 10 && player->getValue() == 16 && !player->getSize() > 2) ? STAND : 0;
+	return (!player->isSoft() && dealer->getValue() == 10 && player->getValue() == 16 && player->getSize() > 2) ? STAND : 0;
 }
 
 void System_BasicStrategy::initiate()
