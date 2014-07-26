@@ -296,6 +296,7 @@ void Game::pay()
 
 void Game::play()
 {
+	int handsPlayed = 0;
 	while (1)
 	{
 		if (DEBUG)puts("Initializing shoe...");
@@ -303,6 +304,7 @@ void Game::play()
 		
 		while (!this->shoe->isTheEnd())
 		{
+			++handsPlayed;
 			if (DEBUG)puts("Initializing turn...");
 			this->initTurn();
 			
@@ -323,12 +325,11 @@ void Game::play()
 			{
 				if (!this->boxes[i].isFree() && strcmp(this->boxes[i].getName(), "Don Self") == 0)
 				{
-					printf("Don Self has now %1.1f\n", this->boxes[i].getStack());
+					printf("[%d] Don Self has now %1.1f\n", handsPlayed, this->boxes[i].getStack());
 					if (this->boxes[i].getStack() < 5)
 					{
 						return;
 					}
-					break;
 				}
 			}
 			

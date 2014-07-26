@@ -54,7 +54,7 @@
 // Percentage of the shoe that won't be player
 #define WASTE_PROPORTION 30
 
-// Percentqge of time on whitch a player plays on two boxes
+// Percentage of time on which a player plays on two boxes
 #define PLAYING_ON_TWO_BOXES 20
 
 // Percentage of how much people play (100 : all the time, 0 : none)
@@ -62,9 +62,9 @@
 
 // Playing x hand(s) index
 #define PLAYING_1 100
-#define PLAYING_2 50
-#define PLAYING_3 25
-#define PLAYING_4 10
+#define PLAYING_2 0
+#define PLAYING_3 0
+#define PLAYING_4 0
 #define PLAYING_5 0
 #define PLAYING_6 0
 #define PLAYING_7 0
