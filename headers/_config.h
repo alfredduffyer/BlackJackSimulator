@@ -21,7 +21,7 @@
 #define MAX_SHOE_SIZE 10
 
 // Number of cards burned at the begining
-#define CARDS_BURNED 5
+#define CARDS_BURNED 1
 
 // Number of times the deck is shuffled
 #define TIMES_SHUFFLED 1
@@ -49,7 +49,7 @@
 #define STAND 100
 
 // Percentage of the shoe that won't be player
-#define WASTE_PROPORTION 00
+#define WASTE_PROPORTION 1
 
 // Percentage of time on which a player plays on two boxes
 //#define PLAYING_ON_TWO_BOXES 20
@@ -83,7 +83,7 @@
 #define ACTIVATE_BET_VARIATION 1
 
 // Activate the bet variation for counting methods
-#define MAX_SPLIT 5
+#define MAX_SPLIT 1
 
 #define DEBUG 0
 #define DEBUG_COLOR 1

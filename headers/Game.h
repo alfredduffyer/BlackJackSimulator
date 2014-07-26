@@ -49,7 +49,7 @@ class Game
 		void decisions();
 		void decision(int boxIndex);
 		void pay();
-		void play();
+		int play();
 		~Game();
 };
 

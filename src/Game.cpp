@@ -342,7 +342,7 @@ void Game::pay()
 	}
 }
 
-void Game::play()
+int Game::play()
 {
 	int handsPlayed = 0;
 	while (1)
@@ -373,13 +373,14 @@ void Game::play()
 			{
 				if (!this->boxes[i].isFree() && strcmp(this->boxes[i].getName(), "Don Self") == 0)
 				{
-					char message[50];
+					//char message[50];
 					//system("clear");
 					//printf(/*message, */"[%d] Don Self has now %1.1f\n", handsPlayed, this->boxes[i].getStack());
 					//printColor(C_RED, message);
 					if (this->boxes[i].getStack() < 5)
 					{
-						
+						return handsPlayed;
+						/*
 						sprintf(message, "Don Self died in %d hands\n", handsPlayed);
 						if (handsPlayed > 100000)
 						{
@@ -394,7 +395,8 @@ void Game::play()
 						{
 							printf("%s", message);
 						}
-						return;
+						*/
+						return handsPlayed;
 					}
 					break;
 				}
