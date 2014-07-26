@@ -57,7 +57,7 @@
 // Percentage of time on which a player plays on two boxes
 #define PLAYING_ON_TWO_BOXES 20
 
-// Percentage of how much people play (100 : all the time, 0 : none)
+// Percentage of how much other players play (100 : all the time, 0 : none)
 #define GAME_PLAYING 70
 
 // Playing x hand(s) index
@@ -85,7 +85,11 @@
 // Activate the bet variation for counting methods
 #define ACTIVATE_BET_VARIATION 1
 
-#define DEBUG 0
+// Activate the bet variation for counting methods
+#define MAX_SPLIT 2
+
+#define DEBUG 1
+#define DEBUG_COLOR 0
 
 
 

@@ -21,7 +21,9 @@ class Box
 	private:
 		Player* player;
 		Hand hand;
+		//Hand splits[MAX_SPLIT];
 		int bet;
+		//int splitIndex;
 	
 	public:
 		Box();
@@ -33,13 +35,18 @@ class Box
 		char* getName();
 		void add(int value);
 		int getValue();
+		int getSoftValue();
 		Hand* getHand();
+		Player* getPlayer();
 		int decision(Hand* dealerHand, bool canSplit, bool canDoubleDown);
 		int getBet();
 		void tie();
 		void win();
 		double getStack();
 		static int _stats[21][10];
+		int doubleDown();
+		//bool isSplit();
+		//void split(int handIndex);
 };
 
 #endif

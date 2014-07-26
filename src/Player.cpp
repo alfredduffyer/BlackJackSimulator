@@ -37,13 +37,23 @@ int Player::bet(int bet)
 {
 	bet *= this->unit;
 	
-	if (this->stack != -1 && this->stack >= bet)
+	if (this->stack == -1)
+	{
+		return bet;
+	}
+	
+	if (this->stack >= bet)
 	{
 		this->stack -= bet;
 		return bet;
 	}
 	
 	return 0;
+}
+
+int Player::betAmount(int bet)
+{
+	return this->bet(bet / this->unit);
 }
 
 void Player::win(double amount)

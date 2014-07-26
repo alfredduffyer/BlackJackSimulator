@@ -24,8 +24,9 @@ class Game
 		int max;
 		int nbBoxes;
 		Shoe* shoe;
-		Player** players;         
+		Player** players;
 		Box* boxes;
+		int* splitIndexes;
 		int nbPlayers;
 		Card* card;
 		Player* dealer;
@@ -41,12 +42,12 @@ class Game
 		void resetBoxes();
 		void initShoe();
 		void initTurn();
-		int howManyHands(bool counter);
+		int howManyHands(bool isMainPlayer);
 		void bet();
 		void deal();
 		Box deal(int boxIndex);
 		void decisions();
-		void decision(Box box, int boxIndex);
+		void decision(int boxIndex);
 		void pay();
 		void play();
 		~Game();

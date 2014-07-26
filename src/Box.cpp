@@ -18,13 +18,15 @@
 // TMP
 Box::Box()
 {
-	for (int i = 0 ; i < 21 ; i++)
+	/*
+	int i = 0;
+	for (i = 0 ; i < 21 ; i++)
 	{
 		for (int j = 0 ; j < 10 ; j++)
 		{
 			Box::_stats[i][j] = -1;
 		}
-	}
+	}*/
 	
 	this->reset();
 }
@@ -33,7 +35,12 @@ void Box::reset()
 {
 	this->player = NULL;
 	this->bet = 0;
+	//this->splitIndex = 0;
 	this->hand.reset();
+	/*for (int i = 0 ; i < MAX_SPLIT ; i++)
+	{
+		this->splits[i].reset();
+	}*/
 }
 
 void Box::add(int value)
@@ -45,6 +52,34 @@ void Box::take(Player* player, int bet)
 {
 	this->player = player;
 	this->bet = bet;
+}
+/*
+void Box::split(int handIndex)
+{
+	if (!this->hand.isPair() || this->splitIndex >= MAX_SPLIT)
+	{
+		return ;
+	}
+	
+	int cardValue = this->hand.softValue() / 2;
+	
+	if (handIndex == -1)
+	{
+		this->hand.reset();
+		this->hand.add(cardValue);
+		this->splits[this->splitIndex].reset();
+		this->splits[this->splitIndex].add(cardValue);
+	}
+	
+	
+	this->splitIndex++;
+}
+*/
+int Box::doubleDown()
+{
+	int bet = this->player->betAmount(this->bet);
+	this->bet += bet;
+	return bet;
 }
 
 bool Box::isFree()
@@ -81,10 +116,20 @@ bool Box::isNatural()
 {
 	return this->hand.isNatural();
 }
-
+/*
+bool Box::isSplit()
+{
+	return (this->splits[0].getValue() > 0);
+}
+*/
 int Box::getValue()
 {
 	return this->hand.getValue();
+}
+
+int Box::getSoftValue()
+{
+	return this->hand.getSoftValue();
 }
 
 int Box::getBet()
@@ -96,12 +141,16 @@ Hand* Box::getHand()
 {
 	return &this->hand;
 }
+Player* Box::getPlayer()
+{
+	return this->player;
+}
 
 
 // TMP
 int Box::decision(Hand* dealerHand, bool canSplit, bool canDoubleDown)
 {
-	int decision = this->player->decision(&this->hand, dealerHand, this->hand.isPair() && canSplit, this->hand.getSize() == 2 && canDoubleDown);
+	int decision = this->player->decision(&this->hand, dealerHand, canSplit && this->hand.isPair(), this->hand.getSize() == 2 && canDoubleDown);
 	
 	if (false && strcmp(this->player->getName(), "Dealer") != 0 && this->hand.isPair())
 	{

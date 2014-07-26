@@ -29,6 +29,7 @@ class Player
 		char* getName();
 		double getStack();
 		int bet(int bet);
+		int betAmount(int bet);
 		void win(double amount);
 		int getUnit();
 		int decision(Hand* playerHand, Hand* dealerHand, bool canSplit, bool canDoubleDown);

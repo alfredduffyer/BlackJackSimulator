@@ -17,6 +17,7 @@
 #include <string.h>
 
 extern GlobalCount count;
+extern bool fffffffffff;
 
 Game::Game(Shoe* shoe)
 {
@@ -47,7 +48,13 @@ void Game::init(Shoe* shoe, int min, int max, int nbBoxes)
 	this->nbPlayers = 0;
 	
 	this->players = (Player**) malloc(this->nbBoxes * sizeof(Player*));
-	this->boxes = (Box*) malloc(this->nbBoxes * sizeof(Box));
+	this->boxes = (Box*) malloc((MAX_SPLIT * this->nbBoxes + this->nbBoxes) * sizeof(Box));
+	this->splitIndexes = (int*) malloc(sizeof(int) * this->nbBoxes);
+	
+	for (int i = 0 ; i < this->nbBoxes ; i++)
+	{
+		this->splitIndexes[i] = 0;
+	}
 	
 	this->dealer = new Player((char*) "Dealer", -1, -1, new System_Dealer());
 	this->dealerBox = new Box();
@@ -67,7 +74,7 @@ int Game::removePlayer()
 void Game::resetBoxes()
 {
 	int i = 0;
-	for (i = 0 ; i < this->nbBoxes ; i++)
+	for (i = 0 ; i < this->nbBoxes + MAX_SPLIT * this->nbBoxes ; i++)
 	{
 		this->boxes[i].reset();
 	}
@@ -86,9 +93,9 @@ void Game::initTurn()
 	this->dealerBox->take(this->dealer, 0);
 }
 
-int Game::howManyHands(bool counter)
+int Game::howManyHands(bool isMainPlayer)
 {
-	if (counter)
+	if (isMainPlayer)
 	{
 		int total = PLAYING_1 + PLAYING_2 + PLAYING_3 + PLAYING_4 + PLAYING_5 + PLAYING_6 + PLAYING_7 + PLAYING_8 + PLAYING_9 + PLAYING_10;
 		int rand = random(1, total);
@@ -189,19 +196,21 @@ void Game::deal()
 Box Game::deal(int boxIndex)
 {
 	Card card = this->shoe->top();
-	char message[100];
+	char message[100], splitMessage[30];
+	
+	sprintf(splitMessage, "%s", (boxIndex >= this->nbBoxes) ? " |\n ----->" : "");
 	
 	if (boxIndex >= 0)
 	{
 		this->boxes[boxIndex].add(card.value);
-		sprintf(message, " [%d] gets a %d, total is now %d (%s)\n", boxIndex, card.value, this->boxes[boxIndex].getValue(), this->boxes[boxIndex].getName());
+		sprintf(message, "%s [%d] gets a %d, total is now %d (%s)\n", splitMessage, boxIndex, card.value, this->boxes[boxIndex].getValue(), this->boxes[boxIndex].getName());
 		if (DEBUG)printColor(C_RED + (boxIndex % 7), message);
 		return this->boxes[boxIndex];
 	}
 	else
 	{
 		this->dealerBox->add(card.value);
-		if (DEBUG)printf(" DDD gets a %d, total is now %d (%s)\n", card.value, this->dealerBox->getValue(), this->dealerBox->getName());
+		if (DEBUG)printf("%s DDD gets a %d, total is now %d (%s)\n", splitMessage, card.value, this->dealerBox->getValue(), this->dealerBox->getName());
 		return *this->dealerBox;
 	}
 }
@@ -216,34 +225,79 @@ void Game::decisions()
 		{
 			continue;
 		}
-		this->decision(this->boxes[i], i);
+		this->decision(i);
 	}
 	
-	this->decision(*this->dealerBox, -1);
+	this->decision(-1);
 }
 
-void Game::decision(Box box, int boxIndex)
+void Game::decision(int boxIndex)
 {
 	int decision = 0;
 	
-	while(!box.isNatural() && !box.isBusted() && (decision = box.decision(this->dealerBox->getHand(), true, true)) != STAND)
+	Box* box = (boxIndex == -1) ? this->dealerBox : &this->boxes[boxIndex];
+	
+	while(!box->isNatural() && !box->isBusted() && (decision = box->decision(this->dealerBox->getHand(), (boxIndex != -1 && this->splitIndexes[boxIndex % this->nbBoxes] < MAX_SPLIT), true)) != STAND)
 	{
-		if (box.getValue() == 0) break;
+		if (box->getValue() == 0) break;
 		
 		if (decision == DRAW)
 		{
-			box = this->deal(boxIndex);
+			this->deal(boxIndex);
 		}
 		
 		if (decision == DOUBLEDOWN)
 		{
-			box = this->deal(boxIndex);
-			break;
+			this->deal(boxIndex);
+			if (box->doubleDown() > 0)
+			{
+				break;
+			}
+			printColor(C_RED + 10, (char*)"Couldn't double down !! Just drawed a card\n");
+			system("echo \"PAUSE\" && read a");
 		}
 		
 		if (decision == SPLIT)
 		{
-			if (DEBUG)printColor(C_YELLOW, (char*) "  --> Splitting that (Skipped)\n");
+			if (!this->boxes[boxIndex].getHand()->isPair())
+			{
+				printColor(C_RED + 10, (char*) "Tried to split a non Pair !!!!!!\n");
+				system("echo \"PAUSE\" && read a");
+			}
+			if (boxIndex >= this->nbBoxes * MAX_SPLIT)
+			{
+				printColor(C_RED + 10, (char*) "Too many splits !!!!!!\n");
+				system("echo \"PAUSE\" && read a");
+			}
+			
+			this->splitIndexes[boxIndex % this->nbBoxes]++;
+			
+			if (DEBUG)printColor(C_YELLOW, (char*) "  --> Splitting that\n");
+			//system("echo \"PAUSE\" && read a");
+			
+			int value = this->boxes[boxIndex].getHand()->getSoftValue() / 2;
+			int bet = this->boxes[boxIndex].getBet();
+			Player* player = this->boxes[boxIndex].getPlayer();
+			
+			if (strcmp(player->getName(), "Don Self") == 0) fffffffffff = true;
+			
+			this->boxes[boxIndex].tie();
+			this->boxes[boxIndex].reset();
+			this->boxes[boxIndex].take(player, player->betAmount(bet));
+			this->boxes[boxIndex].add(value);
+			
+			this->boxes[boxIndex+this->nbBoxes*this->splitIndexes[boxIndex % this->nbBoxes]].reset();
+			this->boxes[boxIndex+this->nbBoxes*this->splitIndexes[boxIndex % this->nbBoxes]].take(player, player->betAmount(bet));
+			this->boxes[boxIndex+this->nbBoxes*this->splitIndexes[boxIndex % this->nbBoxes]].add(value);
+			
+			this->deal(boxIndex);
+			this->deal(boxIndex+this->nbBoxes*this->splitIndexes[boxIndex % this->nbBoxes]);
+			
+			this->decision(boxIndex);
+			this->decision(boxIndex+this->nbBoxes*this->splitIndexes[boxIndex % this->nbBoxes]);
+			
+			//system("echo \"Splitted. PAUSE\" && read a");
+			
 			break;
 		}
 	}
@@ -254,7 +308,7 @@ void Game::pay()
 	int i = 0, status = 0;
 	char text1[100], text2[50], text3[50];
 	
-	for (i = this->nbBoxes - 1 ; i >= 0 ; i--)
+	for (i = this->nbBoxes + MAX_SPLIT * this->nbBoxes - 1 ; i >= 0 ; i--)
 	{
 		if (this->boxes[i].isFree())
 		{
@@ -290,8 +344,6 @@ void Game::pay()
 			printf("%s", text3);
 		}
 	}
-	
-	
 }
 
 void Game::play()
@@ -304,7 +356,7 @@ void Game::play()
 		
 		while (!this->shoe->isTheEnd())
 		{
-			++handsPlayed;
+			handsPlayed++;
 			if (DEBUG)puts("Initializing turn...");
 			this->initTurn();
 			
@@ -325,15 +377,24 @@ void Game::play()
 			{
 				if (!this->boxes[i].isFree() && strcmp(this->boxes[i].getName(), "Don Self") == 0)
 				{
-					printf("[%d] Don Self has now %1.1f\n", handsPlayed, this->boxes[i].getStack());
+					//char message[50];
+					printf(/*message, */"[%d] Don Self has now %1.1f\n", handsPlayed, this->boxes[i].getStack());
+					//printColor(C_RED, message);
 					if (this->boxes[i].getStack() < 5)
 					{
 						return;
 					}
+					break;
 				}
 			}
 			
-			//sleep(1);
+			/*
+			if (fffffffffff)
+			{
+				system("echo \"PAUSE\" && read a");
+				fffffffffff = false;
+			}
+			*/
 		}
 	}
 }

@@ -52,7 +52,7 @@ void printCardColor(char color)
 
 void printColor(int color, char* str)
 {
-	if (!LINUX)
+	if (!LINUX || !DEBUG_COLOR)
 	{
 		printf("%s", str);
 		return;

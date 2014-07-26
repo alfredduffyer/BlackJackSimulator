@@ -43,7 +43,7 @@ int Hand::add(int value)
 		this->softValue += value;
 	}
 	
-	return this->value;
+	return this->getValue();
 }
 
 bool Hand::isSoft()
@@ -53,12 +53,12 @@ bool Hand::isSoft()
 
 bool Hand::isNatural()
 {
-	return (this->value == 21 && this->size == 2);
+	return (this->size == 2 && this->value == 21);
 }
 
 bool Hand::isBusted()
 {
-	return this->value > 21;
+	return this->getValue() > 21;
 }
 
 bool Hand::isPair()
@@ -88,12 +88,12 @@ int Hand::beats(Hand* dealer)
 		return -1;
 	}
 	
-	if (this->value > dealer->value)
+	if (this->getValue() > dealer->getValue())
 	{
 		return 1;
 	}
 	
-	if (dealer->value > this->value)
+	if (dealer->getValue() > this->getValue())
 	{
 		return -1;
 	}
@@ -104,7 +104,7 @@ int Hand::beats(Hand* dealer)
 
 int Hand::getValue()
 {
-	return this->value;
+	return (this->value > 21) ? this->softValue : this->value;
 }
 
 int Hand::getSoftValue()

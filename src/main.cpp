@@ -17,6 +17,7 @@
 
 GlobalCount count;
 int Box::_stats[21][10];
+bool fffffffffff = false;
 
 int main()
 {
