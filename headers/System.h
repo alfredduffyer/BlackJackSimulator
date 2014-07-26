@@ -31,6 +31,7 @@ class System
 		virtual int decision(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown);
 		virtual int exception(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown);
 		virtual void initiate() = 0;
+		virtual int howManyHands(int maxHands);
 		int bet();
 		void updateComparator();
 };

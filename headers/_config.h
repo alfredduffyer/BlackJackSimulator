@@ -11,9 +11,6 @@
 #endif
 #endif
 
-
-
-
 // Taille du terminal d'affichage en caractères
 #define TERMINAL_SIZE_X 80
 
@@ -55,13 +52,13 @@
 #define WASTE_PROPORTION 00
 
 // Percentage of time on which a player plays on two boxes
-#define PLAYING_ON_TWO_BOXES 20
+//#define PLAYING_ON_TWO_BOXES 20
 
 // Percentage of how much other players play (100 : all the time, 0 : none)
 #define GAME_PLAYING 0
 
 // Playing x hand(s) index
-#define PLAYING_1 10
+/*#define PLAYING_1 10
 #define PLAYING_2 0
 #define PLAYING_3 0
 #define PLAYING_4 0
@@ -70,7 +67,7 @@
 #define PLAYING_7 0
 #define PLAYING_8 0
 #define PLAYING_9 0
-#define PLAYING_10 0
+#define PLAYING_10 0*/
 
 // Shell Colors
 #define C_BLACK 30
@@ -90,19 +87,6 @@
 
 #define DEBUG 0
 #define DEBUG_COLOR 1
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

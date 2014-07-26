@@ -26,6 +26,7 @@ class System_BasicStrategy : public System
 		void initiate_splittingPairs();
 		void initiate();
 		virtual int exception(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown);
+		virtual int howManyHands(int maxHands);
 	
 	public:
 		System_BasicStrategy();

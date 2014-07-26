@@ -42,7 +42,7 @@ class Game
 		void resetBoxes();
 		void initShoe();
 		void initTurn();
-		int howManyHands(bool isMainPlayer);
+		int howManyHands(bool isMainPlayer, Player* player);
 		void bet();
 		void deal();
 		Box deal(int boxIndex);

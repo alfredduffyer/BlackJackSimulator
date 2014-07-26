@@ -23,6 +23,11 @@ Player::Player(char* name, double stack, int unit, System* system)
 	this->system = system;
 }
 
+int Player::howManyHands(int maxHands)
+{
+	return this->system->howManyHands(maxHands);
+}
+
 char* Player::getName()
 {
 	return this->name;

@@ -92,33 +92,15 @@ void Game::initTurn()
 	this->dealerBox->take(this->dealer, 0);
 }
 
-int Game::howManyHands(bool isMainPlayer)
+int Game::howManyHands(bool isMainPlayer, Player* player)
 {
-	if (isMainPlayer)
-	{
-		int total = PLAYING_1 + PLAYING_2 + PLAYING_3 + PLAYING_4 + PLAYING_5 + PLAYING_6 + PLAYING_7 + PLAYING_8 + PLAYING_9 + PLAYING_10;
-		int rand = random(1, total);
-		
-		if (rand <= PLAYING_1) return 1;
-		if (rand <= PLAYING_1 + PLAYING_2) return 2;
-		if (rand <= PLAYING_1 + PLAYING_2 + PLAYING_3) return 3;
-		if (rand <= PLAYING_1 + PLAYING_2 + PLAYING_3 + PLAYING_4) return 4;
-		if (rand <= PLAYING_1 + PLAYING_2 + PLAYING_3 + PLAYING_4 + PLAYING_5) return 5;
-		if (rand <= PLAYING_1 + PLAYING_2 + PLAYING_3 + PLAYING_4 + PLAYING_5 + PLAYING_6) return 6;
-		if (rand <= PLAYING_1 + PLAYING_2 + PLAYING_3 + PLAYING_4 + PLAYING_5 + PLAYING_6 + PLAYING_7) return 7;
-		if (rand <= PLAYING_1 + PLAYING_2 + PLAYING_3 + PLAYING_4 + PLAYING_5 + PLAYING_6 + PLAYING_7 + PLAYING_8) return 8;
-		if (rand <= PLAYING_1 + PLAYING_2 + PLAYING_3 + PLAYING_4 + PLAYING_5 + PLAYING_6 + PLAYING_7 + PLAYING_8 + PLAYING_9) return 9;
-		if (rand <= PLAYING_1 + PLAYING_2 + PLAYING_3 + PLAYING_4 + PLAYING_5 + PLAYING_6 + PLAYING_7 + PLAYING_8 + PLAYING_9 + PLAYING_10) return 10;
-		return 1;
-	}
-	
-	if (random(1, 100) > GAME_PLAYING) return 0;
-	return (random(1, 100) <= PLAYING_ON_TWO_BOXES) ? 2 : 1;
+	if (!isMainPlayer && random(1, 100) > GAME_PLAYING) return 0;
+	return player->howManyHands(this->nbBoxes);
 }
 
 void Game::bet()
 {
-	int i = 0, j = 0, k = 0, handsnumber = this->howManyHands(true), currentBox = 0;
+	int i = 0, j = 0, k = 0, handsnumber = this->howManyHands(true, this->players[0]), currentBox = 0;
 	
 	for (i = 0 ; i < handsnumber ; i++)
 	{
@@ -134,7 +116,7 @@ void Game::bet()
 	
 	for (i = 1 ; i < this->nbPlayers ; i++)
 	{
-		handsnumber = this->howManyHands(false);
+		handsnumber = this->howManyHands(false, this->players[i]);
 		
 		for (j = 0 ; j < handsnumber ; j++)
 		{
@@ -391,19 +373,34 @@ void Game::play()
 			{
 				if (!this->boxes[i].isFree() && strcmp(this->boxes[i].getName(), "Don Self") == 0)
 				{
-					//char message[50];
+					char message[50];
 					//system("clear");
 					//printf(/*message, */"[%d] Don Self has now %1.1f\n", handsPlayed, this->boxes[i].getStack());
 					//printColor(C_RED, message);
 					if (this->boxes[i].getStack() < 5)
 					{
-						printf("Don Self died in %d hands\n", handsPlayed);
+						
+						sprintf(message, "Don Self died in %d hands\n", handsPlayed);
+						if (handsPlayed > 100000)
+						{
+							printColor(C_RED, message);
+							sleep(3);
+						}
+						else if (handsPlayed > 50000)
+						{
+							printColor(C_BLUE, message);
+						}
+						else
+						{
+							printf("%s", message);
+						}
 						return;
 					}
 					break;
 				}
 			}
-			
+			//system("echo \"PAUSE\" && read a");
+			//sleep(1);
 			
 			if (fffffffffff)
 			{

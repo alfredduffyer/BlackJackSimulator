@@ -58,8 +58,11 @@ int GlobalCount::getRemainingCards()
 
 int GlobalCount::getHiLoIndex()
 {
-	this->remainingCards = (this->remainingCards == 0) ? 1 : this->remainingCards;
-	return (int)((this->count / this->remainingCards) * 100);
+	if (this->remainingCards == 0)
+	{
+		return 0;
+	}
+	return (int)((double)((double)this->count / (double)this->remainingCards) * 100);
 }
 
 int GlobalCount::getTens()

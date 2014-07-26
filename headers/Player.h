@@ -28,6 +28,7 @@ class Player
 		int bet();
 		char* getName();
 		double getStack();
+		int howManyHands(int maxHands);
 		int bet(int bet);
 		int betAmount(int bet);
 		void win(double amount);

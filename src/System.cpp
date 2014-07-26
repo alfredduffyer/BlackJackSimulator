@@ -38,6 +38,12 @@ System::System()
 	}
 }
 
+int System::howManyHands(int maxHands)
+{
+	if (maxHands){};
+	return 1;
+}
+
 bool System::split(int player, int dealer)
 {
 	player = (player == 1) ? 11 : player;
