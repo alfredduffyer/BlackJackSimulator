@@ -373,9 +373,9 @@ void Game::payInsurance()
 			continue;
 		}
 		if (DEBUG) printf(" [%d] Paying insurance\n", i);
-		printf("  --> Had %1.1f, has now ", this->boxes[i].getStack());
+		if (DEBUG) printf("  --> Had %1.1f, has now ", this->boxes[i].getStack());
 		this->boxes[i].payInsurance();
-		printf("%1.1f\n", this->boxes[i].getStack());
+		if (DEBUG) printf("%1.1f\n", this->boxes[i].getStack());
 	}
 }
 

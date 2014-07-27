@@ -88,8 +88,8 @@
 // Maximum of the variation bet (in units)
 #define MAX_BET_VARIATION 5
 
-#define STATUS 1
-#define DEBUG 1
+#define STATUS 0
+#define DEBUG 0
 #define PAUSE 0
 #define SLEEP 0
 #define DEBUG_COLOR 1

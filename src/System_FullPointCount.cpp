@@ -93,12 +93,14 @@ void System_FullPointCount::initiate()
 	this->initiate_softDoublingDown();
 	this->initiate_splittingPairs();
 	
+	/*
 	printBlackJackTables(this->hardStanding, 8, 10, SHIFT_HS, false);
 	printBlackJackTables(this->softStanding, 3, 10, SHIFT_SS, false);
 	printBlackJackTables(this->hardDoublingDown, 10, 10, SHIFT_HDD, false);
 	printBlackJackTables(this->softDoublingDown, 9, 10, SHIFT_SDD, false, 'A');
 	printBlackJackTables(this->splittingPairs, 10, 10, SHIFT_SP, false, 'S');
 	spause();
+	*/
 }
 
 void System_FullPointCount::initiate_hardStandingNumbers()
