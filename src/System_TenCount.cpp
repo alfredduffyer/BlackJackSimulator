@@ -20,7 +20,7 @@ System_TenCount::System_TenCount() : System()
 
 bool System_TenCount::insure()
 {
-	return false;
+	return count.getTenCount() < 2;
 }
 
 int System_TenCount::bet()
@@ -30,40 +30,60 @@ int System_TenCount::bet()
 		return 1;
 	}
 	
-	int index = count.getRoughCount();
+	double index = count.getTenCount();
 	
-	if (index <= 1)
+	if (index <= 2 && index > 1.75)
 	{
-		return 1;
+		return 2;
+	}
+	if (index <= 1.75 && index > 1.65)
+	{
+		return 4;
+	}
+	if (index <= 1.65)
+	{
+		return 5;
 	}
 	
-	return (index >= MAX_BET_VARIATION) ? MAX_BET_VARIATION : index;
+	return 1;
 }
 
 int System_TenCount::howManyHands(int maxHands)
 {
-	int index = count.getRoughCount();
+	double index = count.getTenCount();
 	
-	if (index < 0)
+	if (index <= 2.25 && index > 1.95)
 	{
-		return 1;
+		return 2 > maxHands ? maxHands : 2;
 	}
-	if (index <= 2)
+	if (index <= 1.95 && index > 1.75)
 	{
-		return 2;
+		return 3 > maxHands ? maxHands : 3;
 	}
-	if (index > maxHands)
+	if (index <= 1.75 && index > 1.65)
 	{
-		return maxHands;
+		return 4 > maxHands ? maxHands : 4;
+	}
+	if (index <= 1.65 && index > 1.60)
+	{
+		return 5 > maxHands ? maxHands : 5;
+	}
+	if (index <= 1.60 && index > 1.55)
+	{
+		return 6 > maxHands ? maxHands : 6;
+	}
+	if (index <= 1.55)
+	{
+		return 7 > maxHands ? maxHands : 7;
 	}
 	
-	return (index * 8 + random(1, maxHands) * 2) / 10;
+	return 1;
 }
 
 int System_TenCount::exception(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown)
 {
-	if (canSplit && canDoubleDown){}
-	return (!player->isSoft() && dealer->getValue() == 10 && player->getValue() == 16 && player->getSize() > 2) ? STAND : 0;
+	if (player && dealer && canSplit && canDoubleDown){}
+	return 0;
 }
 
 void System_TenCount::updateComparator()
@@ -106,12 +126,14 @@ void System_TenCount::initiate()
 	this->initiate_softDoublingDown();
 	this->initiate_splittingPairs();
 	
+	/*
 	printBlackJackTables(this->hardStanding, 8, 10, SHIFT_HS, false);
 	printBlackJackTables(this->softStanding, 3, 10, SHIFT_SS, false);
 	printBlackJackTables(this->hardDoublingDown, 10, 10, SHIFT_HDD, false);
 	printBlackJackTables(this->softDoublingDown, 9, 10, SHIFT_SDD, false, 'A');
 	printBlackJackTables(this->splittingPairs, 10, 10, SHIFT_SP, false, 'S');
 	spause();
+	*/
 }
 
 void System_TenCount::initiate_hardStandingNumbers()
