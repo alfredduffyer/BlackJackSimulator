@@ -11,6 +11,7 @@
 #include "../headers/System.h"
 #include "../headers/System_BasicStrategy.h"
 #include "../headers/System_Dealer.h"
+#include "../headers/System_SimplePointCount.h"
 #include "../headers/Player.h"
 #include "../headers/Box.h"
 #include "../headers/Game.h"
@@ -32,7 +33,7 @@ int main()
 	while (++nbPlays)
 	{
 		game.init(new Shoe(1), 5, 500, 7);
-		game.addPlayer(new Player((char*) "Don Self", 1000, 5, new System_BasicStrategy()));
+		game.addPlayer(new Player((char*) "Don Self", 1000, 5, new System_SimplePointCount()));
 		game.addPlayer(new Player((char*) "Michel", -1, 5, new System_BasicStrategy()));
 		game.addPlayer(new Player((char*) "Paul", -1, 5, new System_BasicStrategy()));
 		game.addPlayer(new Player((char*) "Bartangue", -1, 5, new System_BasicStrategy()));
@@ -42,7 +43,7 @@ int main()
 		average = ((double) (average * (nbPlays-1) + result)) / ((double) nbPlays);
 		
 		char message[100];
-		sprintf(message, "Don Self died in %6d hands, average is %5.0f, total %5d %03d %03d\n", result, average, (int) ((totalHandsPlayed-totalHandsPlayed % 1000000) / 1000000), (int) ((totalHandsPlayed % 1000000) / 1000), (int) (totalHandsPlayed % 1000));
+		sprintf(message, "Don Self died in %9d hands, average is %5.0f, total %5d %03d %03d\n", result, average, (int) ((totalHandsPlayed-totalHandsPlayed % 1000000) / 1000000), (int) ((totalHandsPlayed % 1000000) / 1000), (int) (totalHandsPlayed % 1000));
 		if (result > 100000)
 		{
 			printColor(C_RED, message);
@@ -57,10 +58,9 @@ int main()
 			printf("%s", message);
 		}
 		
+		if (STATUS) break;
+		
 	}
-	
-	//puts("Playing...");
-	game.play();
 	
 	return 1;
 }

@@ -9,7 +9,6 @@
 #include "../headers/Hand.h"
 #include "../headers/Shoe.h"
 #include "../headers/System.h"
-#include "../headers/System_BasicStrategy.h"
 #include "../headers/System_Dealer.h"
 
 System_Dealer::System_Dealer() : System()

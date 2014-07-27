@@ -11,6 +11,7 @@
 #include "../headers/System.h"
 #include "../headers/System_BasicStrategy.h"
 #include "../headers/System_Dealer.h"
+#include "../headers/System_SimplePointCount.h"
 #include "../headers/Player.h"
 #include "../headers/Box.h"
 #include "../headers/Game.h"
@@ -417,8 +418,9 @@ int Game::play()
 			{
 				if (!this->boxes[i].isFree() && strcmp(this->boxes[i].getName(), "Don Self") == 0)
 				{
-					//printf("[%d] Don Self has now %1.1f\n", handsPlayed, this->boxes[i].getStack());
-					if (this->boxes[i].getStack() < 5)
+					if(STATUS) printf("[%d] Don Self has now %1.1f\n", handsPlayed, this->boxes[i].getStack());
+					else if((handsPlayed % 100000) == 0)printf("[%3ld %03d %03d %03d] Don Self has now %3ld %03d %03d %03d\n", (handsPlayed%1000000000000) / 1000000000, (handsPlayed%1000000000) / 1000000, (handsPlayed%1000000) / 1000, handsPlayed%1000, (((long int)this->boxes[i].getStack())%1000000000000) / 1000000000, (((int)this->boxes[i].getStack())%1000000000) / 1000000, (((int)this->boxes[i].getStack())%1000000) / 1000, ((int)this->boxes[i].getStack())%1000);
+					if (this->boxes[i].getStack() < 5 || handsPlayed > 2000000)
 					{
 						return handsPlayed;
 					}

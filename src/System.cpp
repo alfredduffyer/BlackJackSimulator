@@ -140,11 +140,6 @@ int System::decision(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDo
 
 int System::bet()
 {
-	if (ACTIVATE_BET_VARIATION)
-	{
-		return 1;
-	}
-	
 	return 1;
 }
 

@@ -23,6 +23,7 @@ class GlobalCount
 		void reset(int remainingCards);
 		void update(int value);
 		int getCount();
+		int getRoughCount();
 		int getRemainingCards();
 		int getHiLoIndex();
 		int getTens();

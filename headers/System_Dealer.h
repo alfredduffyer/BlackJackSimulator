@@ -9,7 +9,6 @@
 #include "Hand.h"
 #include "Shoe.h"
 #include "System.h"
-#include "System_BasicStrategy.h"
 
 #ifndef SYSTEM_DEALER_H
 #define SYSTEM_DEALER_H

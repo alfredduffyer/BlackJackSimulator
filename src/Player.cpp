@@ -11,6 +11,7 @@
 #include "../headers/System.h"
 #include "../headers/System_BasicStrategy.h"
 #include "../headers/System_Dealer.h"
+#include "../headers/System_SimplePointCount.h"
 #include "../headers/Player.h"
 
 Player::Player(char* name, double stack, int unit, System* system)

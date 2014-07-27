@@ -82,9 +82,13 @@
 // Activate the bet variation for counting methods
 #define ACTIVATE_BET_VARIATION 1
 
+// Maximum of the variation bet (in units)
+#define MAX_BET_VARIATION 5
+
 // Activate the bet variation for counting methods
 #define MAX_SPLIT 1
 
+#define STATUS 0
 #define DEBUG 0
 #define DEBUG_COLOR 1
 

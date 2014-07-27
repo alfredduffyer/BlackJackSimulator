@@ -51,6 +51,15 @@ int GlobalCount::getCount()
 	return this->count;
 }
 
+int GlobalCount::getRoughCount()
+{
+	if (this->remainingCards <= 1)
+	{
+		return 0;
+	}
+	return this->count / (((this->remainingCards-1) / 52) + 1);
+}
+
 int GlobalCount::getRemainingCards()
 {
 	return this->remainingCards;

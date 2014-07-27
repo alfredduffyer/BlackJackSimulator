@@ -33,7 +33,7 @@ class System
 		virtual void initiate() = 0;
 		virtual int howManyHands(int maxHands);
 		virtual bool insure();
-		int bet();
+		virtual int bet();
 		void updateComparator();
 };
 
