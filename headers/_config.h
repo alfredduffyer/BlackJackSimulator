@@ -90,7 +90,7 @@
 
 #define STATUS 1
 #define DEBUG 1
-#define PAUSE 1
+#define PAUSE 0
 #define SLEEP 0
 #define DEBUG_COLOR 1
 

@@ -62,8 +62,27 @@ int System_FullPointCount::howManyHands(int maxHands)
 
 int System_FullPointCount::exception(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown)
 {
-	if (canSplit && canDoubleDown){}
-	return (!player->isSoft() && dealer->getValue() == 10 && player->getValue() == 16 && player->getSize() > 2) ? STAND : 0;
+	if (canDoubleDown && player->isSoft() && player->getValue() == 17 && dealer->getValue() == 2 && count.getHiLoIndex() >= 1 && count.getHiLoIndex() <= 10)
+	{
+		return  DOUBLEDOWN;
+	}
+	
+	if (canSplit && (player->getSoftValue() / 2) == 4 && dealer->getValue() == 6 && count.getHiLoIndex() > 5 && !canDoubleDown)
+	{
+		return SPLIT;
+	}
+	
+	if (canSplit && (player->getSoftValue() / 2) == 8 && dealer->getValue() == 10 && count.getHiLoIndex() < 24)
+	{
+		return SPLIT;
+	}
+	
+	if (canSplit && (player->getSoftValue() / 2) == 3 && dealer->getValue() == 8 && (count.getHiLoIndex() > 6 || count.getHiLoIndex() < -2))
+	{
+		return SPLIT;
+	}
+	
+	return 0;
 }
 
 void System_FullPointCount::initiate()
