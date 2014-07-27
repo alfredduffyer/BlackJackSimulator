@@ -19,7 +19,6 @@ class System_RandomPlayer : public System
 		
 	
 	private:
-		void initiate();
 	
 	public:
 		System_RandomPlayer();
