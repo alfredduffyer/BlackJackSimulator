@@ -10,10 +10,10 @@
 #include "Shoe.h"
 #include "System.h"
 
-#ifndef SYSTEM_DEALER_H
-#define SYSTEM_DEALER_H
+#ifndef SYSTEM_THE_PLAYER_WHO_NEVER_BUSTS_H
+#define SYSTEM_THE_PLAYER_WHO_NEVER_BUSTS_H
 
-class System_Dealer : public System
+class System_ThePlayerWhoNeverBusts : public System
 {
 	protected:
 		
@@ -21,7 +21,7 @@ class System_Dealer : public System
 	private:
 	
 	public:
-		System_Dealer();
+		System_ThePlayerWhoNeverBusts();
 		virtual int decision(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown);
 };
 

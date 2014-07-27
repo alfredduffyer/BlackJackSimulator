@@ -9,14 +9,19 @@
 #include "../headers/Hand.h"
 #include "../headers/Shoe.h"
 #include "../headers/System.h"
-#include "../headers/System_Dealer.h"
+#include "../headers/System_RandomPlayer.h"
 
-System_Dealer::System_Dealer() : System()
+System_RandomPlayer::System_RandomPlayer() : System()
+{
+	this->initiate();
+}
+
+void System_RandomPlayer::initiate()
 {
 	
 }
 
-int System_Dealer::decision(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown)
+int System_RandomPlayer::decision(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown)
 {
 	if (dealer->getValue() && canSplit && canDoubleDown){}
 	return (player->getValue() < 17) ? DRAW : STAND;

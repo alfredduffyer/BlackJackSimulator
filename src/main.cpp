@@ -11,7 +11,11 @@
 #include "../headers/System.h"
 #include "../headers/System_BasicStrategy.h"
 #include "../headers/System_Dealer.h"
+#include "../headers/System_RandomPlayer.h"
+#include "../headers/System_ThePlayerWhoNeverBusts.h"
 #include "../headers/System_SimplePointCount.h"
+#include "../headers/System_FullPointCount.h"
+#include "../headers/System_TenCount.h"
 #include "../headers/Player.h"
 #include "../headers/Box.h"
 #include "../headers/Game.h"
@@ -28,15 +32,15 @@ int main()
 	long int totalHandsPlayed = 0;
 	double average = 0;
 	
-	Game game(new Shoe(1), 5, 500, 7);
+	Game game(new Shoe(NB_DECKS), 5, 500, 7);
 	
 	while (++nbPlays)
 	{
-		game.init(new Shoe(1), 5, 500, 7);
-		game.addPlayer(new Player((char*) "Don Self", 1000, 5, new System_SimplePointCount()));
-		game.addPlayer(new Player((char*) "Michel", -1, 5, new System_BasicStrategy()));
-		game.addPlayer(new Player((char*) "Paul", -1, 5, new System_BasicStrategy()));
-		game.addPlayer(new Player((char*) "Bartangue", -1, 5, new System_BasicStrategy()));
+		game.init(new Shoe(4), 5, 500, 7);
+		game.addPlayer(new Player((char*) "Don Self", 1000, 5, new System_ThePlayerWhoNeverBusts()));
+		game.addPlayer(new Player((char*) "The Player Who Never Busts", -1, 5, new System_ThePlayerWhoNeverBusts()));
+		game.addPlayer(new Player((char*) "Mimic The Dealer", -1, 5, new System_ThePlayerWhoNeverBusts()));
+		game.addPlayer(new Player((char*) "The Random Player", -1, 5, new System_ThePlayerWhoNeverBusts()));
 		result = game.play();
 		totalHandsPlayed += (long int) result;
 		

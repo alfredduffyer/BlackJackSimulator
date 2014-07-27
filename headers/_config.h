@@ -20,9 +20,6 @@
 // Maximum size of the shoe, in decks
 #define MAX_SHOE_SIZE 10
 
-// Number of cards burned at the begining
-#define CARDS_BURNED 1
-
 // Number of times the deck is shuffled
 #define TIMES_SHUFFLED 1
 
@@ -41,21 +38,15 @@
 // Shift of Splitting Pairs
 #define SHIFT_SP 2
 
+// Activate the bet variation for counting methods
+#define ACTIVATE_BET_VARIATION 1
+
 // Actions of Splitting, Doubling Down, Drawing and Standing
 #define SPLIT 400
 #define DOUBLE 300
 #define DOUBLEDOWN 300
 #define DRAW 200
 #define STAND 100
-
-// Percentage of the shoe that won't be player
-#define WASTE_PROPORTION 1
-
-// Percentage of time on which a player plays on two boxes
-//#define PLAYING_ON_TWO_BOXES 20
-
-// Percentage of how much other players play (100 : all the time, 0 : none)
-#define GAME_PLAYING 70
 
 // Playing x hand(s) index
 /*#define PLAYING_1 10
@@ -79,17 +70,28 @@
 #define C_CYAN 36
 #define C_WHITE 37
 
-// Activate the bet variation for counting methods
-#define ACTIVATE_BET_VARIATION 1
+// Percentage of how much other players play (100 : all the time, 0 : none)
+#define GAME_PLAYING 100
 
-// Maximum of the variation bet (in units)
-#define MAX_BET_VARIATION 5
+// Percentage of the shoe that won't be player
+#define WASTE_PROPORTION 2
+
+// Number of cards burned at the begining
+#define CARDS_BURNED 1
 
 // Activate the bet variation for counting methods
 #define MAX_SPLIT 1
 
-#define STATUS 0
-#define DEBUG 0
+// Number of decks played with
+#define NB_DECKS 1
+
+// Maximum of the variation bet (in units)
+#define MAX_BET_VARIATION 5
+
+#define STATUS 1
+#define DEBUG 1
+#define PAUSE 1
+#define SLEEP 0
 #define DEBUG_COLOR 1
 
 

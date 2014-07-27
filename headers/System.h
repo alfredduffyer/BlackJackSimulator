@@ -30,7 +30,7 @@ class System
 		bool draw(int player, int dealer, bool soft);
 		virtual int decision(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown);
 		virtual int exception(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown);
-		virtual void initiate() = 0;
+		virtual void initiate();
 		virtual int howManyHands(int maxHands);
 		virtual bool insure();
 		virtual int bet();

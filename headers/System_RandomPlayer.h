@@ -10,18 +10,19 @@
 #include "Shoe.h"
 #include "System.h"
 
-#ifndef SYSTEM_DEALER_H
-#define SYSTEM_DEALER_H
+#ifndef SYSTEM_RANDOM_PLAYER_H
+#define SYSTEM_RANDOM_PLAYER_H
 
-class System_Dealer : public System
+class System_RandomPlayer : public System
 {
 	protected:
 		
 	
 	private:
+		void initiate();
 	
 	public:
-		System_Dealer();
+		System_RandomPlayer();
 		virtual int decision(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown);
 };
 

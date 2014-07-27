@@ -11,7 +11,11 @@
 #include "../headers/System.h"
 #include "../headers/System_BasicStrategy.h"
 #include "../headers/System_Dealer.h"
+#include "../headers/System_RandomPlayer.h"
+#include "../headers/System_ThePlayerWhoNeverBusts.h"
 #include "../headers/System_SimplePointCount.h"
+#include "../headers/System_FullPointCount.h"
+#include "../headers/System_TenCount.h"
 #include "../headers/Player.h"
 
 Player::Player(char* name, double stack, int unit, System* system)
