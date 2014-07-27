@@ -38,6 +38,11 @@ int Player::bet()
 	return this->bet(this->system->bet());
 }
 
+bool Player::insure(double amount)
+{
+	return (this->stack >= amount && this->system->insure());
+}
+
 int Player::bet(int bet)
 {
 	bet *= this->unit;
@@ -59,6 +64,11 @@ int Player::bet(int bet)
 int Player::betAmount(int bet)
 {
 	return this->bet(bet / this->unit);
+}
+
+void Player::betInsurance(double amount)
+{
+	this->stack -= amount;
 }
 
 void Player::win(double amount)

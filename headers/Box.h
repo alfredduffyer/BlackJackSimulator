@@ -23,6 +23,7 @@ class Box
 		Hand hand;
 		//Hand splits[MAX_SPLIT];
 		int bet;
+		bool insurance;
 		//int splitIndex;
 	
 	public:
@@ -46,6 +47,9 @@ class Box
 		double getStack();
 		static int _stats[21][10];
 		int doubleDown();
+		void payInsurance();
+		bool hasInsured();
+		bool insure();
 		//bool isSplit();
 		//void split(int handIndex);
 };

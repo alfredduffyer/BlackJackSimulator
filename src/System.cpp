@@ -38,6 +38,11 @@ System::System()
 	}
 }
 
+bool System::insure()
+{
+	return false;
+}
+
 int System::howManyHands(int maxHands)
 {
 	if (maxHands){};

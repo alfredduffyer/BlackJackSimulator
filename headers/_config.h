@@ -55,7 +55,7 @@
 //#define PLAYING_ON_TWO_BOXES 20
 
 // Percentage of how much other players play (100 : all the time, 0 : none)
-#define GAME_PLAYING 0
+#define GAME_PLAYING 70
 
 // Playing x hand(s) index
 /*#define PLAYING_1 10

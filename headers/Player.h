@@ -29,7 +29,9 @@ class Player
 		char* getName();
 		double getStack();
 		int howManyHands(int maxHands);
+		void betInsurance(double amount);
 		int bet(int bet);
+		bool insure(double amount);
 		int betAmount(int bet);
 		void win(double amount);
 		int getUnit();

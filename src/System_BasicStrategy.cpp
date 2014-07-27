@@ -18,6 +18,11 @@ System_BasicStrategy::System_BasicStrategy() : System()
 	this->initiate();
 }
 
+bool System_BasicStrategy::insure()
+{
+	return false;
+}
+
 int System_BasicStrategy::howManyHands(int maxHands)
 {
 	int index = count.getHiLoIndex() / 2;

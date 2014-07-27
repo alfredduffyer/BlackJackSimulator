@@ -45,6 +45,8 @@ class Game
 		int howManyHands(bool isMainPlayer, Player* player);
 		void bet();
 		void deal();
+		void insurance();
+		void payInsurance();
 		Box deal(int boxIndex);
 		void decisions();
 		void decision(int boxIndex);

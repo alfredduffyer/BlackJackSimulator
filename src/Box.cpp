@@ -35,12 +35,36 @@ void Box::reset()
 {
 	this->player = NULL;
 	this->bet = 0;
+	this->insurance = false;
 	//this->splitIndex = 0;
 	this->hand.reset();
 	/*for (int i = 0 ; i < MAX_SPLIT ; i++)
 	{
 		this->splits[i].reset();
 	}*/
+}
+
+bool Box::insure()
+{
+	if (this->player->insure((double)((double)this->bet) / ((double)2)))
+	{
+		this->player->betInsurance((double)((double)this->bet) / ((double)2));
+		return this->insurance = true;
+	}
+	return false;
+}
+
+bool Box::hasInsured()
+{
+	return this->insurance;
+}
+
+void Box::payInsurance()
+{
+	if (this->hasInsured())
+	{
+		this->player->win(this->bet * 1.5);
+	}
 }
 
 void Box::add(int value)
@@ -58,28 +82,7 @@ void Box::take(Player* player, int bet, bool isSplitted)
 	this->bet = bet;
 	this->hand.setSplitted(isSplitted);
 }
-/*
-void Box::split(int handIndex)
-{
-	if (!this->hand.isPair() || this->splitIndex >= MAX_SPLIT)
-	{
-		return ;
-	}
-	
-	int cardValue = this->hand.softValue() / 2;
-	
-	if (handIndex == -1)
-	{
-		this->hand.reset();
-		this->hand.add(cardValue);
-		this->splits[this->splitIndex].reset();
-		this->splits[this->splitIndex].add(cardValue);
-	}
-	
-	
-	this->splitIndex++;
-}
-*/
+
 int Box::doubleDown()
 {
 	int bet = this->player->betAmount(this->bet);
@@ -121,12 +124,7 @@ bool Box::isNatural()
 {
 	return this->hand.isNatural();
 }
-/*
-bool Box::isSplit()
-{
-	return (this->splits[0].getValue() > 0);
-}
-*/
+
 int Box::getValue()
 {
 	return this->hand.getValue();
