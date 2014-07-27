@@ -88,7 +88,7 @@ double GlobalCount::getTenCount()
 void GlobalCount::printStatus()
 {
 	char message[100];
-	sprintf(message, "[count: %d, remainingCards: %d (fpc: %d), others: %d, tens: %d, (tenCount: %1.2f)]\n", count, remainingCards, this->getHiLoIndex(), others, tens, this->getTenCount());
+	sprintf(message, "[count: %d, remainingCards: %d (%d), others: %d, tens: %d, (%1.2f)]\n", count, remainingCards, this->getHiLoIndex(), others, tens, this->getTenCount());
 	printColor(C_YELLOW, message);
 }
 

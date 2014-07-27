@@ -74,23 +74,23 @@
 #define GAME_PLAYING 100
 
 // Percentage of the shoe that won't be played
-#define WASTE_PROPORTION 3
+#define WASTE_PROPORTION 30
 
 // Number of cards burned at the begining
-#define CARDS_BURNED 1
+#define CARDS_BURNED 5
 
 // Activate the bet variation for counting methods
-#define MAX_SPLIT 1
+#define MAX_SPLIT 2
 
 // Number of decks played with
-#define NB_DECKS 1
+#define NB_DECKS 6
 
 // Maximum of the variation bet (in units)
 #define MAX_BET_VARIATION 5
 
-#define STATUS 1
-#define DEBUG 1
-#define PAUSE 1
+#define STATUS 0
+#define DEBUG 0
+#define PAUSE 0
 #define SLEEP 0
 #define DEBUG_COLOR 1
 
