@@ -29,6 +29,7 @@ class System_FullPointCount : public System
 		virtual int howManyHands(int maxHands);
 		virtual bool insure();
 		virtual int bet();
+		virtual void updateComparator();
 	
 	public:
 		System_FullPointCount();

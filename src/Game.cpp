@@ -424,7 +424,7 @@ int Game::play()
 				{
 					if(STATUS) printf("[%d] Don Self has now %1.1f\n", handsPlayed, this->boxes[i].getStack());
 					else if((handsPlayed % 100000) == 0)printf("[%3ld %03d %03d %03d] Don Self has now %3ld %03d %03d %03d\n", (handsPlayed%1000000000000) / 1000000000, (handsPlayed%1000000000) / 1000000, (handsPlayed%1000000) / 1000, handsPlayed%1000, (((long int)this->boxes[i].getStack())%1000000000000) / 1000000000, (((int)this->boxes[i].getStack())%1000000000) / 1000000, (((int)this->boxes[i].getStack())%1000000) / 1000, ((int)this->boxes[i].getStack())%1000);
-					if (this->boxes[i].getStack() < 5 || handsPlayed > 2000000)
+					if (this->boxes[i].getStack() < 5 || (false && handsPlayed > 2000000))
 					{
 						return handsPlayed;
 					}

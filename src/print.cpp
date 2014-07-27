@@ -150,7 +150,7 @@ void printBlackJackTables(double** matrix, int y, int x, int plusy, bool simple,
 				continue;
 			}
 			
-			printf("%3d ", (int)matrix[i][j]);
+			printf("%3d ", (int)(matrix[i][j]*10));
 		}
 		if (simple && matrix[i][0] > 0)
 		{
@@ -159,7 +159,7 @@ void printBlackJackTables(double** matrix, int y, int x, int plusy, bool simple,
 		
 		if (!simple)
 		{
-			printf("%3d ", (int)matrix[i][0]);
+			printf("%3d ", (int)(matrix[i][0]*10));
 		}
 		puts("");
 	}

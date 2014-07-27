@@ -85,6 +85,11 @@ int System_FullPointCount::exception(Hand* player, Hand* dealer, bool canSplit, 
 	return 0;
 }
 
+void System_FullPointCount::updateComparator()
+{
+	this->comparator = count.getHiLoIndex();
+}
+
 void System_FullPointCount::initiate()
 {
 	this->initiate_hardStandingNumbers();

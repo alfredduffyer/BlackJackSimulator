@@ -25,10 +25,14 @@ class System_TenCount : public System
 		void initiate_softDoublingDown();
 		void initiate_splittingPairs();
 		void initiate();
+		virtual bool split(int player, int dealer);
+		virtual bool doubleDown(int player, int dealer, bool soft);
+		virtual bool draw(int player, int dealer, bool soft);
 		virtual int exception(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown);
 		virtual int howManyHands(int maxHands);
 		virtual bool insure();
 		virtual int bet();
+		virtual void updateComparator();
 	
 	public:
 		System_TenCount();

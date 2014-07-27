@@ -37,21 +37,26 @@ int main()
 	while (++nbPlays)
 	{
 		game.init(new Shoe(4), 5, 500, 7);
-		game.addPlayer(new Player((char*) "Don Self", 1000, 5, new System_FullPointCount()));
+		game.addPlayer(new Player((char*) "Don Self", 200, 5, new System_TenCount()));
 		game.addPlayer(new Player((char*) "The Player Who Never Busts", -1, 5, new System_ThePlayerWhoNeverBusts()));
 		game.addPlayer(new Player((char*) "Mimic The Dealer", -1, 5, new System_Dealer()));
 		game.addPlayer(new Player((char*) "The Random Player", -1, 5, new System_RandomPlayer()));
 		result = game.play();
 		totalHandsPlayed += (long int) result;
-		
-		average = ((double) (average * (nbPlays-1) + result)) / ((double) nbPlays);
-		
+		if (result != 2000001 || result != 500001)
+		{
+			average = ((double) (average * (nbPlays-1) + result)) / ((double) nbPlays);
+		}
 		char message[100];
 		sprintf(message, "Don Self died in %9d hands, average is %5.0f, total %5d %03d %03d\n", result, average, (int) ((totalHandsPlayed-totalHandsPlayed % 1000000) / 1000000), (int) ((totalHandsPlayed % 1000000) / 1000), (int) (totalHandsPlayed % 1000));
-		if (result > 100000)
+		if (result == 2000001 || result == 500001)
+		{
+			sprintf(message, "Don Self survived %9d hands, won a lot of money !\n", result);
+			printColor(C_GREEN, message);
+		}
+		else if (true || result > 100000)
 		{
 			printColor(C_RED, message);
-			sleep(3);
 		}
 		else if (result > 50000)
 		{

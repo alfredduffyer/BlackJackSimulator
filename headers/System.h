@@ -25,16 +25,16 @@ class System
 	public:
 		System();
 		~System();
-		bool split(int player, int dealer);
-		bool doubleDown(int player, int dealer, bool soft);
-		bool draw(int player, int dealer, bool soft);
+		virtual bool split(int player, int dealer);
+		virtual bool doubleDown(int player, int dealer, bool soft);
+		virtual bool draw(int player, int dealer, bool soft);
 		virtual int decision(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown);
 		virtual int exception(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown);
 		virtual void initiate();
 		virtual int howManyHands(int maxHands);
 		virtual bool insure();
 		virtual int bet();
-		void updateComparator();
+		virtual void updateComparator();
 };
 
 #endif

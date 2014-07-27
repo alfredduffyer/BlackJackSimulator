@@ -73,14 +73,14 @@ void System_SimplePointCount::initiate()
 	this->initiate_hardDoublingDown();
 	this->initiate_softDoublingDown();
 	this->initiate_splittingPairs();
-	
+	/*
 	printBlackJackTables(this->hardStanding, 8, 10, SHIFT_HS, true);
 	printBlackJackTables(this->softStanding, 3, 10, SHIFT_SS, true);
 	printBlackJackTables(this->hardDoublingDown, 10, 10, SHIFT_HDD, true);
 	printBlackJackTables(this->softDoublingDown, 9, 10, SHIFT_SDD, true, 'A');
 	printBlackJackTables(this->splittingPairs, 10, 10, SHIFT_SP, true, 'S');
 	sleep(10);
-	
+	*/
 }
 
 void System_SimplePointCount::initiate_hardStandingNumbers()
