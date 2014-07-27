@@ -88,7 +88,7 @@ void Shoe::shuffle()
 		}
 	}
 	
-	count.reset(this->size);
+	count.reset();
 }
 
 int Shoe::getLimit()
@@ -111,7 +111,7 @@ void Shoe::reset()
 
 bool Shoe::isTheEnd()
 {
-	return (this->topIndex > this->dealingLimit);
+	return (this->topIndex >= this->dealingLimit);
 }
 
 void Shoe::burn()

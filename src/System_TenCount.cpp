@@ -259,7 +259,7 @@ void System_TenCount::initiate_hardDoublingDown()
 	this->hardDoublingDown[7][7] = 1.6;
 	this->hardDoublingDown[7][8] = -0.1;
 	this->hardDoublingDown[7][9] = -0.1;
-	this->hardDoublingDown[7][0] = 0.9;
+	this->hardDoublingDown[7][0] = -0.1;
 	
 	this->hardDoublingDown[8][1] = 3.7;
 	this->hardDoublingDown[8][2] = 4.2;
@@ -270,7 +270,7 @@ void System_TenCount::initiate_hardDoublingDown()
 	this->hardDoublingDown[8][7] = 3.0;
 	this->hardDoublingDown[8][8] = 2.5;
 	this->hardDoublingDown[8][9] = 1.9;
-	this->hardDoublingDown[8][0] = 1.8;
+	this->hardDoublingDown[8][0] = -0.1;
 	
 	this->hardDoublingDown[9][1] = 3.9;
 	this->hardDoublingDown[9][2] = 4.2;
@@ -281,7 +281,7 @@ void System_TenCount::initiate_hardDoublingDown()
 	this->hardDoublingDown[9][7] = 3.0;
 	this->hardDoublingDown[9][8] = 2.6;
 	this->hardDoublingDown[9][9] = 2.8;
-	this->hardDoublingDown[9][0] = 2.2;
+	this->hardDoublingDown[9][0] = -0.1;
 }
 
 void System_TenCount::initiate_softDoublingDown()
@@ -395,10 +395,10 @@ void System_TenCount::initiate_splittingPairs()
 	
 	this->splittingPairs[5][8] = -0.1;
 	this->splittingPairs[5][9] = -0.1;
-	this->splittingPairs[5][0] = 1.4;
+	this->splittingPairs[5][0] = -0.1;
 	
 	this->splittingPairs[6][9] = -0.1;
-	this->splittingPairs[6][0] = 4.8;
+	this->splittingPairs[6][0] = -0.1;
 	
 	this->splittingPairs[7][1] = 2.4;
 	this->splittingPairs[7][2] = 2.8;
@@ -409,7 +409,7 @@ void System_TenCount::initiate_splittingPairs()
 	this->splittingPairs[7][7] = 9;
 	this->splittingPairs[7][8] = 4.2;
 	this->splittingPairs[7][9] = -0.1;
-	this->splittingPairs[7][0] = 1.5;
+	this->splittingPairs[7][0] = -0.1;
 	
 	this->splittingPairs[8][1] = 1.4;
 	this->splittingPairs[8][2] = 1.5;
@@ -426,7 +426,7 @@ void System_TenCount::initiate_splittingPairs()
 	this->splittingPairs[9][7] = 3.3;
 	this->splittingPairs[9][8] = 3.1;
 	this->splittingPairs[9][9] = 3.2;
-	this->splittingPairs[9][0] = 2.6;
+	this->splittingPairs[9][0] = -0.1;
 }
 
 

@@ -19,8 +19,7 @@ class GlobalCount
 	
 	public:
 		GlobalCount();
-		GlobalCount(int remainingCards);
-		void reset(int remainingCards);
+		void reset();
 		void update(int value);
 		int getCount();
 		int getRoughCount();
@@ -29,6 +28,7 @@ class GlobalCount
 		int getTens();
 		int getOthers();
 		double getTenCount();
+		void printStatus();
 };
 
 #endif

@@ -36,11 +36,11 @@ int main()
 	
 	while (++nbPlays)
 	{
-		game.init(new Shoe(4), 5, 500, 7);
-		game.addPlayer(new Player((char*) "Don Self", 200, 5, new System_TenCount()));
-		game.addPlayer(new Player((char*) "The Player Who Never Busts", -1, 5, new System_ThePlayerWhoNeverBusts()));
-		game.addPlayer(new Player((char*) "Mimic The Dealer", -1, 5, new System_Dealer()));
-		game.addPlayer(new Player((char*) "The Random Player", -1, 5, new System_RandomPlayer()));
+		game.init(new Shoe(NB_DECKS), 5, 500, 7);
+		game.addPlayer(new Player((char*) "Don Self", 1000, 5, new System_TenCount()));
+		game.addPlayer(new Player((char*) "The Player Who Never Busts", -1, 5, new System_TenCount()));
+		game.addPlayer(new Player((char*) "Mimic The Dealer", -1, 5, new System_TenCount()));
+		game.addPlayer(new Player((char*) "The Random Player", -1, 5, new System_TenCount()));
 		result = game.play();
 		totalHandsPlayed += (long int) result;
 		if (result != 2000001 || result != 500001)

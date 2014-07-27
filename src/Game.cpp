@@ -389,6 +389,8 @@ int Game::play()
 		
 		while (!this->shoe->isTheEnd())
 		{
+			if (DEBUG) count.printStatus();
+			
 			handsPlayed++;
 			if (DEBUG)puts("Initializing turn...");
 			this->initTurn();

@@ -73,8 +73,8 @@
 // Percentage of how much other players play (100 : all the time, 0 : none)
 #define GAME_PLAYING 100
 
-// Percentage of the shoe that won't be player
-#define WASTE_PROPORTION 2
+// Percentage of the shoe that won't be played
+#define WASTE_PROPORTION 3
 
 // Number of cards burned at the begining
 #define CARDS_BURNED 1
@@ -88,9 +88,9 @@
 // Maximum of the variation bet (in units)
 #define MAX_BET_VARIATION 5
 
-#define STATUS 0
-#define DEBUG 0
-#define PAUSE 0
+#define STATUS 1
+#define DEBUG 1
+#define PAUSE 1
 #define SLEEP 0
 #define DEBUG_COLOR 1
 

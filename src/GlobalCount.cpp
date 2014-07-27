@@ -9,20 +9,15 @@
 
 GlobalCount::GlobalCount()
 {
-	GlobalCount(52);
+	this->reset();
 }
 
-GlobalCount::GlobalCount(int remainingCards)
-{
-	this->reset(remainingCards);
-}
-
-void GlobalCount::reset(int remainingCards)
+void GlobalCount::reset()
 {
 	this->count = 0;
-	this->remainingCards = remainingCards;
-	this->tens = 0;
-	this->others = 0;
+	this->remainingCards = NB_DECKS * 52;
+	this->tens = NB_DECKS * 16;
+	this->others = NB_DECKS * 36;
 }
 
 void GlobalCount::update(int value)
@@ -89,5 +84,14 @@ double GlobalCount::getTenCount()
 	this->tens = (this->tens == 0) ? 0.1 : this->tens;
 	return (double)(this->others) / (double)(this->tens);
 }
+
+void GlobalCount::printStatus()
+{
+	char message[100];
+	sprintf(message, "[count: %d, remainingCards: %d (fpc: %d), others: %d, tens: %d, (tenCount: %1.2f)]\n", count, remainingCards, this->getHiLoIndex(), others, tens, this->getTenCount());
+	printColor(C_YELLOW, message);
+}
+
+
 
 

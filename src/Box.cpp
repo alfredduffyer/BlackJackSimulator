@@ -20,6 +20,8 @@
 #include "../headers/Box.h"
 #include <string.h>
 
+extern GlobalCount count;
+
 // TMP
 Box::Box()
 {
@@ -158,6 +160,7 @@ Player* Box::getPlayer()
 // TMP
 int Box::decision(Hand* dealerHand, bool canSplit, bool canDoubleDown)
 {
+	if (DEBUG) count.printStatus();
 	int decision = this->player->decision(&this->hand, dealerHand, canSplit && this->hand.isPair(), this->hand.getSize() == 2 && canDoubleDown);
 	
 	if (false && strcmp(this->player->getName(), "Dealer") != 0 && this->hand.isPair())
