@@ -76,9 +76,9 @@ bool System::draw(int player, int dealer, bool soft)
 	//printf("[%d;%d;%d]\n", player, dealer-1, soft ? 1 : 0);
 	if (soft)
 	{
-		return (this->comparator < this->softStanding[player-SHIFT_SS][dealer-1]);
+		return (this->comparator <= this->softStanding[player-SHIFT_SS][dealer-1]);
 	}
-	return (this->comparator < this->hardStanding[player-SHIFT_HS][dealer-1]);
+	return (this->comparator <= this->hardStanding[player-SHIFT_HS][dealer-1]);
 }
 
 int System::exception(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown)

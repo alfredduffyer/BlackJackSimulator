@@ -23,8 +23,8 @@ void printColor(int color, char* str);
 void printMatrix(double** matrix, int y, int x);
 
 // Prints a BlackJack matrix
-void printBlackJackTables(double** matrix, int y, int x, int plusy, char subsitute);
-void printBlackJackTables(double** matrix, int y, int x, int plusy);	// subsitute='0'
+void printBlackJackTables(double** matrix, int y, int x, int plusy, bool simple, char subsitute);
+void printBlackJackTables(double** matrix, int y, int x, int plusy, bool simple);	// subsitute='0'
 
 // Prints a stats table
 void printStatTable(int table[21][10], bool split);

@@ -20,7 +20,7 @@ System_FullPointCount::System_FullPointCount() : System()
 
 bool System_FullPointCount::insure()
 {
-	return false;
+	return count.getHiLoIndex() > 8;
 }
 
 int System_FullPointCount::bet()
@@ -30,7 +30,7 @@ int System_FullPointCount::bet()
 		return 1;
 	}
 	
-	int index = count.getRoughCount();
+	int index = count.getHiLoIndex() / 2;
 	
 	if (index <= 1)
 	{
@@ -42,7 +42,7 @@ int System_FullPointCount::bet()
 
 int System_FullPointCount::howManyHands(int maxHands)
 {
-	int index = count.getRoughCount();
+	int index = count.getHiLoIndex() / 2;
 	
 	if (index < 0)
 	{
@@ -73,14 +73,13 @@ void System_FullPointCount::initiate()
 	this->initiate_hardDoublingDown();
 	this->initiate_softDoublingDown();
 	this->initiate_splittingPairs();
-	/*
-	printBlackJackTables(this->hardStanding, 8, 10, SHIFT_HS);
-	printBlackJackTables(this->softStanding, 3, 10, SHIFT_SS);
-	printBlackJackTables(this->hardDoublingDown, 10, 10, SHIFT_HDD);
-	printBlackJackTables(this->softDoublingDown, 9, 10, SHIFT_SDD, 'A');
-	printBlackJackTables(this->splittingPairs, 10, 10, SHIFT_SP, 'S');
-	sleep(10);
-	*/
+	
+	printBlackJackTables(this->hardStanding, 8, 10, SHIFT_HS, false);
+	printBlackJackTables(this->softStanding, 3, 10, SHIFT_SS, false);
+	printBlackJackTables(this->hardDoublingDown, 10, 10, SHIFT_HDD, false);
+	printBlackJackTables(this->softDoublingDown, 9, 10, SHIFT_SDD, false, 'A');
+	printBlackJackTables(this->splittingPairs, 10, 10, SHIFT_SP, false, 'S');
+	spause();
 }
 
 void System_FullPointCount::initiate_hardStandingNumbers()
@@ -89,39 +88,65 @@ void System_FullPointCount::initiate_hardStandingNumbers()
 	
 	for (i = 0 ; i <= 9 ; i++)
 	{
-		this->hardStanding[7][i] = -1;
-		this->hardStanding[6][i] = -1;
-		this->hardStanding[5][i] = -1;
+		this->hardStanding[7][i] = -99;
+		this->hardStanding[6][i] = -99;
+		this->hardStanding[5][i] = -99;
 	}
 	
-	for (i = 1 ; i <= 5 ; i++)
+	for (i = 8 ; i <= 10 ; i++)
 	{
-		this->hardStanding[4][i] = -1;
-		this->hardStanding[3][i] = -1;
-		this->hardStanding[2][i] = -1;
-		this->hardStanding[1][i] = -1;
-		if (i >= 3)
-		{
-			this->hardStanding[0][i] = -1;
-		}
+		this->hardStanding[2][i%10] = 99;
+		this->hardStanding[1][i%10] = 99;
+		this->hardStanding[0][i%10] = 99;
 	}
 	
-	for (i = 6 ; i <= 9 ; i++)
-	{
-		this->hardStanding[4][i] = 1;
-		this->hardStanding[3][i] = 1;
-		this->hardStanding[2][i] = 1;
-		this->hardStanding[1][i] = 1;
-		this->hardStanding[0][i] = 1;
-	}
+	this->hardStanding[0][1] = 14;
+	this->hardStanding[0][2] = 6;
+	this->hardStanding[0][3] = 2;
+	this->hardStanding[0][4] = -1;
+	this->hardStanding[0][5] = 0;
 	
-	this->hardStanding[4][0] = 1;
-	this->hardStanding[3][0] = 1;
-	this->hardStanding[2][0] = 1;
-	this->hardStanding[1][0] = 1;
-	this->hardStanding[0][0] = 1;
-	this->hardStanding[0][1] = 1;
-	this->hardStanding[0][2] = 1;
+	this->hardStanding[1][1] = 1;
+	this->hardStanding[1][2] = -2;
+	this->hardStanding[1][3] = -5;
+	this->hardStanding[1][4] = -9;
+	this->hardStanding[1][5] = -8;
+	this->hardStanding[1][6] = 50;
+	
+	this->hardStanding[2][1] = -5;
+	this->hardStanding[2][2] = -8;
+	this->hardStanding[2][3] = -13;
+	this->hardStanding[2][4] = -17;
+	this->hardStanding[2][5] = -17;
+	this->hardStanding[2][6] = 20;
+	this->hardStanding[2][7] = 38;
+	
+	this->hardStanding[3][1] = -12;
+	this->hardStanding[3][2] = -17;
+	this->hardStanding[3][3] = -21;
+	this->hardStanding[3][4] = -26;
+	this->hardStanding[3][5] = -28;
+	this->hardStanding[3][6] = 13;
+	this->hardStanding[3][7] = 15;
+	this->hardStanding[3][8] = 12;
+	this->hardStanding[3][9] = 8;
+	this->hardStanding[3][0] = 16;
+	
+	this->hardStanding[4][1] = -21;
+	this->hardStanding[4][2] = -25;
+	this->hardStanding[4][3] = -30;
+	this->hardStanding[4][4] = -34;
+	this->hardStanding[4][5] = -35;
+	this->hardStanding[4][6] = 10;
+	this->hardStanding[4][7] = 11;
+	this->hardStanding[4][8] = 6;
+	this->hardStanding[4][9] = 0;
+	this->hardStanding[4][0] = 14;
+	
+	this->hardStanding[5][0] = -15;
+	this->hardStanding[0][6] = 99;
+	this->hardStanding[0][7] = 99;
+	this->hardStanding[1][7] = 99;
 }
 
 void System_FullPointCount::initiate_softStandingNumbers()
@@ -130,132 +155,236 @@ void System_FullPointCount::initiate_softStandingNumbers()
 	
 	for (i = 0 ; i <= 9 ; i++)
 	{
-		this->softStanding[0][i] = 1;
-		this->softStanding[1][i] = -1;
-		this->softStanding[2][i] = -1;
+		this->softStanding[0][i] = 99;
+		this->softStanding[1][i] = -99;
+		this->softStanding[2][i] = -99;
 	}
 	
-	this->softStanding[1][8] = 1;
-	this->softStanding[1][9] = 1;
+	this->softStanding[0][6] = 29;
+	this->softStanding[1][8] = 99;
+	this->softStanding[1][9] = 12;
+	this->softStanding[1][0] = -6;
 }
 
 void System_FullPointCount::initiate_hardDoublingDown()
 {
-	int i = 0, j = 0;
+	int i = 0;
 	
-	for (i = 0 ; i <= 8 ; i++)
+	for (i = 0 ; i <= 9 ; i++)
 	{
-		for (j = 0 ; j < 10 ; j++)
-		{
-			this->hardDoublingDown[i][j] = 1;
-		}
+		this->hardDoublingDown[0][i] = 99;
+		this->hardDoublingDown[1][i] = 99;
+		this->hardDoublingDown[2][i] = 99;
+		this->hardDoublingDown[3][i] = 99;
+		this->hardDoublingDown[4][i] = 99;
+		this->hardDoublingDown[5][i] = 99;
+		this->hardDoublingDown[6][i] = 99;
+		this->hardDoublingDown[7][i] = 99;
 	}
 	
-	for (i = 1 ; i < 10 ; i++)
-	{
-		this->hardDoublingDown[9][i] = -1;
-		if (i < 9)
-		{
-			this->hardDoublingDown[8][i] = -1;
-		}
-		if (i < 6)
-		{
-			this->hardDoublingDown[7][i] = -1;
-		}
-	}
+	this->hardDoublingDown[3][4] = 20;
+	this->hardDoublingDown[3][5] = 26;
 	
-	this->hardDoublingDown[6][4] = -1;
-	this->hardDoublingDown[6][5] = -1;
+	this->hardDoublingDown[4][3] = 27;
+	this->hardDoublingDown[4][4] = 18;
+	this->hardDoublingDown[4][5] = 24;
 	
-	// Changes
-	this->hardDoublingDown[9][0] = 1;
+	this->hardDoublingDown[5][2] = 45;
+	this->hardDoublingDown[5][3] = 21;
+	this->hardDoublingDown[5][4] = 14;
+	this->hardDoublingDown[5][5] = 17;
+	
+	this->hardDoublingDown[6][2] = 22;
+	this->hardDoublingDown[6][3] = 11;
+	this->hardDoublingDown[6][4] = 05;
+	this->hardDoublingDown[6][5] = 05;
+	this->hardDoublingDown[6][6] = 22;
+	
+	this->hardDoublingDown[7][1] = 03;
+	this->hardDoublingDown[7][2] = 0;
+	this->hardDoublingDown[7][3] = -5;
+	this->hardDoublingDown[7][4] = -10;
+	this->hardDoublingDown[7][5] = -12;
+	this->hardDoublingDown[7][6] = 4;
+	this->hardDoublingDown[7][7] = 14;
+	
+	this->hardDoublingDown[8][1] = -15;
+	this->hardDoublingDown[8][2] = -17;
+	this->hardDoublingDown[8][3] = -21;
+	this->hardDoublingDown[8][4] = -24;
+	this->hardDoublingDown[8][5] = 26;
+	this->hardDoublingDown[8][6] = -17;
+	this->hardDoublingDown[8][7] = -9;
+	this->hardDoublingDown[8][8] = -3;
+	this->hardDoublingDown[8][9] = 7;
+	this->hardDoublingDown[8][0] = 6;
+	
+	this->hardDoublingDown[9][1] = -23;
+	this->hardDoublingDown[9][2] = -26;
+	this->hardDoublingDown[9][3] = -29;
+	this->hardDoublingDown[9][4] = -33;
+	this->hardDoublingDown[9][5] = -35;
+	this->hardDoublingDown[9][6] = -26;
+	this->hardDoublingDown[9][7] = -16;
+	this->hardDoublingDown[9][8] = -10;
+	this->hardDoublingDown[9][9] = -9;
+	this->hardDoublingDown[9][0] = -3;
 }
 
 void System_FullPointCount::initiate_softDoublingDown()
 {
-	int i = 0, j = 0;
-	
-	for (i = 6 ; i <= 10 ; i++)
-	{
-		for (j = 0 ; j <= 8 ; j++)
-		{
-			this->softDoublingDown[j][i%10] = 1;
-		}
-	}
+	int i = 0;
 	
 	for (i = 0 ; i <= 9 ; i++)
 	{
-		this->softDoublingDown[7][i%10] = 1;
-		this->softDoublingDown[8][i%10] = 1;
+		this->softDoublingDown[0][i] = 99;
 	}
 	
 	for (i = 0 ; i <= 8 ; i++)
 	{
-		this->softDoublingDown[i][1] = 1;
-		this->softDoublingDown[i][2] = 1;
+		this->softDoublingDown[i][1] = 99;
+		this->softDoublingDown[i][6] = 99;
+		this->softDoublingDown[i][7] = 99;
+		this->softDoublingDown[i][8] = 99;
+		this->softDoublingDown[i][9] = 99;
+		this->softDoublingDown[i][0] = 99;
 	}
 	
-	for (i = 0 ; i <= 6 ; i++)
-	{
-		this->softDoublingDown[i][3] = -1;
-		this->softDoublingDown[i][4] = -1;
-		this->softDoublingDown[i][5] = -1;
-	}
+	this->softDoublingDown[1][2] = 10;
+	this->softDoublingDown[1][3] = 2;
+	this->softDoublingDown[1][4] = -19;
+	this->softDoublingDown[1][5] = -13;
 	
-	this->softDoublingDown[0][3] = 1;
+	this->softDoublingDown[2][2] = 11;
+	this->softDoublingDown[2][3] = -3;
+	this->softDoublingDown[2][4] = -13;
+	this->softDoublingDown[2][5] = -19;
 	
-	this->softDoublingDown[5][1] = -1;
-	this->softDoublingDown[5][2] = -1;
-	this->softDoublingDown[6][2] = -1;
+	this->softDoublingDown[3][2] = 19;
+	this->softDoublingDown[3][3] = -7;
+	this->softDoublingDown[3][4] = -16;
+	this->softDoublingDown[3][5] = -23;
+	
+	this->softDoublingDown[4][2] = 21;
+	this->softDoublingDown[4][3] = -6;
+	this->softDoublingDown[4][4] = -16;
+	this->softDoublingDown[4][5] = -32;
+	
+	this->softDoublingDown[5][2] = -6;
+	this->softDoublingDown[5][3] = -14;
+	this->softDoublingDown[5][4] = -28;
+	this->softDoublingDown[5][5] = -30;
+	
+	this->softDoublingDown[6][2] = -2;
+	this->softDoublingDown[6][3] = -15;
+	this->softDoublingDown[6][4] = -18;
+	this->softDoublingDown[6][5] = -23;
+	
+	this->softDoublingDown[7][2] = -9;
+	this->softDoublingDown[7][3] = -5;
+	this->softDoublingDown[7][4] = -1;
+	this->softDoublingDown[7][5] = 0;
+	
+	this->softDoublingDown[8][2] = 20;
+	this->softDoublingDown[8][3] = 12;
+	this->softDoublingDown[8][4] = 8;
+	this->softDoublingDown[8][5] = 8;
 }
 
 void System_FullPointCount::initiate_splittingPairs()
 {
-	int i = 0, j = 0;
+	int i = 0;
 	
 	for (i = 1 ; i <= 10 ; i++)
 	{
-		this->splittingPairs[8][i%10] = 1;
-		this->splittingPairs[3][i%10] = 1;
-		this->splittingPairs[2][i%10] = 1;
-	}
-	
-	for (i = 7 ; i <= 10 ; i++)
-	{
-		for (j = 0 ; j <= 5 ; j++)
+		this->splittingPairs[3][i%10] = 99;
+		if (i >= 5 && i <= 10)
 		{
-			this->splittingPairs[j][i%10] = 1;
+			this->splittingPairs[2][i%10] = 99;
+		}
+		if (i >= 7 && i <= 10)
+		{
+			this->splittingPairs[4][i%10] = 99;
+			this->splittingPairs[1][i%10] = 99;
+			this->splittingPairs[0][i%10] = 99;
+		}
+		if (i >= 4 && i <= 7)
+		{
+			this->splittingPairs[5][i%10] = -99;
+		}
+		if (i >= 1 && i <= 8)
+		{
+			this->splittingPairs[6][i%10] = -99;
+		}
+		if (i >= 7 && i <= 10)
+		{
+			this->splittingPairs[8][i%10] = 99;
+		}
+		if (i >= 1 && i <= 5)
+		{
+			this->splittingPairs[9][i%10] = -99;
 		}
 	}
 	
-	for (i = 1 ; i <= 10 ; i++)
-	{
-		this->splittingPairs[9][i%10] = -1;
-		this->splittingPairs[6][i%10] = -1;
-		if (i <= 8)
-		{
-			this->splittingPairs[7][i%10] = -1;
-		}
-		if (i <= 7)
-		{
-			this->splittingPairs[5][i%10] = -1;
-		}
-		if (i <= 6)
-		{
-			this->splittingPairs[4][i%10] = -1;
-			this->splittingPairs[1][i%10] = -1;
-			this->splittingPairs[0][i%10] = -1;
-		}
-		
-		this->splittingPairs[2][4] = -1;
-		this->splittingPairs[7][6] = 1;
-		this->splittingPairs[7][9] = 1;
-		this->splittingPairs[7][0] = 1;
-		
-		// Changes
-		this->splittingPairs[6][0] = 1;
-		this->splittingPairs[9][0] = 1;
-	}
+	this->splittingPairs[0][1] = -9;
+	this->splittingPairs[0][2] = 15;
+	this->splittingPairs[0][3] = -22;
+	this->splittingPairs[0][4] = -30;
+	this->splittingPairs[0][5] = -99;
+	this->splittingPairs[0][6] = -99;
+	
+	this->splittingPairs[1][1] = -21;
+	this->splittingPairs[1][2] = -34;
+	this->splittingPairs[1][3] = -99;
+	this->splittingPairs[1][4] = -99;
+	this->splittingPairs[1][5] = -99;
+	this->splittingPairs[1][6] = -99;
+	
+	this->splittingPairs[2][1] = 99;
+	this->splittingPairs[2][2] = 18;
+	this->splittingPairs[2][3] = 8;
+	this->splittingPairs[2][4] = 0;
+	
+	this->splittingPairs[4][1] = 0;
+	this->splittingPairs[4][2] = -3;
+	this->splittingPairs[4][3] = -8;
+	this->splittingPairs[4][4] = -13;
+	this->splittingPairs[4][5] = -16;
+	this->splittingPairs[4][6] = -8;
+	
+	this->splittingPairs[5][1] = -22;
+	this->splittingPairs[5][2] = -29;
+	this->splittingPairs[5][3] = -35;
+	this->splittingPairs[5][8] = 99;
+	this->splittingPairs[5][9] = 99;
+	this->splittingPairs[5][0] = 99;
+	
+	this->splittingPairs[6][9] = 99;
+	this->splittingPairs[6][0] = -18;
+	
+	this->splittingPairs[7][1] = -3;
+	this->splittingPairs[7][2] = -8;
+	this->splittingPairs[7][3] = -10;
+	this->splittingPairs[7][4] = -15;
+	this->splittingPairs[7][5] = -14;
+	this->splittingPairs[7][6] = 8;
+	this->splittingPairs[7][7] = -16;
+	this->splittingPairs[7][8] = -22;
+	this->splittingPairs[7][9] = 99;
+	this->splittingPairs[7][0] = 10;
+	
+	this->splittingPairs[8][1] = 25;
+	this->splittingPairs[8][2] = 17;
+	this->splittingPairs[8][3] = 10;
+	this->splittingPairs[8][4] = 6;
+	this->splittingPairs[8][5] = 7;
+	this->splittingPairs[8][6] = 19;
+	
+	this->splittingPairs[9][6] = -33;
+	this->splittingPairs[9][7] = -24;
+	this->splittingPairs[9][8] = -22;
+	this->splittingPairs[9][9] = -20;
+	this->splittingPairs[9][0] = -17;
 }
 
 

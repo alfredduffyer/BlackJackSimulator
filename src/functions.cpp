@@ -48,6 +48,11 @@ long int getMilliTime()
 	return (long int) (tv.tv_sec) * 1000 + (tv.tv_usec) / 1000 ;
 }
 
+void spause()
+{
+	system("echo \"PAUSE\" && read a");
+}
+
 
 
 

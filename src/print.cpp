@@ -83,7 +83,7 @@ void printMatrix(double** matrix, int y, int x)
 	}
 }
 
-void printBlackJackTables(double** matrix, int y, int x, int plusy, char subsitute)
+void printBlackJackTables(double** matrix, int y, int x, int plusy, bool simple, char subsitute)
 {
 	puts("");
 	int i = 0, j = 0;
@@ -93,14 +93,14 @@ void printBlackJackTables(double** matrix, int y, int x, int plusy, char subsitu
 	{
 		if ((j+1)%10 == 0)
 		{
-			printf("10 ");
+			printf(" 10  ");
 		}
 		else
 		{
-			printf("  %d  ", (j+1) % 10);
+			printf("  %d ", (j+1) % 10);
 		}
 	}
-	printf(" A ");
+	printf(" A");
 	puts("");
 	printf("  ");
 	for (j = 0 ; j < x ; j ++)
@@ -126,6 +126,14 @@ void printBlackJackTables(double** matrix, int y, int x, int plusy, char subsitu
 				printf("%d%d|", i+plusy, i+plusy);
 			}
 		}
+		else if (subsitute == 'A')
+		{
+			if (i+plusy-1 < 10)
+			{
+				printf("%c", subsitute);
+			}
+			printf("%d|", i+plusy-1);
+		}
 		else
 		{
 			if (i+plusy < 10)
@@ -136,20 +144,30 @@ void printBlackJackTables(double** matrix, int y, int x, int plusy, char subsitu
 		}
 		for (j = 1 ; j < x ; j ++)
 		{
-			if (matrix[i][j] > 0)
-			printf("+");
-			printf("%1.1f ", matrix[i][j]);
+			if (simple && matrix[i][j] > 0)
+			{
+				printf("    ");
+				continue;
+			}
+			
+			printf("%3d ", (int)matrix[i][j]);
 		}
-		if (matrix[i][0] > 0)
-		printf("+");
-		printf("%1.0f ", matrix[i][0]);
+		if (simple && matrix[i][0] > 0)
+		{
+			printf("    ");
+		}
+		
+		if (!simple)
+		{
+			printf("%3d ", (int)matrix[i][0]);
+		}
 		puts("");
 	}
 }
 
-void printBlackJackTables(double** matrix, int y, int x, int plusy)
+void printBlackJackTables(double** matrix, int y, int x, int plusy, bool simple)
 {
-	printBlackJackTables(matrix, y, x, plusy, '0');
+	printBlackJackTables(matrix, y, x, plusy, simple, '0');
 }
 
 void printStatTable(int table[21][10], bool split)

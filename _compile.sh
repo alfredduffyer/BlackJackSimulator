@@ -1,5 +1,7 @@
-rm src/*~
 rm headers/*~
+rm output/*~
+rm resources/*~
+rm src/*~
 rm *~
 
 if ! [ "$1" = "x" ]; then

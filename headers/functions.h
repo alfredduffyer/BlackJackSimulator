@@ -21,5 +21,8 @@ void addToFile(char* fileName, char* str);
 // Gets the time in milliseconds
 long int getMilliTime();
 
+// Makes a pause, wait until the user hits RETURN
+void spause();
+
 
 #endif
