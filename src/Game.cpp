@@ -1,4 +1,3 @@
-#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include "../headers/_config.h"
@@ -19,7 +18,6 @@
 #include "../headers/Player.h"
 #include "../headers/Box.h"
 #include "../headers/Game.h"
-#include <string.h>
 
 extern GlobalCount count;
 extern bool fffffffffff;
@@ -174,7 +172,7 @@ void Game::deal(int boxIndex)
 	{
 		this->boxes[boxIndex].hand.add(card.value);
 		sprintf(message, "%s [%d] gets a %d, total is now %d (%s)\n", splitMessage, boxIndex, card.value, this->boxes[boxIndex].hand.getValue(), this->boxes[boxIndex].player->getName());
-		if (DEBUG && strcmp(this->boxes[boxIndex].player->getName(), (char*) "Don Self") == 0)printColor(C_RED, message);
+		if (DEBUG && strcmp(this->boxes[boxIndex].player->getName(), (char*) "Don Self"))printColor(C_RED, message);
 		else if (DEBUG)printf("%s", message);
 	}
 	else
@@ -314,7 +312,7 @@ void Game::pay()
 		
 		sprintf(text3, "%1.1f\n", this->boxes[i].player->getStack());
 		
-		if (DEBUG && strcmp(this->boxes[i].player->getName(), "Don Self") == 0)
+		if (DEBUG && strcmp(this->boxes[i].player->getName(), (char*) "Don Self"))
 		{
 			printColor(C_RED, text1);
 			printColor(C_RED, text2);
@@ -404,7 +402,7 @@ int Game::play()
 			
 			for (int i = 0 ; i < this->nbBoxes ; i++)
 			{
-				if (!this->boxes[i].isFree() && strcmp(this->boxes[i].player->getName(), "Don Self") == 0)
+				if (!this->boxes[i].isFree() && strcmp(this->boxes[i].player->getName(), (char*) "Don Self"))
 				{
 					if(STATUS) printf("[%d] Don Self has now %1.1f\n", handsPlayed, this->boxes[i].player->getStack());
 					else if((handsPlayed % 100000) == 0)printf("[%3ld %03d %03d %03d] Don Self has now %3ld %03d %03d %03d\n", (handsPlayed%1000000000000) / 1000000000, (handsPlayed%1000000000) / 1000000, (handsPlayed%1000000) / 1000, handsPlayed%1000, (((long int)this->boxes[i].player->getStack())%1000000000000) / 1000000000, (((int)this->boxes[i].player->getStack())%1000000000) / 1000000, (((int)this->boxes[i].player->getStack())%1000000) / 1000, ((int)this->boxes[i].player->getStack())%1000);

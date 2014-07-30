@@ -1,5 +1,3 @@
-#include <random>
-#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include "../headers/_config.h"
@@ -27,15 +25,6 @@ bool fffffffffff = false;
 
 int main()
 {
-	/*std::random_device rseed;
-	std::mt19937 rgen(rseed()); // mersenne_twister
-	std::uniform_int_distribution<int> idist(0,100); // [0,100]
-	std::cout << idist(rgen) << std::endl;
-	//std::random_device rd;
-	//std::mt19937 mt(rd());
-	//std::uniform_int_distribution<int> dist(0, 99);
-	
-	return 1;*/
 	srand(getMilliTime());
 	
 	int result = 0, nbPlays = 0;

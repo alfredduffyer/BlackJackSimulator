@@ -1,4 +1,3 @@
-#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include "../headers/_config.h"
@@ -18,7 +17,6 @@
 #include "../headers/System_TenCount.h"
 #include "../headers/Player.h"
 #include "../headers/Box.h"
-#include <string.h>
 
 extern GlobalCount count;
 
@@ -119,7 +117,7 @@ int Box::decision(Hand* dealerHand, bool canSplit, bool canDoubleDown)
 	if (DEBUG) count.printStatus();
 	int decision = this->player->decision(&this->hand, dealerHand, canSplit && this->hand.isPair(), this->hand.getSize() == 2 && canDoubleDown);
 	
-	if (false && strcmp(this->player->getName(), "Dealer") != 0 && this->hand.isPair())
+	if (false && strcmp(this->player->getName(), (char*) "Dealer") && this->hand.isPair())
 	{
 		system("clear");
 		int x = dealerHand->getSoftValue();

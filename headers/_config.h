@@ -1,6 +1,6 @@
 /*
 	
-	This file contains the configuration for the game that you can edit as you please.
+	This file contains the configuration for the game that you can edit as you please (before compiling !).
 	
 	Warning : it can have hazardous effects if not set properly !
 	

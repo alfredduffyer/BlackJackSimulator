@@ -1,9 +1,7 @@
-#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include "../headers/_config.h"
 #include "../headers/functions.h"
-#include <time.h>
 #include <sys/time.h>
 
 int strlen(char* str)
@@ -13,6 +11,26 @@ int strlen(char* str)
 	while (str[i++] != '\0');
 	
 	return i-1;
+}
+
+bool strcmp(char* str1, char* str2)
+{
+	for (int i = 0 ; i < strlen(str1) && i < strlen(str2) ; i++)
+	{
+		if (str1[i] != str2[i])
+		{
+			return false;
+		}
+	}
+	
+	return true;
+}
+
+void sleep(int seconds)
+{
+	char command[15];
+	sprintf(command, "sleep %d", seconds);
+	system(command);
 }
 
 int random(int min, int max)
