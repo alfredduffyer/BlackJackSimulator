@@ -13,7 +13,7 @@ fi
 clear
 
 if ! [ "$1" = "x" ]; then
-g++ -Wall -Wextra -o BlackJackSimulator src/*.cpp
+g++ -Wall -Wextra -std=gnu++0x -o BlackJackSimulator src/*.cpp
 fi
 
 if ! [ -f BlackJackSimulator ]; then

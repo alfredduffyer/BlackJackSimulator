@@ -1,28 +1,25 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
+#include "_variables.h"
 #include "_config.h"
 
 #ifndef FUNCTIONS
 #define FUNCTIONS
 
-// Gives the size of a string
+// Gives the length of a string in characters
 int strlen(char* str);
 
-// Gives a massively random number between min and max included
+// Gives a good random number between min and max included
 int random(int min, int max);
 
-// Help for random number generator
-int randomTemp(int min, int max);
-
-// Adds a string to the end of a file
+// Simplified log system : adds a string to the end of a file (in the output directory)
 void addToFile(char* fileName, char* str);
 
 // Gets the time in milliseconds
 long int getMilliTime();
 
-// Makes a pause, wait until the user hits RETURN
+// Makes a pause in the program calling system(), waits until the user hits RETURN
 void spause();
-
 
 #endif

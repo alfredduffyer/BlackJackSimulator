@@ -43,7 +43,7 @@ bool System::insure()
 	return false;
 }
 
-void System::initiate()
+void System::initiateTables()
 {
 	
 }

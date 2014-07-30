@@ -15,7 +15,7 @@ extern GlobalCount count;
 
 System_SimplePointCount::System_SimplePointCount() : System()
 {
-	this->initiate();
+	this->initiateTables();
 }
 
 bool System_SimplePointCount::insure()
@@ -66,7 +66,7 @@ int System_SimplePointCount::exception(Hand* player, Hand* dealer, bool canSplit
 	return (!player->isSoft() && dealer->getValue() == 10 && player->getValue() == 16 && player->getSize() > 2) ? STAND : 0;
 }
 
-void System_SimplePointCount::initiate()
+void System_SimplePointCount::initiateTables()
 {
 	this->initiate_hardStandingNumbers();
 	this->initiate_softStandingNumbers();

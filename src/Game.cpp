@@ -39,11 +39,6 @@ Game::Game(Shoe* shoe, int min, int max, int nbBoxes)
 	this->init(shoe, min, max, nbBoxes);
 }
 
-Game::~Game()
-{
-	
-}
-
 void Game::init(Shoe* shoe, int min, int max, int nbBoxes)
 {
 	this->shoe = shoe;
@@ -66,11 +61,6 @@ int Game::addPlayer(Player* player)
 	return this->nbPlayers++;
 }
 
-int Game::removePlayer()
-{
-	return --this->nbPlayers;
-}
-
 void Game::resetBoxes()
 {
 	int i = 0;
@@ -83,12 +73,6 @@ void Game::resetBoxes()
 		this->splitIndexes[i] = 0;
 	}
 	this->dealerBox->reset();
-}
-
-
-void Game::initShoe()
-{
-	this->shoe->reset();
 }
 
 void Game::initTurn()
@@ -144,7 +128,7 @@ void Game::bet()
 			printf(" [%d] total bet is %d", i, this->boxes[i].getBet());
 			if (!this->boxes[i].isFree())
 			{
-				printf(" (%s)", this->boxes[i].getName());
+				printf(" (%s)", this->boxes[i].player->getName());
 			}
 			puts("");
 		}
@@ -179,7 +163,7 @@ void Game::deal()
 	}
 }
 
-Box Game::deal(int boxIndex)
+void Game::deal(int boxIndex)
 {
 	Card card = this->shoe->top();
 	char message[100], splitMessage[30];
@@ -188,17 +172,15 @@ Box Game::deal(int boxIndex)
 	
 	if (boxIndex >= 0)
 	{
-		this->boxes[boxIndex].add(card.value);
-		sprintf(message, "%s [%d] gets a %d, total is now %d (%s)\n", splitMessage, boxIndex, card.value, this->boxes[boxIndex].getValue(), this->boxes[boxIndex].getName());
-		if (DEBUG && strcmp(this->boxes[boxIndex].getName(), (char*) "Don Self") == 0)printColor(C_RED, message);
+		this->boxes[boxIndex].hand.add(card.value);
+		sprintf(message, "%s [%d] gets a %d, total is now %d (%s)\n", splitMessage, boxIndex, card.value, this->boxes[boxIndex].hand.getValue(), this->boxes[boxIndex].player->getName());
+		if (DEBUG && strcmp(this->boxes[boxIndex].player->getName(), (char*) "Don Self") == 0)printColor(C_RED, message);
 		else if (DEBUG)printf("%s", message);
-		return this->boxes[boxIndex];
 	}
 	else
 	{
-		this->dealerBox->add(card.value);
-		if (DEBUG)printf("%s DDD gets a %d, total is now %d (%s)\n", splitMessage, card.value, this->dealerBox->getValue(), this->dealerBox->getName());
-		return *this->dealerBox;
+		this->dealerBox->hand.add(card.value);
+		if (DEBUG)printf("%s DDD gets a %d, total is now %d (%s)\n", splitMessage, card.value, this->dealerBox->hand.getValue(), this->dealerBox->player->getName());
 	}
 }
 
@@ -224,9 +206,9 @@ void Game::decision(int boxIndex)
 	
 	Box* box = (boxIndex == -1) ? this->dealerBox : &this->boxes[boxIndex];
 	
-	while(!box->isNatural() && !box->isBusted() && (decision = box->decision(this->dealerBox->getHand(), (boxIndex != -1 && this->splitIndexes[boxIndex % this->nbBoxes] < MAX_SPLIT), true)) != STAND)
+	while(!box->hand.isNatural() && !box->hand.isBusted() && (decision = box->decision(&this->dealerBox->hand, (boxIndex != -1 && this->splitIndexes[boxIndex % this->nbBoxes] < MAX_SPLIT), true)) != STAND)
 	{
-		if (box->getValue() == 0) break;
+		if (box->hand.getValue() == 0) break;
 		
 		if (decision == DRAW)
 		{
@@ -246,7 +228,7 @@ void Game::decision(int boxIndex)
 		
 		if (decision == SPLIT)
 		{
-			if (!this->boxes[boxIndex].getHand()->isPair())
+			if (!this->boxes[boxIndex].hand.isPair())
 			{
 				printColor(C_RED + 10, (char*) "Tried to split a non Pair !!!!!!\n");
 				system("echo \"PAUSE\" && read a");
@@ -264,9 +246,9 @@ void Game::decision(int boxIndex)
 			
 			int splitIndex = ++this->splitIndexes[boxIndex % this->nbBoxes];
 			
-			int value = this->boxes[boxIndex].getHand()->getSoftValue() / 2;
+			int value = this->boxes[boxIndex].hand.getSoftValue() / 2;
 			int bet = this->boxes[boxIndex].getBet();
-			Player* player = this->boxes[boxIndex].getPlayer();
+			Player* player = this->boxes[boxIndex].player;
 			int iIndex = 0;
 			int splitBoxIndex = (boxIndex % this->nbBoxes) + (this->nbBoxes * splitIndex);
 			
@@ -277,22 +259,22 @@ void Game::decision(int boxIndex)
 			this->boxes[boxIndex].tie();
 			this->boxes[boxIndex].reset();
 			this->boxes[boxIndex].take(player, player->betAmount(bet), true);
-			this->boxes[boxIndex].add(value);
+			this->boxes[boxIndex].hand.add(value);
 			
 			this->boxes[splitBoxIndex].reset();
 			this->boxes[splitBoxIndex].take(player, player->betAmount(bet), true);
-			this->boxes[splitBoxIndex].add(value);
+			this->boxes[splitBoxIndex].hand.add(value);
 			
 			this->deal(boxIndex);
 			this->deal(splitBoxIndex);
 			
 			iIndex = boxIndex;
-			if (value != 1 || (this->boxes[iIndex].getHand()->isPair() && this->splitIndexes[iIndex % this->nbBoxes] < MAX_SPLIT))
+			if (value != 1 || (this->boxes[iIndex].hand.isPair() && this->splitIndexes[iIndex % this->nbBoxes] < MAX_SPLIT))
 			{
 				this->decision(iIndex);
 			}
 			iIndex = splitBoxIndex;
-			if (value != 1 || (this->boxes[iIndex].getHand()->isPair() && this->splitIndexes[iIndex % this->nbBoxes] < MAX_SPLIT))
+			if (value != 1 || (this->boxes[iIndex].hand.isPair() && this->splitIndexes[iIndex % this->nbBoxes] < MAX_SPLIT))
 			{
 				this->decision(iIndex);
 			}
@@ -316,10 +298,10 @@ void Game::pay()
 			continue;
 		}
 		
-		status = this->boxes[i].getHand()->beats(this->dealerBox->getHand());
+		status = this->boxes[i].hand.beats(&this->dealerBox->hand);
 		
-		sprintf(text1, " [%d] has %d against %d, status is %d (%s)\n", i, this->boxes[i].getValue(), this->dealerBox->getValue(), status, this->boxes[i].getName());
-		sprintf(text2, "  --> Had %1.1f, has now ", this->boxes[i].getStack());
+		sprintf(text1, " [%d] has %d against %d, status is %d (%s)\n", i, this->boxes[i].hand.getValue(), this->dealerBox->hand.getValue(), status, this->boxes[i].player->getName());
+		sprintf(text2, "  --> Had %1.1f, has now ", this->boxes[i].player->getStack());
 		
 		if (status == 0)
 		{
@@ -330,9 +312,9 @@ void Game::pay()
 			this->boxes[i].win();
 		}
 		
-		sprintf(text3, "%1.1f\n", this->boxes[i].getStack());
+		sprintf(text3, "%1.1f\n", this->boxes[i].player->getStack());
 		
-		if (DEBUG && strcmp(this->boxes[i].getName(), "Don Self") == 0)
+		if (DEBUG && strcmp(this->boxes[i].player->getName(), "Don Self") == 0)
 		{
 			printColor(C_RED, text1);
 			printColor(C_RED, text2);
@@ -373,9 +355,9 @@ void Game::payInsurance()
 			continue;
 		}
 		if (DEBUG) printf(" [%d] Paying insurance\n", i);
-		if (DEBUG) printf("  --> Had %1.1f, has now ", this->boxes[i].getStack());
+		if (DEBUG) printf("  --> Had %1.1f, has now ", this->boxes[i].player->getStack());
 		this->boxes[i].payInsurance();
-		if (DEBUG) printf("%1.1f\n", this->boxes[i].getStack());
+		if (DEBUG) printf("%1.1f\n", this->boxes[i].player->getStack());
 	}
 }
 
@@ -385,7 +367,7 @@ int Game::play()
 	while (1)
 	{
 		if (DEBUG)puts("Initializing shoe...");
-		this->initShoe();
+		this->shoe->reset();
 		
 		while (!this->shoe->isTheEnd())
 		{
@@ -400,7 +382,7 @@ int Game::play()
 			if (DEBUG)puts("-Dealing first wave...");
 			this->deal();
 			
-			if (this->dealerBox->getSoftValue() == 1)
+			if (this->dealerBox->hand.getSoftValue() == 1)
 			{
 				if (DEBUG)puts("-Insurance...");
 				this->insurance();
@@ -412,7 +394,7 @@ int Game::play()
 			if (DEBUG)puts("-Paying players...");
 			this->pay();
 			
-			if (this->dealerBox->isNatural())
+			if (this->dealerBox->hand.isNatural())
 			{
 				if (DEBUG)puts("-Paying insurance...");
 				this->payInsurance();
@@ -422,11 +404,11 @@ int Game::play()
 			
 			for (int i = 0 ; i < this->nbBoxes ; i++)
 			{
-				if (!this->boxes[i].isFree() && strcmp(this->boxes[i].getName(), "Don Self") == 0)
+				if (!this->boxes[i].isFree() && strcmp(this->boxes[i].player->getName(), "Don Self") == 0)
 				{
-					if(STATUS) printf("[%d] Don Self has now %1.1f\n", handsPlayed, this->boxes[i].getStack());
-					else if((handsPlayed % 100000) == 0)printf("[%3ld %03d %03d %03d] Don Self has now %3ld %03d %03d %03d\n", (handsPlayed%1000000000000) / 1000000000, (handsPlayed%1000000000) / 1000000, (handsPlayed%1000000) / 1000, handsPlayed%1000, (((long int)this->boxes[i].getStack())%1000000000000) / 1000000000, (((int)this->boxes[i].getStack())%1000000000) / 1000000, (((int)this->boxes[i].getStack())%1000000) / 1000, ((int)this->boxes[i].getStack())%1000);
-					if (this->boxes[i].getStack() < 5 || (false && handsPlayed > 2000000))
+					if(STATUS) printf("[%d] Don Self has now %1.1f\n", handsPlayed, this->boxes[i].player->getStack());
+					else if((handsPlayed % 100000) == 0)printf("[%3ld %03d %03d %03d] Don Self has now %3ld %03d %03d %03d\n", (handsPlayed%1000000000000) / 1000000000, (handsPlayed%1000000000) / 1000000, (handsPlayed%1000000) / 1000, handsPlayed%1000, (((long int)this->boxes[i].player->getStack())%1000000000000) / 1000000000, (((int)this->boxes[i].player->getStack())%1000000000) / 1000000, (((int)this->boxes[i].player->getStack())%1000000) / 1000, ((int)this->boxes[i].player->getStack())%1000);
+					if (this->boxes[i].player->getStack() < 5 || (false && handsPlayed > 2000000))
 					{
 						return handsPlayed;
 					}

@@ -15,7 +15,7 @@ extern GlobalCount count;
 
 System_BasicStrategy::System_BasicStrategy() : System()
 {
-	this->initiate();
+	this->initiateTables();
 }
 
 bool System_BasicStrategy::insure()
@@ -49,7 +49,7 @@ int System_BasicStrategy::exception(Hand* player, Hand* dealer, bool canSplit, b
 	return (!player->isSoft() && dealer->getValue() == 10 && player->getValue() == 16 && player->getSize() > 2) ? STAND : 0;
 }
 
-void System_BasicStrategy::initiate()
+void System_BasicStrategy::initiateTables()
 {
 	this->initiate_hardStandingNumbers();
 	this->initiate_softStandingNumbers();

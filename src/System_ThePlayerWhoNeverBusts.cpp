@@ -13,7 +13,7 @@
 
 System_ThePlayerWhoNeverBusts::System_ThePlayerWhoNeverBusts() : System()
 {
-	this->initiate();
+	
 }
 
 int System_ThePlayerWhoNeverBusts::decision(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown)

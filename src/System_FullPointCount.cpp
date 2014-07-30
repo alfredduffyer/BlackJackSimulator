@@ -15,7 +15,7 @@ extern GlobalCount count;
 
 System_FullPointCount::System_FullPointCount() : System()
 {
-	this->initiate();
+	this->initiateTables();
 }
 
 bool System_FullPointCount::insure()
@@ -90,7 +90,7 @@ void System_FullPointCount::updateComparator()
 	this->comparator = count.getHiLoIndex();
 }
 
-void System_FullPointCount::initiate()
+void System_FullPointCount::initiateTables()
 {
 	this->initiate_hardStandingNumbers();
 	this->initiate_softStandingNumbers();

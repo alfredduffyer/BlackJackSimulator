@@ -53,9 +53,9 @@ void Box::reset()
 
 bool Box::insure()
 {
-	if (this->player->insure((double)((double)this->bet) / ((double)2)))
+	if (this->player->insure( ((double)this->bet) / ((double)2) ))
 	{
-		this->player->betInsurance((double)((double)this->bet) / ((double)2));
+		this->player->betInsurance( ((double)this->bet) / ((double)2) );
 		return this->insurance = true;
 	}
 	return false;
@@ -72,11 +72,6 @@ void Box::payInsurance()
 	{
 		this->player->win(this->bet * 1.5);
 	}
-}
-
-void Box::add(int value)
-{
-	this->hand.add(value);
 }
 
 void Box::take(Player* player, int bet)
@@ -102,21 +97,6 @@ bool Box::isFree()
 	return (this->bet == 0 || this->player == NULL);
 }
 
-bool Box::isBusted()
-{
-	return this->hand.getValue() > 21;
-}
-
-char* Box::getName()
-{
-	return this->player->getName();
-}
-
-double Box::getStack()
-{
-	return this->player->getStack();
-}
-
 void Box::tie()
 {
 	this->player->win(this->bet);
@@ -124,36 +104,12 @@ void Box::tie()
 
 void Box::win()
 {
-	this->player->win(this->bet * ( (this->isNatural()) ? 2.5 : 2 ));
-}
-
-bool Box::isNatural()
-{
-	return this->hand.isNatural();
-}
-
-int Box::getValue()
-{
-	return this->hand.getValue();
-}
-
-int Box::getSoftValue()
-{
-	return this->hand.getSoftValue();
+	this->player->win(this->bet * ( (this->hand.isNatural()) ? 2.5 : 2 ));
 }
 
 int Box::getBet()
 {
 	return this->bet;
-}
-
-Hand* Box::getHand()
-{
-	return &this->hand;
-}
-Player* Box::getPlayer()
-{
-	return this->player;
 }
 
 

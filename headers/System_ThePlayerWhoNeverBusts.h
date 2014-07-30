@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
+#include "_variables.h"
 #include "_config.h"
 #include "functions.h"
 #include "print.h"
@@ -15,14 +16,12 @@
 
 class System_ThePlayerWhoNeverBusts : public System
 {
-	protected:
-		
-	
 	private:
+		
 	
 	public:
 		System_ThePlayerWhoNeverBusts();
-		virtual int decision(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown);
+		virtual int decision(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown);	// Takes a decision according to all the parameters of the situation
 };
 
 #endif

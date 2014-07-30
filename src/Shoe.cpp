@@ -21,11 +21,6 @@ Shoe::Shoe(int size)
 	this->create();
 }
 
-Shoe::~Shoe()
-{
-	//delete[] this->cards;
-}
-
 void Shoe::create()
 {
 	int i = 0, j = 0, k = 0, currentIndex = 0;

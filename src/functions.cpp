@@ -17,13 +17,6 @@ int strlen(char* str)
 
 int random(int min, int max)
 {
-	int value = randomTemp(min, max);
-	
-	return value % (max - min + 1) + min;
-}
-
-int randomTemp(int min, int max)
-{
 	return rand() % (max - min + 1) + min;
 }
 

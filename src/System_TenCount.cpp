@@ -15,7 +15,7 @@ extern GlobalCount count;
 
 System_TenCount::System_TenCount() : System()
 {
-	this->initiate();
+	this->initiateTables();
 }
 
 bool System_TenCount::insure()
@@ -118,7 +118,7 @@ bool System_TenCount::draw(int player, int dealer, bool soft)
 	return (this->comparator > this->hardStanding[player-SHIFT_HS][dealer-1]);
 }
 
-void System_TenCount::initiate()
+void System_TenCount::initiateTables()
 {
 	this->initiate_hardStandingNumbers();
 	this->initiate_softStandingNumbers();

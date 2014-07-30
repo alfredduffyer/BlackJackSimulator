@@ -100,9 +100,3 @@ int Player::decision(Hand* playerHand, Hand* dealerHand, bool canSplit, bool can
 	return this->system->decision(playerHand, dealerHand, canSplit, canDoubleDown);
 }
 
-Player::~Player()
-{
-	
-}
-
-
