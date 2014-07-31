@@ -1,13 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "_variables.h"
-#include "_config.h"
-#include "functions.h"
-#include "print.h"
-#include "Card.h"
-#include "GlobalCount.h"
 #include "Hand.h"
-#include "Shoe.h"
 #include "System.h"
 
 #ifndef SYSTEM_THE_PLAYER_WHO_NEVER_BUSTS_H

@@ -37,10 +37,12 @@ echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 printf '\033[0m'
 
 # Launches the compiled program
-if [ "$1" = "v" ]; then
-	valgrind ./BlackJackSimulator
-else
-	./BlackJackSimulator
+if ! [ "$1" = "n" ]; then
+	if [ "$1" = "v" ]; then
+		valgrind ./BlackJackSimulator
+	else
+		./BlackJackSimulator
+	fi
 fi
 
 # Print the end-of-program line

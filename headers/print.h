@@ -1,9 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "_variables.h"
-#include "_config.h"
-#include "functions.h"
-
 #ifndef PRINT_H
 #define PRINT_H
 

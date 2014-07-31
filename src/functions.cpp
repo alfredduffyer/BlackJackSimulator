@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../headers/_config.h"
-#include "../headers/functions.h"
 #include <sys/time.h>
 
 int strlen(char* str)

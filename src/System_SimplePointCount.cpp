@@ -1,13 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "../headers/_variables.h"
 #include "../headers/_config.h"
 #include "../headers/functions.h"
-#include "../headers/print.h"
-#include "../headers/Card.h"
 #include "../headers/GlobalCount.h"
-#include "../headers/Hand.h"
-#include "../headers/Shoe.h"
-#include "../headers/System.h"
 #include "../headers/System_SimplePointCount.h"
 
 extern GlobalCount count;

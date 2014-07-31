@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "../headers/_variables.h"
 #include "../headers/_config.h"
 #include "../headers/functions.h"
-#include "../headers/print.h"
 
 void printBars(char* str)
 {

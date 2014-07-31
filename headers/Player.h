@@ -1,21 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "_variables.h"
-#include "_config.h"
-#include "functions.h"
-#include "print.h"
-#include "Card.h"
-#include "GlobalCount.h"
-#include "Hand.h"
-#include "Shoe.h"
 #include "System.h"
-#include "System_BasicStrategy.h"
-#include "System_Dealer.h"
-#include "System_RandomPlayer.h"
-#include "System_ThePlayerWhoNeverBusts.h"
-#include "System_SimplePointCount.h"
-#include "System_FullPointCount.h"
-#include "System_TenCount.h"
 
 #ifndef PLAYER_H
 #define PLAYER_H

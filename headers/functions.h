@@ -1,8 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "_variables.h"
-#include "_config.h"
-
 #ifndef FUNCTIONS
 #define FUNCTIONS
 

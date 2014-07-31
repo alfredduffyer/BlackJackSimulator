@@ -1,13 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "_variables.h"
-#include "_config.h"
-#include "functions.h"
-#include "print.h"
-#include "Card.h"
-#include "GlobalCount.h"
 #include "Hand.h"
-#include "Shoe.h"
 #include "System.h"
 
 #ifndef SYSTEM_TEN_COUNT_H
@@ -20,8 +11,8 @@ class System_TenCount : public System
 	
 	public:
 		System_TenCount();
-		void initiate_hardStandingNumbers();	// Fills the Hard Standing Numbers table
-		void initiate_softStandingNumbers();	// Fills the Soft Standing Numbers table
+		void initiate_hardStandingNumbers();		// Fills the Hard Standing Numbers table
+		void initiate_softStandingNumbers();		// Fills the Soft Standing Numbers table
 		void initiate_hardDoublingDown();		// Fills the Hard Doubling Down table
 		void initiate_softDoublingDown();		// Fills the Hard Doubling Down table
 		void initiate_splittingPairs();			// Fills the Splitting Pairs table

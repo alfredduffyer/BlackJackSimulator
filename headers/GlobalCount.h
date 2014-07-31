@@ -1,11 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "_variables.h"
-#include "_config.h"
-#include "functions.h"
-#include "print.h"
-#include "Card.h"
-
 #ifndef GLOBALCOUNT_H
 #define GLOBALCOUNT_H
 
