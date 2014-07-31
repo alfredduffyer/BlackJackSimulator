@@ -24,27 +24,27 @@
 class Box
 {
 	public:
-		Player* player;			// Player who is playing on the box
-		Hand hand;				// Hand dealt to the player on the box
+		Player* player;		// Player who is playing on the box
+		Hand hand;		// Hand dealt to the player on the box
 	private:
-		int bet;				// Bet placed by the player on the box
-		bool insurance;			// True if the hand is insured, false otherwise
+		int bet;		// Bet placed by the player on the box
+		bool insurance;		// True if the hand is insured, false otherwise
 		
 	
 	public:
 		Box();					// Calls reset()
-		void reset();			// Resets the box (no player, no bet...)
-		void take(Player* player, int bet);						// Takes the box by a player that places a bet
+		void reset();				// Resets the box (no player, no bet...)
+		void take(Player* player, int bet);	// Takes the box by a player that places a bet
 		void take(Player* player, int bet, bool isSplitted);	// Takes the box by a player who splits his pair 
-		bool insure();			// true if it insures the box if the players should according to his strategy, false otherwise
-		int doubleDown();		// Doubles down the box
-		int decision(Hand* dealerHand, bool canSplit, bool canDoubleDown);		// Takes a decision according to the player's system with all the parameters of the situation
+		bool insure();		// true if it insures the box if the players should according to his strategy, false otherwise
+		int doubleDown();	// Doubles down the box
+		int decision(Hand* dealerHand, bool canSplit, bool canDoubleDown);	// Takes a decision according to the player's system with all the parameters of the situation
 		void payInsurance();	// Pays the insurance to the player
-		void tie();				// Gives the player his bet back
-		void win();				// Gives the player his bet and his win (1 or 1.5 times his bet)
-		bool isFree();			// true if the box hasn't been taken by a player (is free), false otherwise
-		bool hasInsured();		// true if the hand has been insured, false otherwise
-		int getBet();			// Gives the bet that was placed on the box
+		void tie();		// Gives the player his bet back
+		void win();		// Gives the player his bet and his win (1 or 1.5 times his bet)
+		bool isFree();		// true if the box hasn't been taken by a player (is free), false otherwise
+		bool hasInsured();	// true if the hand has been insured, false otherwise
+		int getBet();		// Gives the bet that was placed on the box
 		
 		static int _stats[21][10];			// TEMP
 };

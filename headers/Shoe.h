@@ -15,7 +15,7 @@ class Shoe
 {
 	private:
 		Card* cards;		// Cards contained in the shoe
-		int size;			// Shoe size, in number of cards
+		int size;		// Shoe size, in number of cards
 		int topIndex;		// The index of the next card to be used
 		int dealingLimit;	// The number of cards after which the dealer shuffles the shoe
 	
@@ -30,7 +30,7 @@ class Shoe
 		int getLimit();		// Gives the shoe's dealing limit
 		int getIndex();		// Gives the top index
 		bool isTheEnd();	// true if the dealing limit has been passed and the shoe must be shuffled, false otherwise
-		Card top();			// Gives the next card to be dealt, and updates the top index
+		Card top();		// Gives the next card to be dealt, and updates the top index
 };
 
 #endif

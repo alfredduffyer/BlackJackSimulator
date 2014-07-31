@@ -19,16 +19,16 @@ class System_BasicStrategy : public System
 		
 	
 	public:
-		System_BasicStrategy();					// Calls initiateTables
-		void initiate_hardStandingNumbers();	// Fills the Hard Standing Numbers table
-		void initiate_softStandingNumbers();	// Fills the Soft Standing Numbers table
+		System_BasicStrategy();				// Calls initiateTables
+		void initiate_hardStandingNumbers();		// Fills the Hard Standing Numbers table
+		void initiate_softStandingNumbers();		// Fills the Soft Standing Numbers table
 		void initiate_hardDoublingDown();		// Fills the Hard Doubling Down table
 		void initiate_softDoublingDown();		// Fills the Hard Doubling Down table
 		void initiate_splittingPairs();			// Fills the Splitting Pairs table
-		void initiateTables();					// Calls the initiate_xxx methods
-		virtual int howManyHands(int maxHands);			// Calculates how many hands the player should be playing for a turn
-		virtual bool insure();							// true if the player should insure, false otherwise
-		virtual int exception(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown);		// Gives a decision if there is an exception with the situation, 0 otherwise
+		void initiateTables();				// Calls the initiate_xxx methods
+		virtual int howManyHands(int maxHands);		// Calculates how many hands the player should be playing for a turn
+		virtual bool insure();				// true if the player should insure, false otherwise
+		virtual int exception(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown);	// Gives a decision if there is an exception with the situation, 0 otherwise
 };
 
 #endif
