@@ -13,28 +13,6 @@ System_SimplePointCount::System_SimplePointCount() : System()
 	this->initiateTables();
 }
 
-bool System_SimplePointCount::insure()
-{
-	return count.getRoughCount() > 4;
-}
-
-int System_SimplePointCount::bet()
-{
-	int index = count.getRoughCount();
-	
-	if (!ACTIVATE_BET_VARIATION || MAX_BET_VARIATION <= 1 || index < 1)
-	{
-		return 1;
-	}
-	
-	if (MAX_BET_VARIATION >= 3 && index >= 5)
-	{
-		return 3;
-	}
-	
-	return 2;
-}
-
 int System_SimplePointCount::howManyHands(int maxHands)
 {
 	maxHands = (maxHands <= MAX_HAND_VARIATION) ? maxHands : MAX_HAND_VARIATION;
@@ -55,6 +33,28 @@ int System_SimplePointCount::howManyHands(int maxHands)
 	}
 	
 	return (index * 8 + random(1, maxHands) * 2) / 10;
+}
+
+int System_SimplePointCount::bet()
+{
+	int index = count.getRoughCount();
+	
+	if (!ACTIVATE_BET_VARIATION || MAX_BET_VARIATION <= 1 || index < 1)
+	{
+		return 1;
+	}
+	
+	if (MAX_BET_VARIATION >= 3 && index >= 5)
+	{
+		return 3;
+	}
+	
+	return 2;
+}
+
+bool System_SimplePointCount::insure()
+{
+	return count.getRoughCount() > 4;
 }
 
 int System_SimplePointCount::exception(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown)

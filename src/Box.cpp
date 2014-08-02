@@ -38,6 +38,18 @@ void Box::reset()
 	}*/
 }
 
+void Box::take(Player* player, int bet)
+{
+	this->take(player, bet, false);
+}
+
+void Box::take(Player* player, int bet, bool isSplitted)
+{
+	this->player = player;
+	this->bet = bet;
+	this->hand.setSplitted(isSplitted);
+}
+
 bool Box::insure()
 {
 	if (this->player->insure( ((double)this->bet) / ((double)2) ))
@@ -48,57 +60,12 @@ bool Box::insure()
 	return false;
 }
 
-bool Box::hasInsured()
-{
-	return this->insurance;
-}
-
-void Box::payInsurance()
-{
-	if (this->hasInsured())
-	{
-		this->player->win(this->bet * 1.5);
-	}
-}
-
-void Box::take(Player* player, int bet)
-{
-	this->take(player, bet, false);
-}
-void Box::take(Player* player, int bet, bool isSplitted)
-{
-	this->player = player;
-	this->bet = bet;
-	this->hand.setSplitted(isSplitted);
-}
-
 int Box::doubleDown()
 {
 	int bet = this->player->betAmount(this->bet);
 	this->bet += bet;
 	return bet;
 }
-
-bool Box::isFree()
-{
-	return (this->bet == 0 || this->player == NULL);
-}
-
-void Box::tie()
-{
-	this->player->win(this->bet);
-}
-
-void Box::win()
-{
-	this->player->win(this->bet * ( (this->hand.isNatural()) ? 2.5 : 2 ));
-}
-
-int Box::getBet()
-{
-	return this->bet;
-}
-
 
 // TMP
 int Box::decision(Hand* dealerHand, bool canSplit, bool canDoubleDown)
@@ -141,6 +108,41 @@ int Box::decision(Hand* dealerHand, bool canSplit, bool canDoubleDown)
 	
 	return decision;
 }
+
+void Box::payInsurance()
+{
+	if (this->hasInsured())
+	{
+		this->player->win(this->bet * 1.5);
+	}
+}
+
+void Box::tie()
+{
+	this->player->win(this->bet);
+}
+
+void Box::win()
+{
+	this->player->win(this->bet * ( (this->hand.isNatural()) ? 2.5 : 2 ));
+}
+
+bool Box::isFree()
+{
+	return (this->bet == 0 || this->player == NULL);
+}
+
+bool Box::hasInsured()
+{
+	return this->insurance;
+}
+
+int Box::getBet()
+{
+	return this->bet;
+}
+
+
 
 
 

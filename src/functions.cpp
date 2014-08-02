@@ -31,6 +31,11 @@ void sleep(int seconds)
 	system(command);
 }
 
+void spause()
+{
+	system("echo \"PAUSE\" && read a");
+}
+
 int random(int min, int max)
 {
 	return rand() % (max - min + 1) + min;
@@ -56,12 +61,3 @@ long int getMilliTime()
 	gettimeofday(&tv, NULL);
 	return (long int) (tv.tv_sec) * 1000 + (tv.tv_usec) / 1000 ;
 }
-
-void spause()
-{
-	system("echo \"PAUSE\" && read a");
-}
-
-
-
-

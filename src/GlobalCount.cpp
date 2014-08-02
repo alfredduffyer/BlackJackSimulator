@@ -115,7 +115,3 @@ void GlobalCount::printStatus()
 	sprintf(message, "[count: %d, remainingCards: %d (%d), others: %d, tens: %d, (%1.2f)]\n", count, remainingCards, this->getHiLoIndex(), others, tens, this->getTenCount());
 	printColor(C_YELLOW, message);
 }
-
-
-
-

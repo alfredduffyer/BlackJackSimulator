@@ -41,6 +41,46 @@ void Shoe::create()
 	}
 }
 
+void Shoe::shuffle()
+{
+	int i = 0, j = 0, k = 0;
+	Card tmp;
+	
+	this->topIndex = 0;
+	
+	for (k = 0 ; k < TIMES_SHUFFLED ; k++)
+	{
+		for (i = 0 ; i < this->size ; i++)
+		{
+			j = random(0, this->size - 1);
+			tmp = this->cards[j];
+			this->cards[j] = this->cards[i];
+			this->cards[i] = tmp;
+		}
+	}
+	
+	count.reset();
+}
+
+void Shoe::burn()
+{
+	this->topIndex = CARDS_BURNED;
+	int i = 0;
+	for (i = 0 ; i < CARDS_BURNED ; i++)
+	{
+		count.update(0);
+	}
+}
+
+void Shoe::reset()
+{
+	int tmp = 0;
+	this->topIndex = 0;
+	this->shuffle();
+	this->burn();
+	this->dealingLimit = (tmp = this->size * (100-WASTE_PROPORTION) / 100) > CARDS_BURNED ? tmp : CARDS_BURNED + 1;
+}
+
 void Shoe::print()
 {
 	int i = 0;
@@ -63,27 +103,6 @@ int Shoe::getSize()
 	return this->size;
 }
 
-void Shoe::shuffle()
-{
-	int i = 0, j = 0, k = 0;
-	Card tmp;
-	
-	this->topIndex = 0;
-	
-	for (k = 0 ; k < TIMES_SHUFFLED ; k++)
-	{
-		for (i = 0 ; i < this->size ; i++)
-		{
-			j = random(0, this->size - 1);
-			tmp = this->cards[j];
-			this->cards[j] = this->cards[i];
-			this->cards[i] = tmp;
-		}
-	}
-	
-	count.reset();
-}
-
 int Shoe::getLimit()
 {
 	return this->dealingLimit;
@@ -94,28 +113,9 @@ int Shoe::getIndex()
 	return this->topIndex;
 }
 
-void Shoe::reset()
-{
-	int tmp = 0;
-	this->topIndex = 0;
-	this->shuffle();
-	this->burn();
-	this->dealingLimit = (tmp = this->size * (100-WASTE_PROPORTION) / 100) > CARDS_BURNED ? tmp : CARDS_BURNED + 1;
-}
-
 bool Shoe::isTheEnd()
 {
 	return (this->topIndex >= this->dealingLimit);
-}
-
-void Shoe::burn()
-{
-	this->topIndex = CARDS_BURNED;
-	int i = 0;
-	for (i = 0 ; i < CARDS_BURNED ; i++)
-	{
-		count.update(0);
-	}
 }
 
 Card Shoe::top()
@@ -127,4 +127,3 @@ Card Shoe::top()
 	count.update(this->cards[this->topIndex].value);
 	return this->cards[this->topIndex++];
 }
-

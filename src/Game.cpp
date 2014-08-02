@@ -124,6 +124,27 @@ void Game::bet()
 	
 }
 
+void Game::deal(int boxIndex)
+{
+	Card card = this->shoe->top();
+	char message[100], splitMessage[30];
+	
+	sprintf(splitMessage, "%s", (boxIndex >= this->nbBoxes) ? " |\n ----->" : "");
+	
+	if (boxIndex >= 0)
+	{
+		this->boxes[boxIndex].hand.add(card.value);
+		sprintf(message, "%s [%d] gets a %d, total is now %d (%s)\n", splitMessage, boxIndex, card.value, this->boxes[boxIndex].hand.getValue(), this->boxes[boxIndex].player->getName());
+		if ((DEBUG || FORCEDEBUG) && strcmp(this->boxes[boxIndex].player->getName(), (char*) "Don Self"))printColor(C_RED, message);
+		else if ((DEBUG || FORCEDEBUG))printf("%s", message);
+	}
+	else
+	{
+		this->dealerBox->hand.add(card.value);
+		if ((DEBUG || FORCEDEBUG))printf("%s DDD gets a %d, total is now %d (%s)\n", splitMessage, card.value, this->dealerBox->hand.getValue(), this->dealerBox->player->getName());
+	}
+}
+
 void Game::deal()
 {
 	int i = 0;
@@ -151,41 +172,20 @@ void Game::deal()
 	}
 }
 
-void Game::deal(int boxIndex)
-{
-	Card card = this->shoe->top();
-	char message[100], splitMessage[30];
-	
-	sprintf(splitMessage, "%s", (boxIndex >= this->nbBoxes) ? " |\n ----->" : "");
-	
-	if (boxIndex >= 0)
-	{
-		this->boxes[boxIndex].hand.add(card.value);
-		sprintf(message, "%s [%d] gets a %d, total is now %d (%s)\n", splitMessage, boxIndex, card.value, this->boxes[boxIndex].hand.getValue(), this->boxes[boxIndex].player->getName());
-		if ((DEBUG || FORCEDEBUG) && strcmp(this->boxes[boxIndex].player->getName(), (char*) "Don Self"))printColor(C_RED, message);
-		else if ((DEBUG || FORCEDEBUG))printf("%s", message);
-	}
-	else
-	{
-		this->dealerBox->hand.add(card.value);
-		if ((DEBUG || FORCEDEBUG))printf("%s DDD gets a %d, total is now %d (%s)\n", splitMessage, card.value, this->dealerBox->hand.getValue(), this->dealerBox->player->getName());
-	}
-}
-
-void Game::decisions()
+void Game::insurance()
 {
 	int i = 0;
-	
 	for (i = 0 ; i < this->nbBoxes ; i++)
 	{
 		if (this->boxes[i].isFree())
 		{
 			continue;
 		}
-		this->decision(i);
+		if (this->boxes[i].insure())
+		{
+			if ((DEBUG || FORCEDEBUG)) printf(" [%d] took insurance\n", i);
+		}
 	}
-	
-	this->decision(-1);
 }
 
 void Game::decision(int boxIndex)
@@ -274,6 +274,38 @@ void Game::decision(int boxIndex)
 	}
 }
 
+void Game::decisions()
+{
+	int i = 0;
+	
+	for (i = 0 ; i < this->nbBoxes ; i++)
+	{
+		if (this->boxes[i].isFree())
+		{
+			continue;
+		}
+		this->decision(i);
+	}
+	
+	this->decision(-1);
+}
+
+void Game::payInsurance()
+{
+	int i = 0;
+	for (i = 0 ; i < this->nbBoxes ; i++)
+	{
+		if (this->boxes[i].isFree() || !this->boxes[i].hasInsured())
+		{
+			continue;
+		}
+		if ((DEBUG || FORCEDEBUG)) printf(" [%d] Paying insurance\n", i);
+		if ((DEBUG || FORCEDEBUG)) printf("  --> Had %1.1f, has now ", this->boxes[i].player->getStack());
+		this->boxes[i].payInsurance();
+		if ((DEBUG || FORCEDEBUG)) printf("%1.1f\n", this->boxes[i].player->getStack());
+	}
+}
+
 void Game::pay()
 {
 	int i = 0, status = 0;
@@ -314,38 +346,6 @@ void Game::pay()
 			printf("%s", text2);
 			printf("%s", text3);
 		}
-	}
-}
-
-void Game::insurance()
-{
-	int i = 0;
-	for (i = 0 ; i < this->nbBoxes ; i++)
-	{
-		if (this->boxes[i].isFree())
-		{
-			continue;
-		}
-		if (this->boxes[i].insure())
-		{
-			if ((DEBUG || FORCEDEBUG)) printf(" [%d] took insurance\n", i);
-		}
-	}
-}
-
-void Game::payInsurance()
-{
-	int i = 0;
-	for (i = 0 ; i < this->nbBoxes ; i++)
-	{
-		if (this->boxes[i].isFree() || !this->boxes[i].hasInsured())
-		{
-			continue;
-		}
-		if ((DEBUG || FORCEDEBUG)) printf(" [%d] Paying insurance\n", i);
-		if ((DEBUG || FORCEDEBUG)) printf("  --> Had %1.1f, has now ", this->boxes[i].player->getStack());
-		this->boxes[i].payInsurance();
-		if ((DEBUG || FORCEDEBUG)) printf("%1.1f\n", this->boxes[i].player->getStack());
 	}
 }
 

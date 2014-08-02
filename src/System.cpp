@@ -33,9 +33,13 @@ System::System()
 	}
 }
 
-bool System::insure()
+System::~System()
 {
-	return false;
+	free(this->hardStanding);
+	free(this->softStanding);
+	free(this->hardDoublingDown);
+	free(this->softDoublingDown);
+	free(this->splittingPairs);
 }
 
 void System::initiateTables()
@@ -43,10 +47,31 @@ void System::initiateTables()
 	
 }
 
+void System::updateComparator()
+{
+	this->comparator = 0;
+}
+
 int System::howManyHands(int maxHands)
 {
 	if (maxHands){};
 	return 1;
+}
+
+int System::bet()
+{
+	return 1;
+}
+
+bool System::insure()
+{
+	return false;
+}
+
+int System::exception(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown)
+{
+	if (player && dealer && canSplit && canDoubleDown){}
+	return 0;
 }
 
 bool System::split(int player, int dealer)
@@ -74,12 +99,6 @@ bool System::draw(int player, int dealer, bool soft)
 		return (this->comparator <= this->softStanding[player-SHIFT_SS][dealer-1]);
 	}
 	return (this->comparator <= this->hardStanding[player-SHIFT_HS][dealer-1]);
-}
-
-int System::exception(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown)
-{
-	if (player && dealer && canSplit && canDoubleDown){}
-	return 0;
 }
 
 int System::decision(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown)
@@ -137,24 +156,3 @@ int System::decision(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDo
 	if ((DEBUG || FORCEDEBUG)) printf("  --> Standing on a %s %d against a %d\n", ((player->isSoft()) ? "soft" : "hard"), playerValue, dealerValue);
 	return STAND;
 }
-
-int System::bet()
-{
-	return 1;
-}
-
-void System::updateComparator()
-{
-	this->comparator = 0;
-}
-
-System::~System()
-{
-	free(this->hardStanding);
-	free(this->softStanding);
-	free(this->hardDoublingDown);
-	free(this->softDoublingDown);
-	free(this->splittingPairs);
-}
-
-

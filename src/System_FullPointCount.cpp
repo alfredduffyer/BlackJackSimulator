@@ -11,26 +11,9 @@ System_FullPointCount::System_FullPointCount() : System()
 	this->initiateTables();
 }
 
-bool System_FullPointCount::insure()
+void System_FullPointCount::updateComparator()
 {
-	return count.getHiLoIndex() > 8;
-}
-
-int System_FullPointCount::bet()
-{
-	int index = count.getHiLoIndex() / 2;
-	
-	if (!ACTIVATE_BET_VARIATION || MAX_BET_VARIATION <= 1 || index < 1)
-	{
-		return 1;
-	}
-	
-	if (MAX_BET_VARIATION >= 3 && index >= 5)
-	{
-		return 3;
-	}
-	
-	return 2;
+	this->comparator = count.getHiLoIndex();
 }
 
 int System_FullPointCount::howManyHands(int maxHands)
@@ -53,6 +36,28 @@ int System_FullPointCount::howManyHands(int maxHands)
 	}
 	
 	return (index * 8 + random(1, maxHands) * 2) / 10;
+}
+
+int System_FullPointCount::bet()
+{
+	int index = count.getHiLoIndex() / 2;
+	
+	if (!ACTIVATE_BET_VARIATION || MAX_BET_VARIATION <= 1 || index < 1)
+	{
+		return 1;
+	}
+	
+	if (MAX_BET_VARIATION >= 3 && index >= 5)
+	{
+		return 3;
+	}
+	
+	return 2;
+}
+
+bool System_FullPointCount::insure()
+{
+	return count.getHiLoIndex() > 8;
 }
 
 int System_FullPointCount::exception(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown)
@@ -78,11 +83,6 @@ int System_FullPointCount::exception(Hand* player, Hand* dealer, bool canSplit, 
 	}
 	
 	return 0;
-}
-
-void System_FullPointCount::updateComparator()
-{
-	this->comparator = count.getHiLoIndex();
 }
 
 void System_FullPointCount::initiateTables()

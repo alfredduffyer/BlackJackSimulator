@@ -205,5 +205,3 @@ void printStatTable(int table[21][10], bool split)
 	}
 	puts("\n");
 }
-
-

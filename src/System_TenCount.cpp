@@ -10,26 +10,9 @@ System_TenCount::System_TenCount() : System()
 	this->initiateTables();
 }
 
-bool System_TenCount::insure()
+void System_TenCount::updateComparator()
 {
-	return count.getTenCount() < 2;
-}
-
-int System_TenCount::bet()
-{
-	double index = count.getTenCount();
-	
-	if (!ACTIVATE_BET_VARIATION || MAX_BET_VARIATION <= 1 || index > 2)
-	{
-		return 1;
-	}
-	
-	if (MAX_BET_VARIATION >= 3 && index <= 1.65)
-	{
-		return 3;
-	}
-	
-	return 2;
+	this->comparator = count.getTenCount();
 }
 
 int System_TenCount::howManyHands(int maxHands)
@@ -66,15 +49,32 @@ int System_TenCount::howManyHands(int maxHands)
 	return 1;
 }
 
+int System_TenCount::bet()
+{
+	double index = count.getTenCount();
+	
+	if (!ACTIVATE_BET_VARIATION || MAX_BET_VARIATION <= 1 || index > 2)
+	{
+		return 1;
+	}
+	
+	if (MAX_BET_VARIATION >= 3 && index <= 1.65)
+	{
+		return 3;
+	}
+	
+	return 2;
+}
+
+bool System_TenCount::insure()
+{
+	return count.getTenCount() < 2;
+}
+
 int System_TenCount::exception(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown)
 {
 	if (player && dealer && canSplit && canDoubleDown){}
 	return 0;
-}
-
-void System_TenCount::updateComparator()
-{
-	this->comparator = count.getTenCount();
 }
 
 bool System_TenCount::split(int player, int dealer)

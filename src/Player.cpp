@@ -18,19 +18,9 @@ int Player::howManyHands(int maxHands)
 	return this->system->howManyHands(maxHands);
 }
 
-char* Player::getName()
-{
-	return this->name;
-}
-
 int Player::bet()
 {
 	return this->bet(this->system->bet());
-}
-
-bool Player::insure(double amount)
-{
-	return (this->stack >= amount && this->system->insure());
 }
 
 int Player::bet(int bet)
@@ -61,6 +51,16 @@ void Player::betInsurance(double amount)
 	this->stack -= amount;
 }
 
+bool Player::insure(double amount)
+{
+	return (this->stack >= amount && this->system->insure());
+}
+
+int Player::decision(Hand* playerHand, Hand* dealerHand, bool canSplit, bool canDoubleDown)
+{
+	return this->system->decision(playerHand, dealerHand, canSplit, canDoubleDown);
+}
+
 void Player::win(double amount)
 {
 	if (this->stack == -1)
@@ -68,6 +68,11 @@ void Player::win(double amount)
 		return;
 	}
 	this->stack += amount;
+}
+
+char* Player::getName()
+{
+	return this->name;
 }
 
 double Player::getStack()
@@ -79,9 +84,3 @@ int Player::getUnit()
 {
 	return this->unit;
 }
-
-int Player::decision(Hand* playerHand, Hand* dealerHand, bool canSplit, bool canDoubleDown)
-{
-	return this->system->decision(playerHand, dealerHand, canSplit, canDoubleDown);
-}
-
