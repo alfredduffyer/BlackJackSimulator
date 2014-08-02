@@ -1,9 +1,15 @@
+#include <stdio.h>
 #include "../headers/_variables.h"
 #include "../headers/_config.h"
+#include "../headers/functions.h"
 #include "../headers/GlobalCount.h"
 #include "../headers/System_TenCount.h"
 
+
+#include "../headers/print.h"
+
 extern GlobalCount count;
+extern bool fffffffffff;
 
 System_TenCount::System_TenCount() : System()
 {
@@ -73,20 +79,57 @@ bool System_TenCount::insure()
 
 int System_TenCount::exception(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown)
 {
-	if (player && dealer && canSplit && canDoubleDown){}
+	if (!canSplit || !player->isPair())
+	{
+		return 0;
+	}
+	
+	if (player->getSoftValue() == 8 && dealer->getValue() == 6 && count.getTenCount() <= 2.1)
+	{
+		return (canDoubleDown) ? DOUBLEDOWN : SPLIT;
+	}
+	
+	if ((player->getSoftValue() == 4 || player->getSoftValue() == 6) && dealer->getValue() == 7 && count.getTenCount() > 1.1)
+	{
+		return SPLIT;
+	}
+	
+	if (player->getSoftValue() == 4 && dealer->getValue() == 8 && count.getTenCount() > 3.8)
+	{
+		return SPLIT;
+	}
+	
+	if (player->getSoftValue() == 6 && dealer->getValue() == 8 && count.getTenCount() > 2.4)
+	{
+		return SPLIT;
+	}
+	
+	if (player->getSoftValue() == 6 && dealer->getValue() == 9 && count.getTenCount() > 4.2)
+	{
+		return SPLIT;
+	}
+	
+	if (player->getSoftValue() == 6 && dealer->getValue() == 10 && count.getTenCount() > 5.3)
+	{
+		return SPLIT;
+	}
+	
+	if (player->getSoftValue() == 16 && dealer->getValue() == 10 && count.getTenCount() > 1.6)
+	{
+		return SPLIT;
+	}
+	
 	return 0;
 }
 
 bool System_TenCount::split(int player, int dealer)
 {
 	player = (player == 1) ? 11 : player;
-	//printf("[%d;%d]\n", player, dealer-1);
 	return (this->comparator <= this->splittingPairs[player-SHIFT_SP][dealer-1]);
 }
 
 bool System_TenCount::doubleDown(int player, int dealer, bool soft)
 {
-	//printf("[%d;%d;%d]\n", player-SHIFT_SDD % 10, dealer-1, soft ? 1 : 0);
 	if (soft)
 	{
 		return (this->comparator <= this->softDoublingDown[(player-SHIFT_SDD) % 10][dealer-1]);
@@ -96,7 +139,6 @@ bool System_TenCount::doubleDown(int player, int dealer, bool soft)
 
 bool System_TenCount::draw(int player, int dealer, bool soft)
 {
-	//printf("[%d;%d;%d]\n", player, dealer-1, soft ? 1 : 0);
 	if (soft)
 	{
 		return (this->comparator > this->softStanding[player-SHIFT_SS][dealer-1]);
@@ -206,7 +248,7 @@ void System_TenCount::initiate_softStandingNumbers()
 	
 	this->softStanding[1][8] = -0.1;
 	this->softStanding[1][9] = -0.1;
-	this->softStanding[1][0] = -0.1;
+	this->softStanding[1][0] = 2.2;
 }
 
 void System_TenCount::initiate_hardDoublingDown()

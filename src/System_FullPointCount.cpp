@@ -5,6 +5,7 @@
 #include "../headers/System_FullPointCount.h"
 
 extern GlobalCount count;
+extern bool fffffffffff;
 
 System_FullPointCount::System_FullPointCount() : System()
 {
@@ -67,9 +68,9 @@ int System_FullPointCount::exception(Hand* player, Hand* dealer, bool canSplit, 
 		return  DOUBLEDOWN;
 	}
 	
-	if (canSplit && (player->getSoftValue() / 2) == 4 && dealer->getValue() == 6 && count.getHiLoIndex() > 5 && !canDoubleDown)
+	if (canSplit && (player->getSoftValue() / 2) == 4 && dealer->getValue() == 6 && count.getHiLoIndex() > 5)
 	{
-		return SPLIT;
+		return (canDoubleDown) ? DOUBLEDOWN : SPLIT;
 	}
 	
 	if (canSplit && (player->getSoftValue() / 2) == 8 && dealer->getValue() == 10 && count.getHiLoIndex() < 24)
