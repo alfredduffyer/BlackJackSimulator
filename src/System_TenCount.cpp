@@ -106,6 +106,7 @@ bool System_TenCount::draw(int player, int dealer, bool soft)
 
 void System_TenCount::initiateTables()
 {
+	System::initiateTables();
 	this->initiate_hardStandingNumbers();
 	this->initiate_softStandingNumbers();
 	this->initiate_hardDoublingDown();

@@ -53,7 +53,7 @@
 /*
  * Number of decks that will be played with [1-10]
  */
-#define NB_DECKS 6
+#define NB_DECKS 4
 
 /*
  * Maximum of the variation of the number of hands played [1-?]

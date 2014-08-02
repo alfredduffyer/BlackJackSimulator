@@ -65,6 +65,7 @@ int System_SimplePointCount::exception(Hand* player, Hand* dealer, bool canSplit
 
 void System_SimplePointCount::initiateTables()
 {
+	System::initiateTables();
 	this->initiate_hardStandingNumbers();
 	this->initiate_softStandingNumbers();
 	this->initiate_hardDoublingDown();

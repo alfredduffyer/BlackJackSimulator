@@ -87,6 +87,7 @@ int System_FullPointCount::exception(Hand* player, Hand* dealer, bool canSplit, 
 
 void System_FullPointCount::initiateTables()
 {
+	System::initiateTables();
 	this->initiate_hardStandingNumbers();
 	this->initiate_softStandingNumbers();
 	this->initiate_hardDoublingDown();

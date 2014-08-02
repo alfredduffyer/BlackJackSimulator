@@ -20,6 +20,12 @@ void GlobalCount::reset()
 void GlobalCount::update(int value)
 {
 	this->remainingCards--;
+	
+	if (value == 0)
+	{
+		return;
+	}
+	
 	if (value == 10 || value == 1)
 	{
 		this->count--;
@@ -32,7 +38,7 @@ void GlobalCount::update(int value)
 	{
 		this->tens--;
 	}
-	if (value != 10 && value != 0)
+	if (value != 10)
 	{
 		this->others--;
 	}

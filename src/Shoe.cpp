@@ -43,22 +43,18 @@ void Shoe::create()
 
 void Shoe::shuffle()
 {
-	int i = 0, j = 0, k = 0;
+	int i = 0, j = 0;
 	Card tmp;
 	
-	this->topIndex = 0;
-	
-	for (k = 0 ; k < TIMES_SHUFFLED ; k++)
+	for (i = 0 ; i < this->size ; i++)
 	{
-		for (i = 0 ; i < this->size ; i++)
-		{
-			j = random(0, this->size - 1);
-			tmp = this->cards[j];
-			this->cards[j] = this->cards[i];
-			this->cards[i] = tmp;
-		}
+		j = random(0, this->size - 1);
+		tmp = this->cards[j];
+		this->cards[j] = this->cards[i];
+		this->cards[i] = tmp;
 	}
 	
+	this->topIndex = 0;
 	count.reset();
 }
 
@@ -75,7 +71,6 @@ void Shoe::burn()
 void Shoe::reset()
 {
 	int tmp = 0;
-	this->topIndex = 0;
 	this->shuffle();
 	this->burn();
 	this->dealingLimit = (tmp = this->size * (100-WASTE_PROPORTION) / 100) > CARDS_BURNED ? tmp : CARDS_BURNED + 1;
@@ -84,7 +79,6 @@ void Shoe::reset()
 void Shoe::print()
 {
 	int i = 0;
-	
 	for (i = 0 ; i < this->size ; i++)
 	{
 		if (i % 52 == 0)

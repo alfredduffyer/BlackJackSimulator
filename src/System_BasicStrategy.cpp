@@ -23,6 +23,7 @@ int System_BasicStrategy::exception(Hand* player, Hand* dealer, bool canSplit, b
 
 void System_BasicStrategy::initiateTables()
 {
+	System::initiateTables();
 	this->initiate_hardStandingNumbers();
 	this->initiate_softStandingNumbers();
 	this->initiate_hardDoublingDown();

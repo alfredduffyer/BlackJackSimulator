@@ -5,9 +5,7 @@
 int strlen(char* str)
 {
 	int i = 0;
-	
 	while (str[i++] != '\0');
-	
 	return i-1;
 }
 
@@ -38,6 +36,7 @@ void spause()
 
 int random(int min, int max)
 {
+	// TODO : Better random
 	return rand() % (max - min + 1) + min;
 }
 
@@ -49,9 +48,7 @@ void addToFile(char* fileName, char* str)
 	sprintf(filePath, "output/%s", fileName);
 	
 	fichier = fopen(filePath, "a+");
-	
 	fprintf(fichier, "%s", str);
-	
 	fclose(fichier);
 }
 
@@ -59,5 +56,5 @@ long int getMilliTime()
 {
 	struct timeval tv;
 	gettimeofday(&tv, NULL);
-	return (long int) (tv.tv_sec) * 1000 + (tv.tv_usec) / 1000 ;
+	return (long int) (tv.tv_sec) * 1000 + (tv.tv_usec) / 1000;
 }

@@ -21,9 +21,6 @@
 // Maximum size of the shoe, in decks
 #define MAX_SHOE_SIZE 10
 
-// Number of times the deck is shuffled
-#define TIMES_SHUFFLED 1
-
 // Shift of various counting numbers tables
 #define SHIFT_HS 12		// Hard Standing Table
 #define SHIFT_SS 17		// Soft Standing Table

@@ -7,8 +7,21 @@ extern bool FORCEDEBUG;
 
 System::System()
 {
+	this->updateComparator();
+}
+
+System::~System()
+{
+	free(this->hardStanding);
+	free(this->softStanding);
+	free(this->hardDoublingDown);
+	free(this->softDoublingDown);
+	free(this->splittingPairs);
+}
+
+void System::initiateTables()
+{
 	int i = 0;
-	this->comparator = 0;
 	this->hardStanding = (double**)calloc(8, sizeof(double[10]));
 	this->softStanding = (double**)calloc(3, sizeof(double[10]));
 	this->hardDoublingDown = (double**)calloc(10, sizeof(double[10]));
@@ -31,20 +44,6 @@ System::System()
 			this->softStanding[i] = (double*)calloc(10, sizeof(double));
 		}
 	}
-}
-
-System::~System()
-{
-	free(this->hardStanding);
-	free(this->softStanding);
-	free(this->hardDoublingDown);
-	free(this->softDoublingDown);
-	free(this->splittingPairs);
-}
-
-void System::initiateTables()
-{
-	
 }
 
 void System::updateComparator()
@@ -77,13 +76,11 @@ int System::exception(Hand* player, Hand* dealer, bool canSplit, bool canDoubleD
 bool System::split(int player, int dealer)
 {
 	player = (player == 1) ? 11 : player;
-	//printf("[%d;%d]\n", player, dealer-1);
 	return (this->comparator > this->splittingPairs[player-SHIFT_SP][dealer-1]);
 }
 
 bool System::doubleDown(int player, int dealer, bool soft)
 {
-	//printf("[%d;%d;%d]\n", player-SHIFT_SDD % 10, dealer-1, soft ? 1 : 0);
 	if (soft)
 	{
 		return (this->comparator > this->softDoublingDown[(player-SHIFT_SDD) % 10][dealer-1]);
@@ -93,7 +90,6 @@ bool System::doubleDown(int player, int dealer, bool soft)
 
 bool System::draw(int player, int dealer, bool soft)
 {
-	//printf("[%d;%d;%d]\n", player, dealer-1, soft ? 1 : 0);
 	if (soft)
 	{
 		return (this->comparator <= this->softStanding[player-SHIFT_SS][dealer-1]);
@@ -105,9 +101,7 @@ int System::decision(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDo
 {
 	this->updateComparator();
 	
-	int exceptionReturn = this->exception(player, dealer, canSplit, canDoubleDown);
-	
-	if (exceptionReturn)
+	if (int exceptionReturn = this->exception(player, dealer, canSplit, canDoubleDown))
 	{
 		return exceptionReturn;
 	}
@@ -115,13 +109,6 @@ int System::decision(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDo
 	int playerSoftValue = player->getSoftValue();
 	int playerValue = player->getValue();
 	int dealerValue = dealer->getSoftValue();
-	/*
-	if (playerSoftValue == 12 && (dealerValue == 7 || dealerValue == 8 || dealerValue == 9))
-	{
-		printf("(%d,%d) against a %d, canSplit=(%s), isPair=(%s)\n", playerSoftValue/2, playerSoftValue/2, dealerValue, canSplit?"true":"false", player->isPair()?"true":"false");
-		system("echo \"PAUSE\" && read a");
-	}
-	*/
 	
 	if (canSplit && player->isPair() && this->split(playerSoftValue/2, dealerValue))
 	{
@@ -141,7 +128,7 @@ int System::decision(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDo
 		return DOUBLEDOWN;
 	}
 	
-	if (player->isSoft() && playerValue >= 17 && playerValue <= 19 && this->draw(playerValue, dealerValue, true))
+	if (player->isSoft() && (playerValue < 17 || (playerValue >= 17 && playerValue <= 19 && this->draw(playerValue, dealerValue, true))))
 	{
 		if ((DEBUG || FORCEDEBUG)) printf("  --> Drawing on a soft %d against a %d\n", playerValue, dealerValue);
 		return DRAW;

@@ -9,12 +9,10 @@ void printBars(char* str)
 	int i = 0, size = strlen(str);
 	
 	printf("| %s", str);
-	
 	for (i = size + 2 ; i < TERMINAL_SIZE_X - 1 ; i ++)
 	{
 		printf(" ");
 	}
-	
 	printf("|\n");	
 }
 
@@ -179,8 +177,6 @@ void printStatTable(int table[21][10], bool split)
 		printf(" %d", (j+1) % 10);
 	}
 	printf("\n--------------------------\n");
-	
-	
 	
 	for (i = split ? 19 : 20 ; i >= 0 ; i -= split ? 2 : 1)
 	{
