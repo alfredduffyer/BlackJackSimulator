@@ -42,7 +42,7 @@
 #define C_WHITE 37
 
 // DEBUG options
-#define STATUS 0
+#define STATUS 1
 #define DEBUG 0
 #define PAUSE 0
 #define SLEEP 0

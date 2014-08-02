@@ -17,31 +17,25 @@ bool System_TenCount::insure()
 
 int System_TenCount::bet()
 {
-	if (!ACTIVATE_BET_VARIATION)
+	double index = count.getTenCount();
+	
+	if (!ACTIVATE_BET_VARIATION || MAX_BET_VARIATION <= 1 || index > 2)
 	{
 		return 1;
 	}
 	
-	double index = count.getTenCount();
-	
-	if (index <= 2 && index > 1.75)
+	if (MAX_BET_VARIATION >= 3 && index <= 1.65)
 	{
-		return 2;
-	}
-	if (index <= 1.75 && index > 1.65)
-	{
-		return 4;
-	}
-	if (index <= 1.65)
-	{
-		return 5;
+		return 3;
 	}
 	
-	return 1;
+	return 2;
 }
 
 int System_TenCount::howManyHands(int maxHands)
 {
+	maxHands = (maxHands <= MAX_HAND_VARIATION) ? maxHands : MAX_HAND_VARIATION;
+	
 	double index = count.getTenCount();
 	
 	if (index <= 2.25 && index > 1.95)

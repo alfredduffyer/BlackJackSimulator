@@ -18,23 +18,25 @@ bool System_FullPointCount::insure()
 
 int System_FullPointCount::bet()
 {
-	if (!ACTIVATE_BET_VARIATION)
-	{
-		return 1;
-	}
-	
 	int index = count.getHiLoIndex() / 2;
 	
-	if (index <= 1)
+	if (!ACTIVATE_BET_VARIATION || MAX_BET_VARIATION <= 1 || index < 1)
 	{
 		return 1;
 	}
 	
-	return (index >= MAX_BET_VARIATION) ? MAX_BET_VARIATION : index;
+	if (MAX_BET_VARIATION >= 3 && index >= 5)
+	{
+		return 3;
+	}
+	
+	return 2;
 }
 
 int System_FullPointCount::howManyHands(int maxHands)
 {
+	maxHands = (maxHands <= MAX_HAND_VARIATION) ? maxHands : MAX_HAND_VARIATION;
+	
 	int index = count.getHiLoIndex() / 2;
 	
 	if (index < 0)

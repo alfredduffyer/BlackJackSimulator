@@ -96,10 +96,11 @@ int Shoe::getIndex()
 
 void Shoe::reset()
 {
+	int tmp = 0;
 	this->topIndex = 0;
 	this->shuffle();
 	this->burn();
-	this->dealingLimit = this->size * (100-WASTE_PROPORTION) / 100;
+	this->dealingLimit = (tmp = this->size * (100-WASTE_PROPORTION) / 100) > CARDS_BURNED ? tmp : CARDS_BURNED + 1;
 }
 
 bool Shoe::isTheEnd()

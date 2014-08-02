@@ -7,6 +7,7 @@
 #include "../headers/Box.h"
 
 extern GlobalCount count;
+extern bool FORCEDEBUG;
 
 // TMP
 Box::Box()
@@ -102,7 +103,7 @@ int Box::getBet()
 // TMP
 int Box::decision(Hand* dealerHand, bool canSplit, bool canDoubleDown)
 {
-	if (DEBUG) count.printStatus();
+	if ((DEBUG || FORCEDEBUG)) count.printStatus();
 	int decision = this->player->decision(&this->hand, dealerHand, canSplit && this->hand.isPair(), this->hand.getSize() == 2 && canDoubleDown);
 	
 	if (false && strcmp(this->player->getName(), (char*) "Dealer") && this->hand.isPair())

@@ -28,32 +28,40 @@
  * 100 : all the time
  * 0 : never
  */
-#define GAME_PLAYING 100
+#define GAME_PLAYING 70
 
 /*
- * Percentage of the shoe that won't be played [0-99]
+ * Percentage of the shoe that won't be played [0-100]
  * 
  * 100 : shuffles after every hand
  * 0 : play to the last card
  */
-#define WASTE_PROPORTION 30
+#define WASTE_PROPORTION 1
 
 /*
  * Number of cards burned at the begining [0-(NB_DECKS*52)]
  */
-#define CARDS_BURNED 5
+#define CARDS_BURNED 1
 
 /*
  * Number of times the player is allowed to split [0-100]
  * 
- * 0 : The player can't split
+ * 0 : The player can never split
  */
-#define MAX_SPLIT 2
+#define MAX_SPLIT 1
 
 /*
  * Number of decks that will be played with [1-10]
  */
-#define NB_DECKS 6
+#define NB_DECKS 1
+
+/*
+ * Maximum of the variation of the number of hands played [1-?]
+ * 
+ * 1 : The player will always play on one box
+ * ? : The player will play on up to ? boxes
+ */
+#define MAX_HAND_VARIATION 4
 
 /*
  * Maximum of the variation bet (in units) [1-?]

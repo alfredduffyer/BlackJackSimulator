@@ -15,26 +15,6 @@ bool System_BasicStrategy::insure()
 	return false;
 }
 
-int System_BasicStrategy::howManyHands(int maxHands)
-{
-	int index = count.getHiLoIndex() / 2;
-	
-	if (index < 0)
-	{
-		return 1;
-	}
-	if (index <= 2)
-	{
-		return 2;
-	}
-	if (index > maxHands)
-	{
-		return maxHands;
-	}
-	
-	return (index * 8 + random(1, maxHands) * 2) / 10;
-}
-
 int System_BasicStrategy::exception(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown)
 {
 	if (canSplit && canDoubleDown){}

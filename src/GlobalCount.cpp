@@ -63,7 +63,18 @@ int GlobalCount::getHiLoIndex()
 	{
 		return 0;
 	}
-	return (int)((double)((double)this->count / (double)this->remainingCards) * 100);
+	
+	int tmp = (int)((double)((double)this->count / (double)this->remainingCards) * 100);
+	
+	if (tmp > 98)
+	{
+		return 98;
+	}
+	if (tmp < -98)
+	{
+		return -98;
+	}
+	return tmp;
 }
 
 int GlobalCount::getTens()
@@ -78,8 +89,24 @@ int GlobalCount::getOthers()
 
 double GlobalCount::getTenCount()
 {
-	this->tens = (this->tens == 0) ? 0.1 : this->tens;
-	return (double)(this->others) / (double)(this->tens);
+	if (this->tens <= 0)
+	{
+		return 8;
+	}
+	
+	int tmp = (double)(this->others) / (double)(this->tens);
+	
+	if (tmp > 8)
+	{
+		return 8;
+	}
+	
+	if (tmp < 0)
+	{
+		return 0;
+	}
+	
+	return tmp;
 }
 
 void GlobalCount::printStatus()

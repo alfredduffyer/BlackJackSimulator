@@ -5,7 +5,6 @@
 #include "../headers/functions.h"
 #include "../headers/print.h"
 #include "../headers/GlobalCount.h"
-
 #include "../headers/System_BasicStrategy.h"
 #include "../headers/System_Dealer.h"
 #include "../headers/System_RandomPlayer.h"
@@ -13,12 +12,12 @@
 #include "../headers/System_SimplePointCount.h"
 #include "../headers/System_FullPointCount.h"
 #include "../headers/System_TenCount.h"
-
 #include "../headers/Game.h"
 
 GlobalCount count;
 int Box::_stats[21][10];
 bool fffffffffff = false;
+bool FORCEDEBUG = false;
 
 int main()
 {
@@ -33,6 +32,9 @@ int main()
 	while (++nbPlays)
 	{
 		game.init(new Shoe(NB_DECKS), 5, 500, 7);
+		//game.addPlayer(new Player((char*) "Don Self", 1000, 5, new System_BasicStrategy()));
+		//game.addPlayer(new Player((char*) "Don Self", 1000, 5, new System_SimplePointCount()));
+		//game.addPlayer(new Player((char*) "Don Self", 1000, 5, new System_FullPointCount()));
 		game.addPlayer(new Player((char*) "Don Self", 1000, 5, new System_TenCount()));
 		game.addPlayer(new Player((char*) "The Player Who Never Busts", -1, 5, new System_ThePlayerWhoNeverBusts()));
 		game.addPlayer(new Player((char*) "Mimic The Dealer", -1, 5, new System_Dealer()));
@@ -45,7 +47,7 @@ int main()
 		}
 		char message[100];
 		sprintf(message, "Don Self died in %9d hands, average is %5.0f, total %5d %03d %03d\n", result, average, (int) ((totalHandsPlayed-totalHandsPlayed % 1000000) / 1000000), (int) ((totalHandsPlayed % 1000000) / 1000), (int) (totalHandsPlayed % 1000));
-		if (result == 2000001 || result == 500001)
+		if (result == 1000001 || result == 500001)
 		{
 			sprintf(message, "Don Self survived %9d hands, won a lot of money !\n", result);
 			printColor(C_GREEN, message);

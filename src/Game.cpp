@@ -10,6 +10,7 @@
 
 extern GlobalCount count;
 extern bool fffffffffff;
+extern bool FORCEDEBUG;
 
 Game::Game(Shoe* shoe)
 {
@@ -108,7 +109,7 @@ void Game::bet()
 		}
 	}
 	
-	if (DEBUG)
+	if (DEBUG || FORCEDEBUG)
 	{
 		for (i = 0 ; i < this->nbBoxes ; i++)
 		{
@@ -161,13 +162,13 @@ void Game::deal(int boxIndex)
 	{
 		this->boxes[boxIndex].hand.add(card.value);
 		sprintf(message, "%s [%d] gets a %d, total is now %d (%s)\n", splitMessage, boxIndex, card.value, this->boxes[boxIndex].hand.getValue(), this->boxes[boxIndex].player->getName());
-		if (DEBUG && strcmp(this->boxes[boxIndex].player->getName(), (char*) "Don Self"))printColor(C_RED, message);
-		else if (DEBUG)printf("%s", message);
+		if ((DEBUG || FORCEDEBUG) && strcmp(this->boxes[boxIndex].player->getName(), (char*) "Don Self"))printColor(C_RED, message);
+		else if ((DEBUG || FORCEDEBUG))printf("%s", message);
 	}
 	else
 	{
 		this->dealerBox->hand.add(card.value);
-		if (DEBUG)printf("%s DDD gets a %d, total is now %d (%s)\n", splitMessage, card.value, this->dealerBox->hand.getValue(), this->dealerBox->player->getName());
+		if ((DEBUG || FORCEDEBUG))printf("%s DDD gets a %d, total is now %d (%s)\n", splitMessage, card.value, this->dealerBox->hand.getValue(), this->dealerBox->player->getName());
 	}
 }
 
@@ -227,7 +228,7 @@ void Game::decision(int boxIndex)
 			}
 			
 			
-			//if (DEBUG)printColor(C_YELLOW, (char*) "  --> Splitting that\n");
+			//if ((DEBUG || FORCEDEBUG))printColor(C_YELLOW, (char*) "  --> Splitting that\n");
 			//puts("  --> Splitting that");
 			//system("echo \"PAUSE\" && read a");
 			
@@ -301,13 +302,13 @@ void Game::pay()
 		
 		sprintf(text3, "%1.1f\n", this->boxes[i].player->getStack());
 		
-		if (DEBUG && strcmp(this->boxes[i].player->getName(), (char*) "Don Self"))
+		if ((DEBUG || FORCEDEBUG) && strcmp(this->boxes[i].player->getName(), (char*) "Don Self"))
 		{
 			printColor(C_RED, text1);
 			printColor(C_RED, text2);
 			printColor(C_RED, text3);
 		}
-		else if (DEBUG)
+		else if ((DEBUG || FORCEDEBUG))
 		{
 			printf("%s", text1);
 			printf("%s", text2);
@@ -327,7 +328,7 @@ void Game::insurance()
 		}
 		if (this->boxes[i].insure())
 		{
-			if (DEBUG) printf(" [%d] took insurance\n", i);
+			if ((DEBUG || FORCEDEBUG)) printf(" [%d] took insurance\n", i);
 		}
 	}
 }
@@ -341,10 +342,10 @@ void Game::payInsurance()
 		{
 			continue;
 		}
-		if (DEBUG) printf(" [%d] Paying insurance\n", i);
-		if (DEBUG) printf("  --> Had %1.1f, has now ", this->boxes[i].player->getStack());
+		if ((DEBUG || FORCEDEBUG)) printf(" [%d] Paying insurance\n", i);
+		if ((DEBUG || FORCEDEBUG)) printf("  --> Had %1.1f, has now ", this->boxes[i].player->getStack());
 		this->boxes[i].payInsurance();
-		if (DEBUG) printf("%1.1f\n", this->boxes[i].player->getStack());
+		if ((DEBUG || FORCEDEBUG)) printf("%1.1f\n", this->boxes[i].player->getStack());
 	}
 }
 
@@ -353,41 +354,46 @@ int Game::play()
 	int handsPlayed = 0;
 	while (1)
 	{
-		if (DEBUG)puts("Initializing shoe...");
+		if ((DEBUG || FORCEDEBUG))puts("Initializing shoe...");
 		this->shoe->reset();
 		
 		while (!this->shoe->isTheEnd())
 		{
-			if (DEBUG) count.printStatus();
+			FORCEDEBUG = false;
+			double nbBets = (double)this->players[0]->bet();
+			FORCEDEBUG = (nbBets > 5);
+			this->players[0]->win(nbBets);
+			
+			if ((DEBUG || FORCEDEBUG)) count.printStatus();
 			
 			handsPlayed++;
-			if (DEBUG)puts("Initializing turn...");
+			if ((DEBUG || FORCEDEBUG))puts("Initializing turn...");
 			this->initTurn();
 			
-			if (DEBUG)puts("-Betting...");
+			if ((DEBUG || FORCEDEBUG))puts("-Betting...");
 			this->bet();
-			if (DEBUG)puts("-Dealing first wave...");
+			if ((DEBUG || FORCEDEBUG))puts("-Dealing first wave...");
 			this->deal();
 			
 			if (this->dealerBox->hand.getSoftValue() == 1)
 			{
-				if (DEBUG)puts("-Insurance...");
+				if ((DEBUG || FORCEDEBUG))puts("-Insurance...");
 				this->insurance();
 			}
 			
-			if (DEBUG)puts("-Dealing second wave...");
+			if ((DEBUG || FORCEDEBUG))puts("-Dealing second wave...");
 			this->decisions();
 			
-			if (DEBUG)puts("-Paying players...");
+			if ((DEBUG || FORCEDEBUG))puts("-Paying players...");
 			this->pay();
 			
 			if (this->dealerBox->hand.isNatural())
 			{
-				if (DEBUG)puts("-Paying insurance...");
+				if ((DEBUG || FORCEDEBUG))puts("-Paying insurance...");
 				this->payInsurance();
 			}
 			
-			if (DEBUG)printf("\n%d cards played, going to %d.\n\n", this->shoe->getIndex(), this->shoe->getLimit());
+			if ((DEBUG || FORCEDEBUG))printf("\n%d cards played, going to %d.\n\n", this->shoe->getIndex(), this->shoe->getLimit());
 			
 			for (int i = 0 ; i < this->nbBoxes ; i++)
 			{
@@ -395,7 +401,7 @@ int Game::play()
 				{
 					if(STATUS) printf("[%d] Don Self has now %1.1f\n", handsPlayed, this->boxes[i].player->getStack());
 					else if((handsPlayed % 100000) == 0)printf("[%3ld %03d %03d %03d] Don Self has now %3ld %03d %03d %03d\n", (handsPlayed%1000000000000) / 1000000000, (handsPlayed%1000000000) / 1000000, (handsPlayed%1000000) / 1000, handsPlayed%1000, (((long int)this->boxes[i].player->getStack())%1000000000000) / 1000000000, (((int)this->boxes[i].player->getStack())%1000000000) / 1000000, (((int)this->boxes[i].player->getStack())%1000000) / 1000, ((int)this->boxes[i].player->getStack())%1000);
-					if (this->boxes[i].player->getStack() < 5 || (false && handsPlayed > 2000000))
+					if (this->boxes[i].player->getStack() < 5 || (handsPlayed > 1000000))
 					{
 						return handsPlayed;
 					}
@@ -403,7 +409,7 @@ int Game::play()
 				}
 			}
 			
-			if(PAUSE)system("echo \"PAUSE\" && read a");
+			if(PAUSE || FORCEDEBUG)system("echo \"PAUSE\" && read a");
 			else if (SLEEP)sleep(1);
 			
 			if (fffffffffff)
