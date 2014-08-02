@@ -94,7 +94,7 @@ double GlobalCount::getTenCount()
 		return 8;
 	}
 	
-	int tmp = (double)(this->others) / (double)(this->tens);
+	double tmp = (double)(this->others) / (double)(this->tens);
 	
 	if (tmp > 8)
 	{

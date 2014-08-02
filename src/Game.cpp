@@ -360,9 +360,12 @@ int Game::play()
 		while (!this->shoe->isTheEnd())
 		{
 			FORCEDEBUG = false;
-			double nbBets = (double)this->players[0]->bet();
-			FORCEDEBUG = (nbBets > 5);
-			this->players[0]->win(nbBets);
+			if (FORCE_DEBUG)
+			{
+				double nbBets = (double)this->players[0]->bet();
+				FORCEDEBUG = (nbBets > 5);
+				this->players[0]->win(nbBets);
+			}
 			
 			if ((DEBUG || FORCEDEBUG)) count.printStatus();
 			
@@ -401,7 +404,7 @@ int Game::play()
 				{
 					if(STATUS) printf("[%d] Don Self has now %1.1f\n", handsPlayed, this->boxes[i].player->getStack());
 					else if((handsPlayed % 100000) == 0)printf("[%3ld %03d %03d %03d] Don Self has now %3ld %03d %03d %03d\n", (handsPlayed%1000000000000) / 1000000000, (handsPlayed%1000000000) / 1000000, (handsPlayed%1000000) / 1000, handsPlayed%1000, (((long int)this->boxes[i].player->getStack())%1000000000000) / 1000000000, (((int)this->boxes[i].player->getStack())%1000000000) / 1000000, (((int)this->boxes[i].player->getStack())%1000000) / 1000, ((int)this->boxes[i].player->getStack())%1000);
-					if (this->boxes[i].player->getStack() < 5 || (handsPlayed > 1000000))
+					if (this->boxes[i].player->getStack() < 5 || (handsPlayed >= NOSTATUSLIMIT))
 					{
 						return handsPlayed;
 					}
