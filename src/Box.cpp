@@ -9,10 +9,10 @@
 extern GlobalCount count;
 extern bool FORCEDEBUG;
 
-// TMP
 Box::Box()
 {
 	/*
+	// TMP
 	int i = 0;
 	for (i = 0 ; i < 21 ; i++)
 	{
@@ -30,12 +30,7 @@ void Box::reset()
 	this->player = NULL;
 	this->bet = 0;
 	this->insurance = false;
-	//this->splitIndex = 0;
 	this->hand.reset();
-	/*for (int i = 0 ; i < MAX_SPLIT ; i++)
-	{
-		this->splits[i].reset();
-	}*/
 }
 
 void Box::take(Player* player, int bet)
@@ -67,13 +62,13 @@ int Box::doubleDown()
 	return bet;
 }
 
-// TMP
 int Box::decision(Hand* dealerHand, bool canSplit, bool canDoubleDown)
 {
 	if ((DEBUG || FORCEDEBUG)) count.printStatus();
-	int decision = this->player->decision(&this->hand, dealerHand, canSplit && this->hand.isPair(), this->hand.getSize() == 2 && canDoubleDown);
-	
-	if (false && strcmp(this->player->getName(), (char*) "Dealer") && this->hand.isPair())
+	int decision = this->player->decision(&this->hand, dealerHand, canSplit && this->hand.isPair(), canDoubleDown && this->hand.getSize() == 2);
+	/*
+	// TMP
+	if (strcmp(this->player->getName(), (char*) "Dealer") && this->hand.isPair())
 	{
 		system("clear");
 		int x = dealerHand->getSoftValue();
@@ -105,7 +100,7 @@ int Box::decision(Hand* dealerHand, bool canSplit, bool canDoubleDown)
 			//sleep(10);
 		}
 	}
-	
+	*/
 	return decision;
 }
 

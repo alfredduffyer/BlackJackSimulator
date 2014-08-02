@@ -10,7 +10,6 @@ class Game
 	private:
 		int min;			// Minimum bet at the table
 		int max;			// Maximum bet at the table
-		Player* dealer;			// Dealer
 		Box* dealerBox;			// Dealer's box
 		int nbBoxes;			// Number of boxes that can be played on
 		Box* boxes;			// Boxes on the table
@@ -26,7 +25,6 @@ class Game
 		void init(Shoe* shoe, int min, int max, int nbBoxes);	// Creates a game with all the given parameters
 		int addPlayer(Player* player);				// Adds a player to the table
 		void resetBoxes();					// Resets all the boxes, including the dealer's
-		void initTurn();					// Initiates the turn
 		int howManyHands(bool isMainPlayer, Player* player);	// Calculates the number of hands that will be played by a player
 		void bet();						// Makes the players bet on the available boxes
 		void deal(int boxIndex);				// Deals a card to a given box

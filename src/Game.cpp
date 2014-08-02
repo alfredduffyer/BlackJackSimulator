@@ -39,14 +39,18 @@ void Game::init(Shoe* shoe, int min, int max, int nbBoxes)
 	this->boxes = (Box*) malloc((MAX_SPLIT * this->nbBoxes + this->nbBoxes) * sizeof(Box));
 	this->splitIndexes = (int*) malloc(sizeof(int) * this->nbBoxes);
 	
-	this->dealer = new Player((char*) "Dealer", -1, -1, new System_Dealer());
 	this->dealerBox = new Box();
+	this->dealerBox->take(new Player((char*) "Dealer", -1, -1, new System_Dealer()), 0);
 }
 
 int Game::addPlayer(Player* player)
 {
-	this->players[this->nbPlayers] = player;
-	return this->nbPlayers++;
+	if (this->nbPlayers >= this->nbBoxes)
+	{
+		return this->nbPlayers;
+	}
+	this->players[this->nbPlayers++] = player;
+	return this->nbPlayers;
 }
 
 void Game::resetBoxes()
@@ -55,18 +59,12 @@ void Game::resetBoxes()
 	for (i = 0 ; i < this->nbBoxes + MAX_SPLIT * this->nbBoxes ; i++)
 	{
 		this->boxes[i].reset();
+		if (i < this->nbBoxes)
+		{
+			this->splitIndexes[i] = 0;
+		}
 	}
-	for (i = 0 ; i < this->nbBoxes ; i++)
-	{
-		this->splitIndexes[i] = 0;
-	}
-	this->dealerBox->reset();
-}
-
-void Game::initTurn()
-{
-	this->resetBoxes();
-	this->dealerBox->take(this->dealer, 0);
+	this->dealerBox->hand.reset();
 }
 
 int Game::howManyHands(bool isMainPlayer, Player* player)
@@ -149,26 +147,19 @@ void Game::deal()
 {
 	int i = 0;
 	
-	for (i = 0 ; i < this->nbBoxes ; i++)
+	for (i = 0 ; i < this->nbBoxes*2 ; i++)
 	{
-		if (this->boxes[i].isFree())
+		if (i == this->nbBoxes)
+		{
+			this->deal(-1);
+		}
+		
+		if (this->boxes[i % this->nbBoxes].isFree())
 		{
 			continue;
 		}
 		
-		this->deal(i);
-	}
-	
-	this->deal(-1);
-	
-	for (i = 0 ; i < this->nbBoxes ; i++)
-	{
-		if (this->boxes[i].isFree())
-		{
-			continue;
-		}
-		
-		this->deal(i);
+		this->deal(i % this->nbBoxes);
 	}
 }
 
@@ -196,8 +187,6 @@ void Game::decision(int boxIndex)
 	
 	while(!box->hand.isNatural() && !box->hand.isBusted() && (decision = box->decision(&this->dealerBox->hand, (boxIndex != -1 && this->splitIndexes[boxIndex % this->nbBoxes] < MAX_SPLIT), true)) != STAND)
 	{
-		if (box->hand.getValue() == 0) break;
-		
 		if (decision == DRAW)
 		{
 			this->deal(boxIndex);
@@ -216,18 +205,6 @@ void Game::decision(int boxIndex)
 		
 		if (decision == SPLIT)
 		{
-			if (!this->boxes[boxIndex].hand.isPair())
-			{
-				printColor(C_RED + 10, (char*) "Tried to split a non Pair !!!!!!\n");
-				system("echo \"PAUSE\" && read a");
-			}
-			if (boxIndex >= this->nbBoxes * MAX_SPLIT)
-			{
-				printColor(C_RED + 10, (char*) "Too many splits !!!!!!\n");
-				system("echo \"PAUSE\" && read a");
-			}
-			
-			
 			//if ((DEBUG || FORCEDEBUG))printColor(C_YELLOW, (char*) "  --> Splitting that\n");
 			//puts("  --> Splitting that");
 			//system("echo \"PAUSE\" && read a");
@@ -237,7 +214,6 @@ void Game::decision(int boxIndex)
 			int value = this->boxes[boxIndex].hand.getSoftValue() / 2;
 			int bet = this->boxes[boxIndex].getBet();
 			Player* player = this->boxes[boxIndex].player;
-			int iIndex = 0;
 			int splitBoxIndex = (boxIndex % this->nbBoxes) + (this->nbBoxes * splitIndex);
 			
 			//printf("[boxIndex: %d, this->nbBoxes: %d, splitIndex: %d, splitBoxIndex: %d]\n", boxIndex, this->nbBoxes, splitIndex, splitBoxIndex);
@@ -256,15 +232,13 @@ void Game::decision(int boxIndex)
 			this->deal(boxIndex);
 			this->deal(splitBoxIndex);
 			
-			iIndex = boxIndex;
-			if (value != 1 || (this->boxes[iIndex].hand.isPair() && this->splitIndexes[iIndex % this->nbBoxes] < MAX_SPLIT))
+			if (value != 1 || (this->boxes[boxIndex].hand.isPair() && this->splitIndexes[boxIndex % this->nbBoxes] < MAX_SPLIT))
 			{
-				this->decision(iIndex);
+				this->decision(boxIndex);
 			}
-			iIndex = splitBoxIndex;
-			if (value != 1 || (this->boxes[iIndex].hand.isPair() && this->splitIndexes[iIndex % this->nbBoxes] < MAX_SPLIT))
+			if (value != 1 || (this->boxes[splitBoxIndex].hand.isPair() && this->splitIndexes[splitBoxIndex % this->nbBoxes] < MAX_SPLIT))
 			{
-				this->decision(iIndex);
+				this->decision(splitBoxIndex);
 			}
 			
 			//system("echo \"Splitted. PAUSE\" && read a");
@@ -371,7 +345,7 @@ int Game::play()
 			
 			handsPlayed++;
 			if ((DEBUG || FORCEDEBUG))puts("Initializing turn...");
-			this->initTurn();
+			this->resetBoxes();
 			
 			if ((DEBUG || FORCEDEBUG))puts("-Betting...");
 			this->bet();
@@ -387,14 +361,14 @@ int Game::play()
 			if ((DEBUG || FORCEDEBUG))puts("-Dealing second wave...");
 			this->decisions();
 			
-			if ((DEBUG || FORCEDEBUG))puts("-Paying players...");
-			this->pay();
-			
 			if (this->dealerBox->hand.isNatural())
 			{
 				if ((DEBUG || FORCEDEBUG))puts("-Paying insurance...");
 				this->payInsurance();
 			}
+			
+			if ((DEBUG || FORCEDEBUG))puts("-Paying players...");
+			this->pay();
 			
 			if ((DEBUG || FORCEDEBUG))printf("\n%d cards played, going to %d.\n\n", this->shoe->getIndex(), this->shoe->getLimit());
 			

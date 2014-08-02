@@ -32,7 +32,7 @@ int System_SimplePointCount::howManyHands(int maxHands)
 		return maxHands;
 	}
 	
-	return (index * 8 + random(1, maxHands) * 2) / 10;
+	return (index * 7 + random(1, maxHands) * 3) / 10;
 }
 
 int System_SimplePointCount::bet()
