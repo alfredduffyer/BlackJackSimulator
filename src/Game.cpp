@@ -424,4 +424,3 @@ int Game::play()
 		}
 	}
 }
-
