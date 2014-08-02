@@ -141,8 +141,3 @@ int Box::getBet()
 {
 	return this->bet;
 }
-
-
-
-
-

@@ -46,6 +46,3 @@ int System_RandomPlayer::decision(Hand* player, Hand* dealer, bool canSplit, boo
 	
 	return (player->getValue() < random(14, 17)) ? DRAW : STAND;
 }
-
-
-

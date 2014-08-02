@@ -254,5 +254,3 @@ void System_SimplePointCount::initiate_splittingPairs()
 		this->splittingPairs[9][0] = 1;
 	}
 }
-
-

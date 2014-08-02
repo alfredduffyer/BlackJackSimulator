@@ -212,5 +212,3 @@ void System_BasicStrategy::initiate_splittingPairs()
 		this->splittingPairs[9][0] = 1;
 	}
 }
-
-

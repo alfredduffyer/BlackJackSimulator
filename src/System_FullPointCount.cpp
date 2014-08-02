@@ -407,5 +407,3 @@ void System_FullPointCount::initiate_splittingPairs()
 	this->splittingPairs[9][9] = -20;
 	this->splittingPairs[9][0] = -17;
 }
-
-

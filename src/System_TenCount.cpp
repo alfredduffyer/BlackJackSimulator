@@ -414,5 +414,3 @@ void System_TenCount::initiate_splittingPairs()
 	this->splittingPairs[9][9] = 3.2;
 	this->splittingPairs[9][0] = -0.1;
 }
-
-
