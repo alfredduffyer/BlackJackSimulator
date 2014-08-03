@@ -111,3 +111,19 @@ bool initParams(int argc, char* argv[], int* player, int* dealer, bool* soft, in
 	
 	return true;
 }
+
+char* truncate(char* str, int length)
+{
+	int i = 0;
+	char* result = (char*) malloc(length * sizeof(char) + 1);
+	for (i = 0 ; i < length && i < strlen(str) ; i++)
+	{
+		result[i] = str[i];
+	}
+	if (i == length && i < strlen(str))
+	{
+		result[i-1] = '$';
+	}
+	result[length] = '\0';
+	return result;
+}

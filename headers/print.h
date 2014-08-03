@@ -2,6 +2,7 @@
 #define PRINT_H
 
 // Prints side bars according to the console size
+void printBars(char* str, bool centered);
 void printBars(char* str);
 
 // Prints a horizontal bar according to the console size

@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
 	int player = 0, dealer = 0, decision = 0, replacement = 0;
 	long int goal = 0;
 	bool soft = false;
-	char filename[50];
+	char filename[200];
 	
 	if (!initParams(argc, argv, &player, &dealer, &soft, &decision, &replacement, &goal, filename))
 	{

@@ -3,6 +3,7 @@
 #include <time.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include "../headers/_variables.h"
 #include "../headers/_config.h"
 #include "../headers/functions.h"
 #include "../headers/print.h"
@@ -40,10 +41,14 @@ void Stats::init(int playerValue, int dealerValue, bool softHand, int decisionCo
 	
 	if (!filename || strlen(filename) <= 0)
 	{
+		this->fileName = (char*)malloc(sizeof(char) * 2);
+		this->fileName[0] = '\0';
 		this->logFile = -1;
 	}
 	else
 	{
+		this->fileName = (char*)malloc(sizeof(char) * strlen(filename));
+		this->fileName = filename;
 		char src[50];
 		sprintf(src, "output/%s", filename);
 		this->logFile = open(src, O_RDWR | O_APPEND | O_CREAT | O_TRUNC);
@@ -116,6 +121,23 @@ void Stats::printStatus(int handsPlayed)
 void Stats::printStatus(int handsPlayed, bool doClear)
 {
 	char message[100];
+	char decisionString[10];
+	
+	switch (this->decisionConcerned)
+	{
+		case DOUBLEDOWN:
+			sprintf(decisionString, "DOUBLEDOWN");
+			break;
+		
+		case SPLIT:
+			sprintf(decisionString, "SPLIT");
+			break;
+		
+		case DRAW:
+		default:
+			sprintf(decisionString, "DRAW");
+			break;
+	}
 	
 	if (doClear)
 	{
@@ -152,6 +174,11 @@ void Stats::printStatus(int handsPlayed, bool doClear)
 	int etaAverageH = etaS / 3600;
 	
 	printHr(false);
+	sprintf(message, "Testing %s %2d versus %2d on", this->softHand ? "soft" : "hard", this->playerValue, this->dealerValue);
+	sprintf(message, "%s %10s (%2d)", message, decisionString, this->decision);
+	printBars(message, true);
+	
+	printHr(false);
 	
 	sprintf(message, "Total Hands played :   %'17d", handsPlayed);
 	sprintf(message, "%s    --> per second:  %'7d / %'5d", message, instantHPS, instantiHPS);
@@ -180,7 +207,7 @@ void Stats::printStatus(int handsPlayed, bool doClear)
 	sprintf(message, "ETA (on AVG) :  %02d:%02d:%02d", etaAverageH%60, etaAverageM % 60, etaAverageS % 60);
 	printBars(message);
 	
-	sprintf(message, "Progress :        %5.2f %%", ((double)this->handsPlayed*100.0) / ((double)this->goal));
+	sprintf(message, "Progress :       %5.2f %%", ((double)this->handsPlayed*100.0) / ((double)this->goal));
 	printBars(message);
 	
 	printBars((char*)"");
@@ -200,6 +227,12 @@ void Stats::printStatus(int handsPlayed, bool doClear)
 	printBars(message);
 	
 	printHr(false);
+	if (strlen(this->fileName) > 0)
+	{
+		sprintf(message, "Writing to file : output/%s", truncate(this->fileName, 51));
+		printBars(message);
+		printHr(false);
+	}
 	
 	this->lastHandsPlayed = this->handsPlayed;
 	this->lastTotalHandsPlayed = handsPlayed;

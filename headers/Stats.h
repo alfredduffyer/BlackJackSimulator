@@ -23,6 +23,7 @@ class Stats
 		int lastTotalHandsPlayed;
 		double lastTime;
 		int logFile;
+		char* fileName;
 	
 	public:
 		Stats();

@@ -6,16 +6,31 @@
 
 extern bool FORCEDEBUG;
 
-void printBars(char* str)
+void printBars(char* str, bool centered)
 {
 	int i = 0, size = strlen(str);
 	
-	printf("| %s", str);
-	for (i = size + 2 ; i < TERMINAL_SIZE_X - 1 ; i ++)
+	printf("| ");
+	
+	if (centered)
+	{
+		for (i = 0 ; i < (TERMINAL_SIZE_X-2-size)/2-1; i++)
+		{
+			printf(" ");
+		}
+	}
+	
+	printf("%s", str);
+	for (i = size + 2 + (centered ? (TERMINAL_SIZE_X-2-size)/2-1 : 0) ; i < TERMINAL_SIZE_X - 1 ; i ++)
 	{
 		printf(" ");
 	}
-	printf("|\n");	
+	printf("|\n");
+}
+
+void printBars(char* str)
+{
+	printBars(str, false);
 }
 
 void printHr(bool br)

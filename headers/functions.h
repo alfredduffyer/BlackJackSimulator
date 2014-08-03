@@ -28,4 +28,7 @@ long int getMilliTime();
 // Initiates the program with the parameters
 bool initParams(int argc, char* argv[], int* player, int* dealer, bool* soft, int* decision, int* replacement, long int* goal, char* filename);
 
+// Truncates a string
+char* truncate(char* str, int length);
+
 #endif
