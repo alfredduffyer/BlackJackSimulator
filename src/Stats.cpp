@@ -1,13 +1,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <unistd.h>
+#include <fcntl.h>
 #include "../headers/_config.h"
 #include "../headers/functions.h"
 #include "../headers/print.h"
 #include "../headers/Stats.h"
 
 
-Stats::Stats(int playerValue, int dealerValue, bool softHand, int decisionConcerned, int decision, int goal)
+Stats::Stats()
+{
+	
+}
+
+
+Stats::~Stats()
+{
+	close(this->logFile);
+}
+
+void Stats::init(int playerValue, int dealerValue, bool softHand, int decisionConcerned, int decision, int goal, char* filename)
 {
 	this->playerValue = playerValue;
 	this->dealerValue = dealerValue;
@@ -24,6 +37,17 @@ Stats::Stats(int playerValue, int dealerValue, bool softHand, int decisionConcer
 	this->startTime = 0;
 	this->lastHandsPlayed = 0;
 	this->lastTotalHandsPlayed = 0;
+	
+	if (!filename || strlen(filename) <= 0)
+	{
+		this->logFile = -1;
+	}
+	else
+	{
+		char src[50];
+		sprintf(src, "output/%s", filename);
+		this->logFile = open(src, O_RDWR | O_APPEND | O_CREAT | O_TRUNC);
+	}
 }
 
 void Stats::resetBoxes()
@@ -86,18 +110,28 @@ bool Stats::finished()
 
 void Stats::printStatus(int handsPlayed)
 {
+	this->printStatus(handsPlayed, true);
+}
+
+void Stats::printStatus(int handsPlayed, bool doClear)
+{
 	char message[100];
-	system("clear");
+	
+	if (doClear)
+	{
+		clear();
+	}
 	
 	int currentTime = time(NULL);
 	double deltaTime = ((((double)getMilliTime())/1000.0 - this->lastTime) <= 0) ? 1 : (((double)getMilliTime())/1000.0 - this->lastTime);
 	
 	double total = this->handsPlayed ? ((double) this->handsPlayed) : 100;
+	
 	double winPercentage = this->wins / total * 100;
 	double tiePercentage = this->ties / total * 100;
 	double losePercentage = this->loses / total * 100;
 	
-	int elapsedTimes = currentTime - this->startTime;
+	int elapsedTimes = (currentTime - this->startTime > 0) ? currentTime - this->startTime : 1;
 	int elapsedTimem = elapsedTimes / 60;
 	int elapsedTimeh = elapsedTimes / 3600;
 	
@@ -109,7 +143,7 @@ void Stats::printStatus(int handsPlayed)
 	int instantiHPS = ((double)(this->handsPlayed - this->lastHandsPlayed)) / deltaTime;
 	int instantiHPM = ((double)(this->handsPlayed - this->lastHandsPlayed)*60) / deltaTime;
 	
-	int etaS = (this->goal - this->handsPlayed) / instantiHPS;
+	int etaS = (this->goal - this->handsPlayed) / (instantiHPS ? instantiHPS : 1);
 	int etaM = etaS / 60;
 	int etaH = etaS / 3600;
 	
@@ -131,7 +165,7 @@ void Stats::printStatus(int handsPlayed)
 	sprintf(message, "%s    --> average (s): %'7d / %'5d", message, handsPerSecond, iHandsPerSecond);
 	printBars(message);
 	
-	sprintf(message, "Interesting Hands frequency :     %2.2f %%", ((double)this->handsPlayed) * 100 / ((double)handsPlayed));
+	sprintf(message, "Interesting Hands frequency :    %5.2f %%", ((double)this->handsPlayed) * 100 / ((double)handsPlayed));
 	sprintf(message, "%s    --> average (m):         %'7d", message, iHandsPerMinute);
 	printBars(message);
 	
@@ -146,18 +180,18 @@ void Stats::printStatus(int handsPlayed)
 	sprintf(message, "ETA (on AVG) :  %02d:%02d:%02d", etaAverageH%60, etaAverageM % 60, etaAverageS % 60);
 	printBars(message);
 	
-	sprintf(message, "Progress :        %2.2f %%", ((double)this->handsPlayed*100.0) / ((double)this->goal));
+	sprintf(message, "Progress :        %5.2f %%", ((double)this->handsPlayed*100.0) / ((double)this->goal));
 	printBars(message);
 	
 	printBars((char*)"");
 	
-	sprintf(message, "Wins :  %'13d (%2.2f %%)", this->wins, winPercentage);
+	sprintf(message, "Wins :  %'13d (%5.2f %%)", this->wins, winPercentage);
 	printBars(message);
 	
-	sprintf(message, "Ties :  %'13d (%2.2f %%)", this->ties, tiePercentage);
+	sprintf(message, "Ties :  %'13d (%5.2f %%)", this->ties, tiePercentage);
 	printBars(message);
 	
-	sprintf(message, "Loses : %'13d (%2.2f %%)", this->loses, losePercentage);
+	sprintf(message, "Loses : %'13d (%5.2f %%)", this->loses, losePercentage);
 	printBars(message);
 	
 	printBars((char*)"");
@@ -193,4 +227,16 @@ void Stats::update(int boxIndex, int status)
 	{
 		this->loses++;
 	}
+}
+
+void Stats::write(int handsPlayed)
+{
+	if (this->logFile == -1)
+	{
+		return;
+	}
+	int stdoutCopy = dup(1);
+	dup2(this->logFile, 1);
+	this->printStatus(handsPlayed, false);
+	dup2(stdoutCopy, 1);
 }

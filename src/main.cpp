@@ -18,20 +18,26 @@
 
 GlobalCount count;
 bool FORCEDEBUG = false;
-Stats stats(12, 2, false, DRAW, 1, 1000000);
+Stats stats;
 
-int main()
+int main(int argc, char* argv[])
 {
 	srand(getMilliTime());
 	setlocale(LC_ALL, "");
 	
-	Game game(new Shoe(), 5, 500, NB_BOXES);
-	//game.playInf(new System_BasicStrategy(), 1000, 5);
-	//game.playInf(new System_SimplePointCount(), 1000, 5);
-	//game.playInf(new System_FullPointCount(), 1000, 5);
-	//game.playInf(new System_TenCount(), 1000, 5);
+	int player = 0, dealer = 0, decision = 0, replacement = 0;
+	long int goal = 0;
+	bool soft = false;
+	char filename[50];
 	
+	if (!initParams(argc, argv, &player, &dealer, &soft, &decision, &replacement, &goal, filename))
+	{
+		puts("Error found in params reading. Exiting...");
+		return 1;
+	}
+	
+	stats.init(player, dealer, soft, decision, replacement, goal, filename);
+	
+	Game game;
 	game.playStats(new System_BasicStrategy());
-	
-	return 1;
 }

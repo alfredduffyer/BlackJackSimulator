@@ -19,6 +19,11 @@ extern GlobalCount count;
 extern bool FORCEDEBUG;
 extern Stats stats;
 
+Game::Game()
+{
+	this->init(new Shoe(), 5, 500, NB_BOXES);
+}
+
 Game::Game(Shoe* shoe)
 {
 	this->init(shoe, 5, 500, NB_BOXES);
@@ -414,6 +419,7 @@ void Game::playStats(System* system)
 		}
 	}
 	stats.printStatus(handsPlayed);
+	stats.write(handsPlayed);
 }
 
 int Game::play()

@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "Hand.h"
 
 #ifndef STATS_H
@@ -21,9 +22,12 @@ class Stats
 		int lastHandsPlayed;
 		int lastTotalHandsPlayed;
 		double lastTime;
+		int logFile;
 	
 	public:
-		Stats(int playerValue, int dealerValue, bool softHand, int decisionConcerned, int decision, int handsNumber);
+		Stats();
+		~Stats();
+		void init(int playerValue, int dealerValue, bool softHand, int decisionConcerned, int decision, int handsNumber, char* filename);
 		void resetBoxes();
 		int getPlayerValue();
 		int getDealerValue();
@@ -35,8 +39,10 @@ class Stats
 		void addBox(int boxIndex);
 		bool isConcerned(int boxIndex);
 		void printStatus(int handsNumber);
+		void printStatus(int handsNumber, bool doClear);
 		void update(int boxIndex, int status);
 		void setTime();
+		void write(int handsPlayed);
 };
 
 #endif

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
+#include "../headers/_variables.h"
 
 int strlen(char* str)
 {
@@ -62,4 +63,39 @@ long int getMilliTime()
 	struct timeval tv;
 	gettimeofday(&tv, NULL);
 	return (long int) (tv.tv_sec) * 1000 + (tv.tv_usec) / 1000;
+}
+
+bool initParams(int argc, char* argv[], int* player, int* dealer, bool* soft, int* decision, int* replacement, long int* goal, char* filename)
+{
+	if (argc < 7)
+	{
+		  puts("Too few parameters. Need at least 6 :");
+		  puts(" - player        int     Player's hard value");
+		  puts(" - dealer        int     Dealer's value");
+		  puts(" - soft          bool    Whether the hand needs to be soft (1: soft, 0: hard)");
+		printf(" - decision      int     DRAW: %d, DOUBLE DOWN: %d, SPLIT: %d\n", DRAW, DOUBLEDOWN, SPLIT);
+		  puts(" - replacement   bool    Value that will be replaced in the table (see pdf)");
+		  puts(" - goal          int     How many hands to be tested");
+		  puts(" - [filename]    string  Log file that will be used (in output/)");
+		puts("");
+		return false;
+	}
+	
+	*player = atoi(argv[1]);
+	*dealer = atoi(argv[2]);
+	*soft = atoi(argv[3]) == 1;
+	*decision = atoi(argv[4]);
+	*replacement = atoi(argv[5]);
+	*goal = atoi(argv[6]);
+	
+	if (argc >= 8)
+	{
+		sprintf(filename, "%s", argv[7]);
+	}
+	else
+	{
+		sprintf(filename, "%d-%d-%d-%d-%d-%ld.txt", *player, *dealer, *soft ? 1 : 0, *decision, *replacement, *goal);
+	}
+	
+	return true;
 }

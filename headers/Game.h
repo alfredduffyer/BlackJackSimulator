@@ -20,6 +20,7 @@ class Game
 		Shoe* shoe;			// Table's shoe
 	
 	public:
+		Game();							// Calls init(shoe = new, min = 5, max = 500, nbBoxes = 7)
 		Game(Shoe* shoe);					// Calls init(min = 5, max = 500, nbBoxes = 7)
 		Game(Shoe* shoe, int min, int max);			// Calls init(nbBoxes = 7)
 		Game(Shoe* shoe, int min, int max, int nbBoxes);	// Calls init()
