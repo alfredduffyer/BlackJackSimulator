@@ -11,12 +11,16 @@ class Stats
 		int softHand;
 		int decisionConcerned;
 		int decision;
-		int handsNumber;
+		int goal;
 		int handsPlayed;
 		bool* boxes;
 		int wins;
 		int loses;
 		int ties;
+		int startTime;
+		int lastHandsPlayed;
+		int lastTotalHandsPlayed;
+		double lastTime;
 	
 	public:
 		Stats(int playerValue, int dealerValue, bool softHand, int decisionConcerned, int decision, int handsNumber);
@@ -26,12 +30,13 @@ class Stats
 		int isSoftHand();
 		int getDecisionConcerned();
 		int getDecision();
-		int getHandsNumber();
+		int getGoal();
 		bool finished();
 		void addBox(int boxIndex);
 		bool isConcerned(int boxIndex);
-		void printStatus();
+		void printStatus(int handsNumber);
 		void update(int boxIndex, int status);
+		void setTime();
 };
 
 #endif

@@ -80,11 +80,11 @@ int Game::howManyHands(bool isMainPlayer, Player* player)
 	return player->howManyHands(this->nbBoxes);
 }
 
-void Game::bet()
+int Game::bet()
 {
-	int i = 0, j = 0, k = 0, handsnumber = this->howManyHands(true, this->players[0]), currentBox = 0;
+	int i = 0, j = 0, k = 0, handsnumberMP = this->howManyHands(true, this->players[0]), handsnumber = 0, currentBox = 0;
 	
-	for (i = 0 ; i < handsnumber ; i++)
+	for (i = 0 ; i < handsnumberMP ; i++)
 	{
 		currentBox = (this->nbBoxes/2 + i) % this->nbBoxes;
 		
@@ -127,6 +127,7 @@ void Game::bet()
 		}
 	}
 	
+	return handsnumberMP;
 }
 
 void Game::deal(int boxIndex)
@@ -352,6 +353,7 @@ void Game::playStats(System* system)
 	this->addPlayer(new Player((char*) "The Player Who Never Busts", -1, 5, new System_ThePlayerWhoNeverBusts()));
 	this->addPlayer(new Player((char*) "Mimic The Dealer", -1, 5, new System_Dealer()));
 	this->addPlayer(new Player((char*) "The Random Player", -1, 5, new System_RandomPlayer()));
+	stats.setTime();
 	
 	while (!stats.finished())
 	{
@@ -362,13 +364,9 @@ void Game::playStats(System* system)
 			if (!STATUS && time(NULL) != timestamp)
 			{
 				timestamp = time(NULL);
-				printf("[");
-				printNumber(handsPlayed);
-				printf("] --> ");
-				stats.printStatus();
+				stats.printStatus(handsPlayed);
 			}
 			
-			handsPlayed++;
 			FORCEDEBUG = false;
 			
 			if ((DEBUG || FORCEDEBUG)) count.printStatus();
@@ -377,7 +375,7 @@ void Game::playStats(System* system)
 			stats.resetBoxes();
 			
 			debug((char*)"-Betting...\n");
-			this->bet();
+			handsPlayed += this->bet();
 			
 			debug((char*)"-Dealing first wave...\n");
 			this->deal();
@@ -409,12 +407,13 @@ void Game::playStats(System* system)
 				if ((DEBUG || FORCEDEBUG)) printf("+++++++[%d] Don Self has now %1.1f\n", handsPlayed, this->players[0]->getStack());
 			}
 			
-			if ((DEBUG || FORCEDEBUG)) stats.printStatus();
+			if ((DEBUG || FORCEDEBUG)) stats.printStatus(handsPlayed);
 			
 			if (PAUSE || FORCEDEBUG) spause();
 			else if (SLEEP) sleep(1);
 		}
 	}
+	stats.printStatus(handsPlayed);
 }
 
 int Game::play()
@@ -437,12 +436,11 @@ int Game::play()
 			
 			if ((DEBUG || FORCEDEBUG)) count.printStatus();
 			
-			handsPlayed++;
 			debug((char*)"Initializing turn...\n");
 			this->resetBoxes();
 			
 			debug((char*)"-Betting...\n");
-			this->bet();
+			handsPlayed += this->bet();
 			debug((char*)"-Dealing first wave...\n");
 			this->deal();
 			

@@ -5,6 +5,7 @@
 void printBars(char* str);
 
 // Prints a horizontal bar according to the console size
+void printHr(bool br);
 void printHr();
 
 // Prints a card with a color accoring to the actual card's color

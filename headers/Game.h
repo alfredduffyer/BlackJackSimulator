@@ -27,7 +27,7 @@ class Game
 		int addPlayer(Player* player);				// Adds a player to the table
 		void resetBoxes();					// Resets all the boxes, including the dealer's
 		int howManyHands(bool isMainPlayer, Player* player);	// Calculates the number of hands that will be played by a player
-		void bet();						// Makes the players bet on the available boxes
+		int bet();						// Makes the players bet on the available boxes
 		void deal(int boxIndex);				// Deals a card to a given box
 		void deal();						// Deals the first wave (two cards on each box, one to the dealer)
 		void insurance();					// Asks the player to insure their hands or not

@@ -1,23 +1,29 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "../headers/_config.h"
+#include "../headers/functions.h"
 #include "../headers/print.h"
 #include "../headers/Stats.h"
 
-Stats::Stats(int playerValue, int dealerValue, bool softHand, int decisionConcerned, int decision, int handsNumber)
+
+Stats::Stats(int playerValue, int dealerValue, bool softHand, int decisionConcerned, int decision, int goal)
 {
 	this->playerValue = playerValue;
 	this->dealerValue = dealerValue;
 	this->softHand = softHand;
 	this->decisionConcerned = decisionConcerned;
 	this->decision = decision;
-	this->handsNumber = handsNumber;
+	this->goal = goal;
 	this->handsPlayed = 0;
 	this->boxes = (bool*) calloc((MAX_SPLIT+1) * NB_BOXES, sizeof(bool));
 	this->resetBoxes();
 	this->wins = 0;
 	this->loses = 0;
 	this->ties = 0;
+	this->startTime = 0;
+	this->lastHandsPlayed = 0;
+	this->lastTotalHandsPlayed = 0;
 }
 
 void Stats::resetBoxes()
@@ -53,14 +59,14 @@ int Stats::getDecision()
 	return this->decision;
 }
 
-int Stats::getHandsNumber()
+int Stats::getGoal()
 {
-	return this->handsNumber;
+	return this->goal;
 }
 
 void Stats::addBox(int boxIndex)
 {
-	if (this->boxes[boxIndex])
+	if (this->finished() || this->boxes[boxIndex])
 	{
 		return;
 	}
@@ -75,21 +81,101 @@ bool Stats::isConcerned(int boxIndex)
 
 bool Stats::finished()
 {
-	return false;
+	return this->handsPlayed >= this->goal;
 }
 
-void Stats::printStatus()
+void Stats::printStatus(int handsPlayed)
 {
+	char message[100];
 	system("clear");
+	
+	int currentTime = time(NULL);
+	double deltaTime = ((((double)getMilliTime())/1000.0 - this->lastTime) <= 0) ? 1 : (((double)getMilliTime())/1000.0 - this->lastTime);
+	
 	double total = this->handsPlayed ? ((double) this->handsPlayed) : 100;
-	printHr();
-	printf("Hands played : %9d\n", this->handsPlayed);
-	printf("               %9d\n", this->handsNumber);
-	printf("Wins :  %9d (%2.1f %%)\n", this->wins, this->wins / total * 100);
-	printf("Loses : %9d (%2.1f %%)\n", this->loses, this->loses / total * 100);
-	printf("Ties :  %9d (%2.1f %%)\n", this->ties, this->ties / total * 100);
-	printf("Interest index :  %f", (double)this->wins - (double)this->loses);
-	printHr();
+	double winPercentage = this->wins / total * 100;
+	double tiePercentage = this->ties / total * 100;
+	double losePercentage = this->loses / total * 100;
+	
+	int elapsedTimes = currentTime - this->startTime;
+	int elapsedTimem = elapsedTimes / 60;
+	int elapsedTimeh = elapsedTimes / 3600;
+	
+	int handsPerSecond = handsPlayed / elapsedTimes;
+	int iHandsPerSecond = this->handsPlayed / elapsedTimes;
+	int iHandsPerMinute = (this->handsPlayed*60) / elapsedTimes;
+	
+	int instantHPS = ((double)(handsPlayed - this->lastTotalHandsPlayed)) / deltaTime;
+	int instantiHPS = ((double)(this->handsPlayed - this->lastHandsPlayed)) / deltaTime;
+	int instantiHPM = ((double)(this->handsPlayed - this->lastHandsPlayed)*60) / deltaTime;
+	
+	int etaS = (this->goal - this->handsPlayed) / instantiHPS;
+	int etaM = etaS / 60;
+	int etaH = etaS / 3600;
+	
+	int etaAverageS = ((double)(this->goal * elapsedTimes)) / ((double)this->handsPlayed) - ((double)elapsedTimes);
+	int etaAverageM = etaS / 60;
+	int etaAverageH = etaS / 3600;
+	
+	printHr(false);
+	
+	sprintf(message, "Total Hands played :   %'17d", handsPlayed);
+	sprintf(message, "%s    --> per second:  %'7d / %'5d", message, instantHPS, instantiHPS);
+	printBars(message);
+	
+	sprintf(message, "Interesting Hands played : %'13d", this->handsPlayed);
+	sprintf(message, "%s    --> per minute:          %'7d", message, instantiHPM);
+	printBars(message);
+	
+	sprintf(message, "Goal :                     %'13d", this->goal);
+	sprintf(message, "%s    --> average (s): %'7d / %'5d", message, handsPerSecond, iHandsPerSecond);
+	printBars(message);
+	
+	sprintf(message, "Interesting Hands frequency :     %2.2f %%", ((double)this->handsPlayed) * 100 / ((double)handsPlayed));
+	sprintf(message, "%s    --> average (m):         %'7d", message, iHandsPerMinute);
+	printBars(message);
+	
+	printBars((char*)"");
+	
+	sprintf(message, "Elapsed time :  %02d:%02d:%02d", elapsedTimeh%60, elapsedTimem % 60, elapsedTimes % 60);
+	printBars(message);
+	
+	sprintf(message, "ETA :           %02d:%02d:%02d", etaH%60, etaM % 60, etaS % 60);
+	printBars(message);
+	
+	sprintf(message, "ETA (on AVG) :  %02d:%02d:%02d", etaAverageH%60, etaAverageM % 60, etaAverageS % 60);
+	printBars(message);
+	
+	sprintf(message, "Progress :        %2.2f %%", ((double)this->handsPlayed*100.0) / ((double)this->goal));
+	printBars(message);
+	
+	printBars((char*)"");
+	
+	sprintf(message, "Wins :  %'13d (%2.2f %%)", this->wins, winPercentage);
+	printBars(message);
+	
+	sprintf(message, "Ties :  %'13d (%2.2f %%)", this->ties, tiePercentage);
+	printBars(message);
+	
+	sprintf(message, "Loses : %'13d (%2.2f %%)", this->loses, losePercentage);
+	printBars(message);
+	
+	printBars((char*)"");
+	
+	sprintf(message, "Interest index :  %2.2f", winPercentage - losePercentage);
+	printBars(message);
+	
+	printHr(false);
+	
+	this->lastHandsPlayed = this->handsPlayed;
+	this->lastTotalHandsPlayed = handsPlayed;
+	this->lastTime = ((double)getMilliTime()) / 1000.0;
+}
+
+void Stats::setTime()
+{
+	this->startTime = time(NULL);
+	this->lastTime = ((double)getMilliTime()) / 1000.0;
 }
 
 void Stats::update(int boxIndex, int status)

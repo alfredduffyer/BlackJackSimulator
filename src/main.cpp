@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <locale.h>
 #include "../headers/_variables.h"
 #include "../headers/_config.h"
 #include "../headers/functions.h"
@@ -17,11 +18,12 @@
 
 GlobalCount count;
 bool FORCEDEBUG = false;
-Stats stats(12, 2, false, DRAW, -1, 1000000);
+Stats stats(12, 2, false, DRAW, 1, 1000000);
 
 int main()
 {
 	srand(getMilliTime());
+	setlocale(LC_ALL, "");
 	
 	Game game(new Shoe(), 5, 500, NB_BOXES);
 	//game.playInf(new System_BasicStrategy(), 1000, 5);

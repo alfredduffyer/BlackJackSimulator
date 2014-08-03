@@ -18,14 +18,22 @@ void printBars(char* str)
 	printf("|\n");	
 }
 
-void printHr()
+void printHr(bool br)
 {
-	puts("");
+	if (br)
+	{
+		puts("");
+	}
 	for (int i = 0 ; i < TERMINAL_SIZE_X ; i++)
 	{
 		printf("-");
 	}
 	puts("");
+}
+
+void printHr()
+{
+	printHr(false);
 }
 
 void printCardColor(char color)
@@ -219,18 +227,4 @@ void debug(char* str, int color)
 	{
 		printf(str);
 	}
-}
-
-void printNumber(int number)
-{
-	long int i = 0;
-	for (i = 1000000000 ; i >= 1000 ; i /= 1000)
-	{
-		if (number > i)
-		{
-			printf("%03ld ", (number % (i*1000))/ i);
-		}
-	}
-	
-	printf("%03d", number % 1000);
 }
