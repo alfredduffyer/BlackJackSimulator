@@ -13,6 +13,9 @@ void sleep(int seconds);
 // Makes a pause in the program calling system(), waits until the user hits RETURN
 void spause();
 
+// Clears the console
+void clear();
+
 // Gives a good random number between min and max included
 int random(int min, int max);
 

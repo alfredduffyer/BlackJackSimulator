@@ -189,24 +189,31 @@ void Game::insurance()
 void Game::decision(int boxIndex)
 {
 	int decision = 0;
+	bool canSplit = (boxIndex != -1 && this->splitIndexes[boxIndex % this->nbBoxes] < MAX_SPLIT);
 	
 	Box* box = (boxIndex == -1) ? this->dealerBox : &this->boxes[boxIndex];
 	
-	if (
-	   (stats.getDecisionConcerned() == SPLIT && boxIndex != -1 && this->splitIndexes[boxIndex % this->nbBoxes] < MAX_SPLIT && box->hand.isPair())
-	|| (stats.getDecisionConcerned() == DOUBLEDOWN && box->hand.getSize() == 2)
-	|| (stats.getDecisionConcerned() == DRAW)
-	)
+	while (!box->hand.isNatural() && !box->hand.isBusted())
 	{
-		if (boxIndex != -1 && strcmp(box->player->getName(), (char*) "Don Self") && box->hand.getValue() == stats.getPlayerValue() && this->dealerBox->hand.getValue() == stats.getDealerValue())
+		decision = box->decision(&this->dealerBox->hand, canSplit, true);
+		
+		if (strcmp(box->player->getName(), (char*) "Don Self") && box->hand.getValue() == stats.getPlayerValue() && this->dealerBox->hand.getValue() == stats.getDealerValue())
 		{
-			stats.addBox(boxIndex);
-			FORCEDEBUG = true;
+			bool matchSplitStat = stats.getDecisionConcerned() == SPLIT && canSplit;
+			bool matchDoubleDownStat = stats.getDecisionConcerned() == DOUBLEDOWN && box->hand.getSize() == 2 && (decision == DOUBLEDOWN || decision == DRAW || decision == STAND);
+			bool matchDrawStat = stats.getDecisionConcerned() == DRAW && (decision == DRAW || decision == STAND);
+			
+			if (matchSplitStat || matchDoubleDownStat || matchDrawStat)
+			{
+				stats.addBox(boxIndex);
+				//FORCEDEBUG = true;
+			}
 		}
-	}
-	
-	while(!box->hand.isNatural() && !box->hand.isBusted() && (decision = box->decision(&this->dealerBox->hand, (boxIndex != -1 && this->splitIndexes[boxIndex % this->nbBoxes] < MAX_SPLIT), true)) != STAND)
-	{
+		
+		if (decision == STAND)
+		{
+			break;
+		}
 		
 		if (decision == DRAW)
 		{
@@ -303,6 +310,11 @@ void Game::pay()
 		
 		status = this->boxes[i].hand.beats(&this->dealerBox->hand);
 		
+		if (stats.isConcerned(i))
+		{
+			stats.update(i, status);
+		}
+		
 		sprintf(text1, " [%d] has %d against %d, status is %d (%s)\n", i, this->boxes[i].hand.getValue(), this->dealerBox->hand.getValue(), status, this->boxes[i].player->getName());
 		sprintf(text2, "  --> Had %1.1f, has now ", this->boxes[i].player->getStack());
 		
@@ -396,6 +408,8 @@ void Game::playStats(System* system)
 				this->players[0] = new Player((char*) "Don Self", 1000, 5, system);
 				if ((DEBUG || FORCEDEBUG)) printf("+++++++[%d] Don Self has now %1.1f\n", handsPlayed, this->players[0]->getStack());
 			}
+			
+			if ((DEBUG || FORCEDEBUG)) stats.printStatus();
 			
 			if (PAUSE || FORCEDEBUG) spause();
 			else if (SLEEP) sleep(1);

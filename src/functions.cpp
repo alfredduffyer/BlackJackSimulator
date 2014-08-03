@@ -34,6 +34,11 @@ void spause()
 	system("echo \"PAUSE\" && read a");
 }
 
+void clear()
+{
+	system("clear");
+}
+
 int random(int min, int max)
 {
 	// TODO : Better random

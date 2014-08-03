@@ -20,11 +20,12 @@ void printBars(char* str)
 
 void printHr()
 {
-	int i = 0;
-	for (i = 0 ; i < TERMINAL_SIZE_X ; i++)
+	puts("");
+	for (int i = 0 ; i < TERMINAL_SIZE_X ; i++)
 	{
 		printf("-");
 	}
+	puts("");
 }
 
 void printCardColor(char color)
