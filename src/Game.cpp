@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "../headers/_variables.h"
 #include "../headers/_config.h"
 #include "../headers/functions.h"
@@ -16,15 +17,16 @@
 
 extern GlobalCount count;
 extern bool FORCEDEBUG;
+extern Stats stats;
 
 Game::Game(Shoe* shoe)
 {
-	this->init(shoe, 5, 500, 7);
+	this->init(shoe, 5, 500, NB_BOXES);
 }
 
 Game::Game(Shoe* shoe, int min, int max)
 {
-	this->init(shoe, min, max, 7);
+	this->init(shoe, min, max, NB_BOXES);
 }
 
 Game::Game(Shoe* shoe, int min, int max, int nbBoxes)
@@ -190,8 +192,22 @@ void Game::decision(int boxIndex)
 	
 	Box* box = (boxIndex == -1) ? this->dealerBox : &this->boxes[boxIndex];
 	
+	if (
+	   (stats.getDecisionConcerned() == SPLIT && boxIndex != -1 && this->splitIndexes[boxIndex % this->nbBoxes] < MAX_SPLIT && box->hand.isPair())
+	|| (stats.getDecisionConcerned() == DOUBLEDOWN && box->hand.getSize() == 2)
+	|| (stats.getDecisionConcerned() == DRAW)
+	)
+	{
+		if (boxIndex != -1 && strcmp(box->player->getName(), (char*) "Don Self") && box->hand.getValue() == stats.getPlayerValue() && this->dealerBox->hand.getValue() == stats.getDealerValue())
+		{
+			stats.addBox(boxIndex);
+			FORCEDEBUG = true;
+		}
+	}
+	
 	while(!box->hand.isNatural() && !box->hand.isBusted() && (decision = box->decision(&this->dealerBox->hand, (boxIndex != -1 && this->splitIndexes[boxIndex % this->nbBoxes] < MAX_SPLIT), true)) != STAND)
 	{
+		
 		if (decision == DRAW)
 		{
 			this->deal(boxIndex);
@@ -316,9 +332,75 @@ void Game::pay()
 	}
 }
 
-void Game::playStats()
+void Game::playStats(System* system)
 {
+	int handsPlayed = 0;
+	int timestamp = time(NULL);
+	this->addPlayer(new Player((char*) "Don Self", 1000, 5, system));
+	this->addPlayer(new Player((char*) "The Player Who Never Busts", -1, 5, new System_ThePlayerWhoNeverBusts()));
+	this->addPlayer(new Player((char*) "Mimic The Dealer", -1, 5, new System_Dealer()));
+	this->addPlayer(new Player((char*) "The Random Player", -1, 5, new System_RandomPlayer()));
 	
+	while (!stats.finished())
+	{
+		this->shoe->reset();
+		
+		while (!this->shoe->isTheEnd())
+		{
+			if (!STATUS && time(NULL) != timestamp)
+			{
+				timestamp = time(NULL);
+				printf("[");
+				printNumber(handsPlayed);
+				printf("] --> ");
+				stats.printStatus();
+			}
+			
+			handsPlayed++;
+			FORCEDEBUG = false;
+			
+			if ((DEBUG || FORCEDEBUG)) count.printStatus();
+			
+			this->resetBoxes();
+			stats.resetBoxes();
+			
+			debug((char*)"-Betting...\n");
+			this->bet();
+			
+			debug((char*)"-Dealing first wave...\n");
+			this->deal();
+			
+			if (this->dealerBox->hand.getSoftValue() == 1)
+			{
+				debug((char*)"-Insurance...\n");
+				this->insurance();
+			}
+			
+			debug((char*)"-Dealing second wave...\n");
+			this->decisions();
+			
+			if (this->dealerBox->hand.isNatural())
+			{
+				debug((char*)"-Paying insurance...\n");
+				this->payInsurance();
+			}
+			
+			debug((char*)"-Paying players...\n");
+			this->pay();
+			
+			if ((DEBUG || FORCEDEBUG)) printf("\n%d cards played, going to %d.\n\n", this->shoe->getIndex(), this->shoe->getLimit());
+			
+			if (STATUS) printf("[%d] Don Self has now %1.1f\n", handsPlayed, this->players[0]->getStack());
+			if (this->players[0]->getStack() < this->players[0]->getUnit() * MAX_HAND_VARIATION * MAX_BET_VARIATION)
+			{
+				this->players[0] = new Player((char*) "Don Self", 1000, 5, system);
+				if ((DEBUG || FORCEDEBUG)) printf("+++++++[%d] Don Self has now %1.1f\n", handsPlayed, this->players[0]->getStack());
+			}
+			
+			if (PAUSE || FORCEDEBUG) spause();
+			else if (SLEEP) sleep(1);
+		}
+	}
 }
 
 int Game::play()
@@ -326,7 +408,7 @@ int Game::play()
 	int handsPlayed = 0;
 	while (1)
 	{
-		debug((char*)"Initializing shoe...");
+		debug((char*)"Initializing shoe...\n");
 		this->shoe->reset();
 		
 		while (!this->shoe->isTheEnd())
@@ -342,30 +424,30 @@ int Game::play()
 			if ((DEBUG || FORCEDEBUG)) count.printStatus();
 			
 			handsPlayed++;
-			debug((char*)"Initializing turn...");
+			debug((char*)"Initializing turn...\n");
 			this->resetBoxes();
 			
-			debug((char*)"-Betting...");
+			debug((char*)"-Betting...\n");
 			this->bet();
-			debug((char*)"-Dealing first wave...");
+			debug((char*)"-Dealing first wave...\n");
 			this->deal();
 			
 			if (this->dealerBox->hand.getSoftValue() == 1)
 			{
-				debug((char*)"-Insurance...");
+				debug((char*)"-Insurance...\n");
 				this->insurance();
 			}
 			
-			debug((char*)"-Dealing second wave...");
+			debug((char*)"-Dealing second wave...\n");
 			this->decisions();
 			
 			if (this->dealerBox->hand.isNatural())
 			{
-				debug((char*)"-Paying insurance...");
+				debug((char*)"-Paying insurance...\n");
 				this->payInsurance();
 			}
 			
-			debug((char*)"-Paying players...");
+			debug((char*)"-Paying players...\n");
 			this->pay();
 			
 			if ((DEBUG || FORCEDEBUG))printf("\n%d cards played, going to %d.\n\n", this->shoe->getIndex(), this->shoe->getLimit());
@@ -399,7 +481,7 @@ void Game::playInf(System* system, double stack, int unit)
 	
 	while (++nbPlays)
 	{
-		this->init(new Shoe(), 5, 500, 7);
+		this->init(new Shoe(), 5, 500, NB_BOXES);
 		this->addPlayer(new Player((char*) "Don Self", stack, unit, system));
 		this->addPlayer(new Player((char*) "The Player Who Never Busts", -1, 5, new System_ThePlayerWhoNeverBusts()));
 		this->addPlayer(new Player((char*) "Mimic The Dealer", -1, 5, new System_Dealer()));

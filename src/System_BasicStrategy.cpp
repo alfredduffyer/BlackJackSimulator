@@ -1,13 +1,17 @@
 #include "../headers/_variables.h"
 #include "../headers/functions.h"
+#include "../headers/print.h"
 #include "../headers/GlobalCount.h"
 #include "../headers/System_BasicStrategy.h"
+#include "../headers/Stats.h"
 
 extern GlobalCount count;
+extern Stats stats;
 
 System_BasicStrategy::System_BasicStrategy() : System()
 {
 	this->initiateTables();
+	this->initiateStatsException();
 }
 
 bool System_BasicStrategy::insure()
@@ -35,7 +39,47 @@ void System_BasicStrategy::initiateTables()
 	printBlackJackTables(this->hardDoublingDown, 10, 10, SHIFT_HDD, true);
 	printBlackJackTables(this->softDoublingDown, 9, 10, SHIFT_SDD, true, 'A');
 	printBlackJackTables(this->splittingPairs, 10, 10, SHIFT_SP, true, 'S');
-	sleep(10);
+	spause();
+	*/
+}
+
+void System_BasicStrategy::initiateStatsException()
+{
+	int playerValue = (stats.getPlayerValue() == 12) ? 11 : stats.getPlayerValue()/2;
+	switch (stats.getDecisionConcerned())
+	{
+		case SPLIT:
+			this->splittingPairs[playerValue-SHIFT_SDD][stats.getDealerValue()-1] = stats.getDecision();
+			break;
+		
+		case DOUBLEDOWN:
+			if (stats.isSoftHand())
+			{
+				this->softDoublingDown[stats.getPlayerValue()-10-SHIFT_SDD][stats.getDealerValue()-1] = stats.getDecision();
+			}
+			else
+			{
+				this->hardDoublingDown[stats.getPlayerValue()-SHIFT_HDD][stats.getDealerValue()-1] = stats.getDecision();
+			}
+			break;
+		
+		case DRAW:
+			if (stats.isSoftHand())
+			{
+				this->softStanding[stats.getPlayerValue()-SHIFT_SS][stats.getDealerValue()-1] = stats.getDecision();
+			}
+			else
+			{
+				this->hardStanding[stats.getPlayerValue()-SHIFT_HS][stats.getDealerValue()-1] = stats.getDecision();
+			}
+			break;
+	}
+	/*
+	printBlackJackTables(this->hardStanding, 8, 10, SHIFT_HS, true);
+	printBlackJackTables(this->softStanding, 3, 10, SHIFT_SS, true);
+	printBlackJackTables(this->hardDoublingDown, 10, 10, SHIFT_HDD, true);
+	printBlackJackTables(this->softDoublingDown, 9, 10, SHIFT_SDD, true, 'A');
+	printBlackJackTables(this->splittingPairs, 10, 10, SHIFT_SP, true, 'S');
 	*/
 }
 

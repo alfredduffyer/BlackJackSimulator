@@ -13,19 +13,23 @@
 #include "../headers/System_FullPointCount.h"
 #include "../headers/System_TenCount.h"
 #include "../headers/Game.h"
+#include "../headers/Stats.h"
 
 GlobalCount count;
 bool FORCEDEBUG = false;
+Stats stats(12, 2, false, DRAW, -1, 1000000);
 
 int main()
 {
 	srand(getMilliTime());
 	
-	Game game(new Shoe(), 5, 500, 7);
+	Game game(new Shoe(), 5, 500, NB_BOXES);
 	//game.playInf(new System_BasicStrategy(), 1000, 5);
 	//game.playInf(new System_SimplePointCount(), 1000, 5);
 	//game.playInf(new System_FullPointCount(), 1000, 5);
-	game.playInf(new System_TenCount(), 1000, 5);
+	//game.playInf(new System_TenCount(), 1000, 5);
+	
+	game.playStats(new System_BasicStrategy());
 	
 	return 1;
 }

@@ -47,6 +47,11 @@ void System::initiateTables()
 	}
 }
 
+void System::initiateStatsException()
+{
+	
+}
+
 void System::updateComparator()
 {
 	this->comparator = 0;

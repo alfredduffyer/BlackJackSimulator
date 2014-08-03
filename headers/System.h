@@ -17,6 +17,7 @@ class System
 		System();					// Allocates the memory for the tables
 		~System();					// Frees the memory from the tables
 		virtual void initiateTables();			// Initiates and fills the tables
+		virtual void initiateStatsException();		// Initiates the stats exception
 		virtual void updateComparator();		// Updates the comparator according to the counting numbers
 		virtual int howManyHands(int maxHands);		// Calculates how many hands the player should be playing for a turn
 		virtual int bet();				// Calculates how many units the player should be betting for a turn

@@ -51,6 +51,11 @@
 #define MAX_SPLIT 2
 
 /*
+ * Number of boxes that can be played on the table [1-10]
+ */
+#define NB_BOXES 7
+
+/*
  * Number of decks that will be played with [1-10]
  */
 #define NB_DECKS 6

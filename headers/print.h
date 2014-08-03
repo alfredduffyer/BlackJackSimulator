@@ -31,4 +31,7 @@ void debug(char* str);
 // Prints a message if DEBUG mode is activated with a color
 void debug(char* str, int color);
 
+// Prints a number with spaces between thousands
+void printNumber(int number);
+
 #endif

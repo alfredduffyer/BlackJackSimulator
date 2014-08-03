@@ -42,7 +42,7 @@
 #define NOSTATUSLIMIT 50000000
 #define STATUS 0
 #define DEBUG 0
-#define FORCE_DEBUG 0
+#define FORCE_DEBUG 1
 #define PAUSE 0
 #define SLEEP 0
 #define DEBUG_COLOR 1
