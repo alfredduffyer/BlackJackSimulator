@@ -28,8 +28,6 @@ class Box
 		bool isFree();		// true if the box hasn't been taken by a player (is free), false otherwise
 		bool hasInsured();	// true if the hand has been insured, false otherwise
 		int getBet();		// Gives the bet that was placed on the box
-		
-		static int _stats[21][10];			// TEMP
 };
 
 #endif

@@ -9,11 +9,9 @@
 
 extern GlobalCount count;
 
-Shoe::Shoe(int size)
+Shoe::Shoe()
 {
-	size = (size < MIN_SHOE_SIZE) ? MIN_SHOE_SIZE : size;
-	size = (size > MAX_SHOE_SIZE) ? MAX_SHOE_SIZE : size;
-	this->size = size * 52;
+	this->size = NB_DECKS * 52;
 	this->cards = (Card*) calloc(this->size, sizeof(Card));
 	this->topIndex = 0;
 	this->create();

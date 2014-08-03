@@ -5,7 +5,6 @@
 #include "../headers/System_FullPointCount.h"
 
 extern GlobalCount count;
-extern bool fffffffffff;
 
 System_FullPointCount::System_FullPointCount() : System()
 {

@@ -5,11 +5,16 @@
 #include "../headers/functions.h"
 #include "../headers/print.h"
 #include "../headers/GlobalCount.h"
+#include "../headers/System_BasicStrategy.h"
 #include "../headers/System_Dealer.h"
+#include "../headers/System_RandomPlayer.h"
+#include "../headers/System_ThePlayerWhoNeverBusts.h"
+#include "../headers/System_SimplePointCount.h"
+#include "../headers/System_FullPointCount.h"
+#include "../headers/System_TenCount.h"
 #include "../headers/Game.h"
 
 extern GlobalCount count;
-extern bool fffffffffff;
 extern bool FORCEDEBUG;
 
 Game::Game(Shoe* shoe)
@@ -199,26 +204,16 @@ void Game::decision(int boxIndex)
 			{
 				break;
 			}
-			//printColor(C_RED + 10, (char*)"Couldn't double down !! Just drawed a card\n");
-			//system("echo \"PAUSE\" && read a");
 		}
 		
 		if (decision == SPLIT)
 		{
-			//if ((DEBUG || FORCEDEBUG))printColor(C_YELLOW, (char*) "  --> Splitting that\n");
-			//puts("  --> Splitting that");
-			//system("echo \"PAUSE\" && read a");
-			
 			int splitIndex = ++this->splitIndexes[boxIndex % this->nbBoxes];
 			
 			int value = this->boxes[boxIndex].hand.getSoftValue() / 2;
 			int bet = this->boxes[boxIndex].getBet();
 			Player* player = this->boxes[boxIndex].player;
 			int splitBoxIndex = (boxIndex % this->nbBoxes) + (this->nbBoxes * splitIndex);
-			
-			//printf("[boxIndex: %d, this->nbBoxes: %d, splitIndex: %d, splitBoxIndex: %d]\n", boxIndex, this->nbBoxes, splitIndex, splitBoxIndex);
-			
-			//if (strcmp(player->getName(), "Don Self") == 0) fffffffffff = true;
 			
 			this->boxes[boxIndex].tie();
 			this->boxes[boxIndex].reset();
@@ -240,8 +235,6 @@ void Game::decision(int boxIndex)
 			{
 				this->decision(splitBoxIndex);
 			}
-			
-			//system("echo \"Splitted. PAUSE\" && read a");
 			
 			break;
 		}
@@ -323,12 +316,17 @@ void Game::pay()
 	}
 }
 
+void Game::playStats()
+{
+	
+}
+
 int Game::play()
 {
 	int handsPlayed = 0;
 	while (1)
 	{
-		if ((DEBUG || FORCEDEBUG))puts("Initializing shoe...");
+		debug((char*)"Initializing shoe...");
 		this->shoe->reset();
 		
 		while (!this->shoe->isTheEnd())
@@ -344,30 +342,30 @@ int Game::play()
 			if ((DEBUG || FORCEDEBUG)) count.printStatus();
 			
 			handsPlayed++;
-			if ((DEBUG || FORCEDEBUG))puts("Initializing turn...");
+			debug((char*)"Initializing turn...");
 			this->resetBoxes();
 			
-			if ((DEBUG || FORCEDEBUG))puts("-Betting...");
+			debug((char*)"-Betting...");
 			this->bet();
-			if ((DEBUG || FORCEDEBUG))puts("-Dealing first wave...");
+			debug((char*)"-Dealing first wave...");
 			this->deal();
 			
 			if (this->dealerBox->hand.getSoftValue() == 1)
 			{
-				if ((DEBUG || FORCEDEBUG))puts("-Insurance...");
+				debug((char*)"-Insurance...");
 				this->insurance();
 			}
 			
-			if ((DEBUG || FORCEDEBUG))puts("-Dealing second wave...");
+			debug((char*)"-Dealing second wave...");
 			this->decisions();
 			
 			if (this->dealerBox->hand.isNatural())
 			{
-				if ((DEBUG || FORCEDEBUG))puts("-Paying insurance...");
+				debug((char*)"-Paying insurance...");
 				this->payInsurance();
 			}
 			
-			if ((DEBUG || FORCEDEBUG))puts("-Paying players...");
+			debug((char*)"-Paying players...");
 			this->pay();
 			
 			if ((DEBUG || FORCEDEBUG))printf("\n%d cards played, going to %d.\n\n", this->shoe->getIndex(), this->shoe->getLimit());
@@ -386,15 +384,47 @@ int Game::play()
 				}
 			}
 			
-			if(PAUSE || FORCEDEBUG)system("echo \"PAUSE\" && read a");
+			if(PAUSE || FORCEDEBUG) system("echo \"PAUSE\" && read a");
 			else if (SLEEP)sleep(1);
-			
-			if (fffffffffff)
-			{
-				system("echo \"PAUSE\" && read a");
-				fffffffffff = false;
-			}
-			
 		}
+	}
+}
+
+void Game::playInf(System* system, double stack, int unit)
+{
+	int result = 0, nbPlays = 0;
+	long int totalHandsPlayed = 0;
+	double average = 0;
+	char message[100];
+	
+	while (++nbPlays)
+	{
+		this->init(new Shoe(), 5, 500, 7);
+		this->addPlayer(new Player((char*) "Don Self", stack, unit, system));
+		this->addPlayer(new Player((char*) "The Player Who Never Busts", -1, 5, new System_ThePlayerWhoNeverBusts()));
+		this->addPlayer(new Player((char*) "Mimic The Dealer", -1, 5, new System_Dealer()));
+		this->addPlayer(new Player((char*) "The Random Player", -1, 5, new System_RandomPlayer()));
+		
+		result = this->play();
+		totalHandsPlayed += (long int) result;
+		
+		if (result != NOSTATUSLIMIT)
+		{
+			average = ((double) (average * (nbPlays-1) + result)) / ((double) nbPlays);
+		}
+		
+		sprintf(message, "Don Self died in %9d hands, average is %5.0f, total %5d %03d %03d\n", result, average, (int) ((totalHandsPlayed-totalHandsPlayed % 1000000) / 1000000), (int) ((totalHandsPlayed % 1000000) / 1000), (int) (totalHandsPlayed % 1000));
+		
+		if (result == NOSTATUSLIMIT)
+		{
+			sprintf(message, "Don Self survived %9d hands, won a lot of money !\n", result);
+			printColor(C_GREEN, message);
+		}
+		else
+		{
+			printColor(C_RED, message);
+		}
+		
+		if (STATUS) break;
 	}
 }

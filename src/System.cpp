@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../headers/_variables.h"
+#include "../headers/print.h"
 #include "../headers/System.h"
 
 extern bool FORCEDEBUG;
@@ -109,37 +110,44 @@ int System::decision(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDo
 	int playerSoftValue = player->getSoftValue();
 	int playerValue = player->getValue();
 	int dealerValue = dealer->getSoftValue();
+	char message[100];
 	
 	if (canSplit && player->isPair() && this->split(playerSoftValue/2, dealerValue))
 	{
-		if ((DEBUG || FORCEDEBUG)) printf("  --> Splitting a (%d,%d) against a %d\n", playerSoftValue/2, playerSoftValue/2, dealerValue);
+		sprintf(message, "  --> Splitting a (%d,%d) against a %d\n", playerSoftValue/2, playerSoftValue/2, dealerValue);
+		debug(message, 0);
 		return SPLIT;
 	}
 	
 	if (canDoubleDown && player->isSoft() && (playerSoftValue == 2 || (playerValue >= 13 && playerValue < 20)) && this->doubleDown(playerValue, dealerValue, true))
 	{
-		if ((DEBUG || FORCEDEBUG)) printf("  --> Doubling down a soft %d against a %d\n", playerValue, dealerValue);
+		sprintf(message, "  --> Doubling down a soft %d against a %d\n", playerValue, dealerValue);
+		debug(message, 0);
 		return DOUBLEDOWN;
 	}
 	
 	if (canDoubleDown && !player->isSoft() && playerValue >= 2 && playerValue <= 11 && this->doubleDown(playerValue, dealerValue, false))
 	{
-		if ((DEBUG || FORCEDEBUG)) printf("  --> Doubling down a hard %d against a %d\n", playerValue, dealerValue);
+		sprintf(message, "  --> Doubling down a hard %d against a %d\n", playerValue, dealerValue);
+		debug(message, 0);
 		return DOUBLEDOWN;
 	}
 	
 	if (player->isSoft() && (playerValue < 17 || (playerValue >= 17 && playerValue <= 19 && this->draw(playerValue, dealerValue, true))))
 	{
-		if ((DEBUG || FORCEDEBUG)) printf("  --> Drawing on a soft %d against a %d\n", playerValue, dealerValue);
+		sprintf(message, "  --> Drawing on a soft %d against a %d\n", playerValue, dealerValue);
+		debug(message, 0);
 		return DRAW;
 	}
 	
 	if (!player->isSoft() && playerValue < 20 && (playerValue < 12 || this->draw(playerValue, dealerValue, false)))
 	{
-		if ((DEBUG || FORCEDEBUG)) printf("  --> Drawing on a hard %d against a %d\n", playerValue, dealerValue);
+		sprintf(message, "  --> Drawing on a hard %d against a %d\n", playerValue, dealerValue);
+		debug(message, 0);
 		return DRAW;
 	}
 	
-	if ((DEBUG || FORCEDEBUG)) printf("  --> Standing on a %s %d against a %d\n", ((player->isSoft()) ? "soft" : "hard"), playerValue, dealerValue);
+	sprintf(message, "  --> Standing on a %s %d against a %d\n", ((player->isSoft()) ? "soft" : "hard"), playerValue, dealerValue);
+	debug(message, 0);
 	return STAND;
 }

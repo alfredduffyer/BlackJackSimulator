@@ -4,6 +4,8 @@
 #include "../headers/_config.h"
 #include "../headers/functions.h"
 
+extern bool FORCEDEBUG;
+
 void printBars(char* str)
 {
 	int i = 0, size = strlen(str);
@@ -200,4 +202,33 @@ void printStatTable(int table[21][10], bool split)
 		printf(" %d", (j+1) % 10);
 	}
 	puts("\n");
+}
+
+
+void debug(char* str)
+{
+	if (!DEBUG && !FORCEDEBUG)
+	{
+		return;
+	}
+	
+	printf(str);
+	
+}
+
+void debug(char* str, int color)
+{
+	if (!DEBUG && !FORCEDEBUG)
+	{
+		return;
+	}
+	
+	if (color)
+	{
+		printColor(color, str);
+	}
+	else
+	{
+		printf(str);
+	}
 }

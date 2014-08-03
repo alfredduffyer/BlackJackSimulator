@@ -34,7 +34,9 @@ class Game
 		void decisions();					// Deals the second wave according to players' decisions
 		void payInsurance();					// Pays the insurance in the case of a Black Jack
 		void pay();						// Pays the players
+		void playStats();					// Plays with statistics
 		int play();						// Main procedure : plays the game of Black Jack using the other methods
+		void playInf(System* system, double stack, int unit);	// Plays indefinitely
 };
 
 #endif

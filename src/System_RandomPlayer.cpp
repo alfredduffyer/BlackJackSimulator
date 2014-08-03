@@ -12,13 +12,11 @@ int System_RandomPlayer::decision(Hand* player, Hand* dealer, bool canSplit, boo
 {
 	if (canSplit && (player->getSoftValue() == 2 || player->getSoftValue() == 16) && dealer->getSoftValue() != 1)
 	{
-		if (DEBUG) printf("  --> Splitting a (%d,%d) against a %d\n", player->getSoftValue()/2, player->getSoftValue()/2, dealer->getSoftValue());
 		return SPLIT;
 	}
 	
 	if (canDoubleDown && ((player->getValue() == 11 && dealer->getSoftValue() != 1) || (player->getValue() == 10 && dealer->getSoftValue() < 10 && dealer->getSoftValue() != 1)))
 	{
-		if (DEBUG) printf("  --> Doubling down a %d against a %d\n", player->getValue(), dealer->getSoftValue());
 		return DOUBLEDOWN;
 	}
 	

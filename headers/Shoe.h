@@ -12,7 +12,7 @@ class Shoe
 		int dealingLimit;	// The number of cards after which the dealer shuffles the shoe
 	
 	public:
-		Shoe(int size);		// Calls create
+		Shoe();			// Calls create
 		void create();		// Generate a shoe composed of as many decks as stored in the attribute size
 		void shuffle();		// Shuffles the shoe randomly
 		void burn();		// Burns the first cards
