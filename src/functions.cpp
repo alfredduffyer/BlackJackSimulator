@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
+#include <sys/types.h>
+#include <dirent.h>
 #include "../headers/_variables.h"
 
 int strlen(char* str)
@@ -95,6 +97,16 @@ bool initParams(int argc, char* argv[], int* player, int* dealer, bool* soft, in
 	else
 	{
 		sprintf(filename, "%d-%d-%d-%d-%d-%ld.txt", *player, *dealer, *soft ? 1 : 0, *decision, *replacement, *goal);
+	}
+	
+	DIR* output = opendir("output");
+	if (output)
+	{
+		closedir(output);
+	}
+	else
+	{
+		system("mkdir output");
 	}
 	
 	return true;
