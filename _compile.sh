@@ -1,8 +1,9 @@
 # 
 # Compiler shell script
 # 
-# @param	x	don't compile, just execute the old binary file
-# @param	v	launch the program with Valgrind
+# @param	n	Don't execute, just compile the sources
+# @param	x	Don't compile, just execute the old binary file
+# @param	v	Launch the program with Valgrind
 # 
 
 # Clean directories from temp files
