@@ -203,7 +203,7 @@ void Game::decision(int boxIndex)
 	{
 		decision = box->decision(&this->dealerBox->hand, canSplit, true);
 		
-		if (strcmp(box->player->getName(), (char*) "Don Self") && box->hand.getValue() == stats.getPlayerValue() && this->dealerBox->hand.getValue() == stats.getDealerValue())
+		if (strcmp(box->player->getName(), (char*) "Don Self") && box->hand.isSoft() == stats.isSoftHand() && box->hand.getValue() == stats.getPlayerValue() && this->dealerBox->hand.getValue() == stats.getDealerValue())
 		{
 			bool matchSplitStat = stats.getDecisionConcerned() == SPLIT && canSplit;
 			bool matchDoubleDownStat = stats.getDecisionConcerned() == DOUBLEDOWN && box->hand.getSize() == 2 && (decision == DOUBLEDOWN || decision == DRAW || decision == STAND);
@@ -318,6 +318,7 @@ void Game::pay()
 		
 		if (stats.isConcerned(i))
 		{
+			FORCEDEBUG = (status == 0) ? 1 : 0;
 			stats.update(i, status);
 		}
 		
