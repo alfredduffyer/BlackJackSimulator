@@ -318,7 +318,6 @@ void Game::pay()
 		
 		if (stats.isConcerned(i))
 		{
-			FORCEDEBUG = (status == 0) ? 1 : 0;
 			stats.update(i, status);
 		}
 		
