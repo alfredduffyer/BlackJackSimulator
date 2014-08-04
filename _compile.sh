@@ -41,7 +41,7 @@ if ! [ "$1" = "n" ]; then
 	if [ "$1" = "v" ]; then
 		valgrind ./BlackJackSimulator 12 2 0 200 -1 100
 	else
-		./BlackJackSimulator 12 2 0 200 -1 3000
+		./BlackJackSimulator 12 2 0 200 -1 60000
 	fi
 fi
 

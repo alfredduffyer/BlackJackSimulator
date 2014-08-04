@@ -173,6 +173,8 @@ void Stats::printStatus(int handsPlayed, bool doClear)
 	int etaAverageM = etaS / 60;
 	int etaAverageH = etaS / 3600;
 	
+	double progress = ((double)this->handsPlayed*100.0) / ((double)this->goal);
+	
 	etaAverageS = etaAverageS > 0 ? etaAverageS : 0; 
 	
 	printHr(false);
@@ -200,6 +202,27 @@ void Stats::printStatus(int handsPlayed, bool doClear)
 	
 	printBars((char*)"");
 	
+	sprintf(message, "Progress : [");
+	for (int i = 0 ; i < TERMINAL_SIZE_X-26 ; i++)
+	{
+		if (i < (int)(progress * (TERMINAL_SIZE_X-26) / 100))
+		{
+			sprintf(message, "%s=", message);
+		}
+		else if (i == (int)(progress * (TERMINAL_SIZE_X-26) / 100))
+		{
+			sprintf(message, "%s>", message);
+		}
+		else
+		{
+			sprintf(message, "%s ", message);
+		}
+	}
+	sprintf(message, "%s] %6.2f %%", message, progress);
+	printBars(message);
+	
+	printBars((char*)"");
+	
 	sprintf(message, "Elapsed time :  %02d:%02d:%02d", elapsedTimeh%60, elapsedTimem % 60, elapsedTimes % 60);
 	printBars(message);
 	
@@ -207,9 +230,6 @@ void Stats::printStatus(int handsPlayed, bool doClear)
 	printBars(message);
 	
 	sprintf(message, "ETA (on AVG) :  %02d:%02d:%02d", etaAverageH%60, etaAverageM % 60, etaAverageS % 60);
-	printBars(message);
-	
-	sprintf(message, "Progress :       %5.2f %%", ((double)this->handsPlayed*100.0) / ((double)this->goal));
 	printBars(message);
 	
 	printBars((char*)"");
@@ -225,7 +245,14 @@ void Stats::printStatus(int handsPlayed, bool doClear)
 	
 	printBars((char*)"");
 	
-	sprintf(message, "Interest index :  %2.2f", winPercentage - losePercentage);
+	if (doClear)
+	{
+		sprintf(message, "Interest index :  %2.8f", winPercentage - losePercentage);
+	}
+	if (!doClear)
+	{
+		sprintf(message, "Interest index :  %2.2f", winPercentage - losePercentage);
+	}
 	printBars(message);
 	
 	printHr(false);
