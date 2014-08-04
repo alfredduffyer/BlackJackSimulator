@@ -173,6 +173,8 @@ void Stats::printStatus(int handsPlayed, bool doClear)
 	int etaAverageM = etaS / 60;
 	int etaAverageH = etaS / 3600;
 	
+	etaAverageS = etaAverageS > 0 ? etaAverageS : 0; 
+	
 	printHr(false);
 	sprintf(message, "Testing %s %2d versus %2d on", this->softHand ? "soft" : "hard", this->playerValue, this->dealerValue);
 	sprintf(message, "%s %10s (%2d)", message, decisionString, this->decision);
