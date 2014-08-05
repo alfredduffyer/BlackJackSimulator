@@ -36,19 +36,19 @@
  * 100 : shuffles after every hand
  * 0 : play to the last card
  */
-#define WASTE_PROPORTION 30
+#define WASTE_PROPORTION 1
 
 /*
  * Number of cards burned at the begining [0-(NB_DECKS*52)]
  */
-#define CARDS_BURNED 5
+#define CARDS_BURNED 1
 
 /*
  * Number of times the player is allowed to split [0-100]
  * 
  * 0 : The player can never split
  */
-#define MAX_SPLIT 2
+#define MAX_SPLIT 1
 
 /*
  * Number of boxes that can be played on the table [1-10]
@@ -58,7 +58,7 @@
 /*
  * Number of decks that will be played with [1-10]
  */
-#define NB_DECKS 6
+#define NB_DECKS 1
 
 /*
  * Maximum of the variation of the number of hands played [1-?]
@@ -66,7 +66,7 @@
  * 1 : The player will always play on one box
  * ? : The player will play on up to ? boxes
  */
-#define MAX_HAND_VARIATION 4
+#define MAX_HAND_VARIATION 7
 
 /*
  * Maximum of the variation bet (in units) [1-?]
@@ -74,6 +74,6 @@
  * 1 : The player will never vary his bet
  * ? : The player will vary his bet up to ? times his minimum bet
  */
-#define MAX_BET_VARIATION 3
+#define MAX_BET_VARIATION 5
 
 #endif

@@ -13,6 +13,7 @@ class System_BasicStrategy : public System
 		System_BasicStrategy();				// Calls initiateTables
 		virtual bool insure();				// true if the player should insure, false otherwise
 		virtual int exception(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDown);	// Gives a decision if there is an exception with the situation, 0 otherwise
+		virtual int howManyHands(int maxHands);		// Calculates how many hands the player should be playing for a turn
 		void initiateTables();				// Calls the initiate_xxx methods
 		void initiateStatsException();			// Initiates the stats exception
 		void initiate_hardStandingNumbers();		// Fills the Hard Standing Numbers table

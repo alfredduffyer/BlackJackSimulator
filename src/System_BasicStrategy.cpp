@@ -14,6 +14,12 @@ System_BasicStrategy::System_BasicStrategy() : System()
 	this->initiateStatsException();
 }
 
+int System_BasicStrategy::howManyHands(int maxHands)
+{
+	if (maxHands){}
+	return random(3, 7);
+}
+
 bool System_BasicStrategy::insure()
 {
 	return false;
