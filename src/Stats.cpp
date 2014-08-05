@@ -170,12 +170,12 @@ void Stats::printStatus(int handsPlayed, bool doClear)
 	int etaH = etaS / 3600;
 	
 	int etaAverageS = ((double)(this->goal * elapsedTimes)) / ((double)this->handsPlayed) - ((double)elapsedTimes);
-	int etaAverageM = etaS / 60;
-	int etaAverageH = etaS / 3600;
+	int etaAverageM = etaAverageS / 60;
+	int etaAverageH = etaAverageS / 3600;
 	
 	double progress = ((double)this->handsPlayed*100.0) / ((double)this->goal);
 	
-	etaAverageS = etaAverageS > 0 ? etaAverageS : 0; 
+	//etaAverageS = etaAverageS > 0 ? etaAverageS : 0;
 	
 	printHr(false);
 	sprintf(message, "Testing %s %2d versus %2d on", this->softHand ? "soft" : "hard", this->playerValue, this->dealerValue);
