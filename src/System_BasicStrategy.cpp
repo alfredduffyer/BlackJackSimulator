@@ -52,31 +52,32 @@ void System_BasicStrategy::initiateTables()
 void System_BasicStrategy::initiateStatsException()
 {
 	int playerValue = (stats.getPlayerValue() == 12) ? 11 : stats.getPlayerValue()/2;
+	int dealerValue = (stats.getDealerValue() == 11) ? 0 : stats.getDealerValue() - 1;
 	switch (stats.getDecisionConcerned())
 	{
 		case SPLIT:
-			this->splittingPairs[playerValue-SHIFT_SDD][stats.getDealerValue()-1] = stats.getDecision();
+			this->splittingPairs[playerValue-SHIFT_SDD][dealerValue] = stats.getDecision();
 			break;
 		
 		case DOUBLEDOWN:
 			if (stats.isSoftHand())
 			{
-				this->softDoublingDown[stats.getPlayerValue()-10-SHIFT_SDD][stats.getDealerValue()-1] = stats.getDecision();
+				this->softDoublingDown[stats.getPlayerValue()-10-SHIFT_SDD][dealerValue] = stats.getDecision();
 			}
 			else
 			{
-				this->hardDoublingDown[stats.getPlayerValue()-SHIFT_HDD][stats.getDealerValue()-1] = stats.getDecision();
+				this->hardDoublingDown[stats.getPlayerValue()-SHIFT_HDD][dealerValue] = stats.getDecision();
 			}
 			break;
 		
 		case DRAW:
 			if (stats.isSoftHand())
 			{
-				this->softStanding[stats.getPlayerValue()-SHIFT_SS][stats.getDealerValue()-1] = stats.getDecision();
+				this->softStanding[stats.getPlayerValue()-SHIFT_SS][dealerValue] = stats.getDecision();
 			}
 			else
 			{
-				this->hardStanding[stats.getPlayerValue()-SHIFT_HS][stats.getDealerValue()-1] = stats.getDecision();
+				this->hardStanding[stats.getPlayerValue()-SHIFT_HS][dealerValue] = stats.getDecision();
 			}
 			break;
 	}
