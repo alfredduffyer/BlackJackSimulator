@@ -12,6 +12,9 @@ System_BasicStrategy::System_BasicStrategy() : System()
 {
 	this->initiateTables();
 	this->initiateStatsException();
+	
+	if (!PRINT_TABLE) return;
+	
 	if (stats.getDecisionConcerned() == SPLIT)
 	{
 		printBlackJackTables(this->splittingPairs, 10, 10, SHIFT_SP, true, 'S');
@@ -32,7 +35,8 @@ System_BasicStrategy::System_BasicStrategy() : System()
 	{
 		printBlackJackTables(this->hardStanding, 8, 10, SHIFT_HS, true);
 	}
-	sleep(10);
+	spause();
+	//sleep(10);
 }
 
 int System_BasicStrategy::howManyHands(int maxHands)
