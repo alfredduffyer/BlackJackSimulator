@@ -35,8 +35,8 @@ System_BasicStrategy::System_BasicStrategy() : System()
 	{
 		printBlackJackTables(this->hardStanding, 8, 10, SHIFT_HS, true);
 	}
-	spause();
-	//sleep(10);
+	//spause();
+	sleep(10);
 }
 
 int System_BasicStrategy::howManyHands(int maxHands)

@@ -43,7 +43,7 @@
 #define STATUS 0
 #define DEBUG 0
 #define FORCE_DEBUG 0
-#define PRINT_TABLE 1
+#define PRINT_TABLE 0
 #define PAUSE 0
 #define SLEEP 0
 #define DEBUG_COLOR 0
