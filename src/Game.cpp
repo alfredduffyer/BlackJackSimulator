@@ -205,7 +205,7 @@ void Game::decision(int boxIndex)
 		
 		if (strcmp(box->player->getName(), (char*) "Don Self") && box->hand.isSoft() == stats.isSoftHand() && box->hand.getValue() == stats.getPlayerValue() && this->dealerBox->hand.getValue() == stats.getDealerValue())
 		{
-			bool matchSplitStat = stats.getDecisionConcerned() == SPLIT && canSplit;
+			bool matchSplitStat = stats.getDecisionConcerned() == SPLIT && canSplit && box->hand.isPair();
 			bool matchDoubleDownStat = stats.getDecisionConcerned() == DOUBLEDOWN && box->hand.getSize() == 2 && (decision == DOUBLEDOWN || decision == DRAW || decision == STAND);
 			bool matchDrawStat = stats.getDecisionConcerned() == DRAW && (decision == DRAW || decision == STAND);
 			

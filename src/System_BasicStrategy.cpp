@@ -12,6 +12,27 @@ System_BasicStrategy::System_BasicStrategy() : System()
 {
 	this->initiateTables();
 	this->initiateStatsException();
+	if (stats.getDecisionConcerned() == SPLIT)
+	{
+		printBlackJackTables(this->splittingPairs, 10, 10, SHIFT_SP, true, 'S');
+	}
+	else if (stats.getDecisionConcerned() == DOUBLEDOWN && stats.isSoftHand())
+	{
+		printBlackJackTables(this->softDoublingDown, 9, 10, SHIFT_SDD, true, 'A');
+	}
+	else if (stats.getDecisionConcerned() == DOUBLEDOWN)
+	{
+		printBlackJackTables(this->hardDoublingDown, 10, 10, SHIFT_HDD, true);
+	}
+	else if (stats.getDecisionConcerned() == DRAW && stats.isSoftHand())
+	{
+		printBlackJackTables(this->softStanding, 3, 10, SHIFT_SS, true);
+	}
+	else if (stats.getDecisionConcerned() == DRAW)
+	{
+		printBlackJackTables(this->hardStanding, 8, 10, SHIFT_HS, true);
+	}
+	sleep(10);
 }
 
 int System_BasicStrategy::howManyHands(int maxHands)

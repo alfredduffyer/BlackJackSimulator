@@ -40,9 +40,9 @@ printf '\033[0m'
 # Launches the compiled program
 if ! [ "$1" = "n" ]; then
 	if [ "$1" = "v" ]; then
-		valgrind ./BlackJackSimulator 12 2 0 200 -1 100
+		valgrind ./BlackJackSimulator 17 2 -1 200 -1 100
 	else
-		./BlackJackSimulator 12 2 0 200 -1 10000000
+		./BlackJackSimulator 17 2 1 200 -1 10000000
 	fi
 fi
 

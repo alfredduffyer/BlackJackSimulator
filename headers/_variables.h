@@ -45,6 +45,6 @@
 #define FORCE_DEBUG 0
 #define PAUSE 0
 #define SLEEP 0
-#define DEBUG_COLOR 1
+#define DEBUG_COLOR 0
 
 #endif
