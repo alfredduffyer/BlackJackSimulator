@@ -39,5 +39,5 @@ int main(int argc, char* argv[])
 	stats.init(player, dealer, soft, decision, replacement, goal, filename);
 	
 	Game game;
-	game.playStats(new System_BasicStrategy());
+	game.testHS(new System_BasicStrategy());
 }

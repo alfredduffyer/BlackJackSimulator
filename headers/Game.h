@@ -37,6 +37,7 @@ class Game
 		void payInsurance();					// Pays the insurance in the case of a Black Jack
 		void pay();						// Pays the players
 		int play();						// Main procedure : plays the game of Black Jack using the other methods
+		void testHS(System* system);				// Tests all Hard Standing Numbers
 		void playInf(System* system, double stack, int unit);	// Plays indefinitely
 		void playStats(System* system);		// Plays with statistics
 };

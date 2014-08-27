@@ -422,13 +422,15 @@ void Game::playStats(System* system)
 	stats.write(handsPlayed);
 }
 
-void Game::testHS()
+void Game::testHS(System* system)
 {
-	/*
-	char filename[50];
-	sprintf(filename, "%d-%d-%d-%d-%d-%ld.txt", *player, *dealer, *soft ? 1 : 0, *decision, *replacement, *goal);
-	stats.init(12, 2, 0, 200, 1, 10000000, filename);
-	*/
+	
+	stats.init(12, 2, 0, 200, 1, 10000, generateFileName(12, 2, 0, 200, 1, 10000));
+	this->playStats(system);
+	
+	stats.init(13, 2, 0, 200, 1, 10000, generateFileName(13, 2, 0, 200, 1, 10000));
+	this->playStats(system);
+	
 }
 
 int Game::play()

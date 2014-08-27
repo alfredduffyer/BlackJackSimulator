@@ -25,6 +25,9 @@ void addToFile(char* fileName, char* str);
 // Gets the time in milliseconds
 long int getMilliTime();
 
+// Generates a filename
+char* generateFileName(int player, int dealer, bool soft, int decision, int replacement, long int goal);
+
 // Initiates the program with the parameters
 bool initParams(int argc, char* argv[], int* player, int* dealer, bool* soft, int* decision, int* replacement, long int* goal, char* filename);
 

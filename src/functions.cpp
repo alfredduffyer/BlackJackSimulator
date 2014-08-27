@@ -67,6 +67,19 @@ long int getMilliTime()
 	return (long int) (tv.tv_sec) * 1000 + (tv.tv_usec) / 1000;
 }
 
+char* generateFileName(int player, int dealer, bool soft, int decision, int replacement, long int goal)
+{
+	char tmp[50];
+	
+	sprintf(tmp, "%d-%d-%d-%d-%d-%ld.txt", player, dealer, soft ? 1 : 0, decision, replacement, goal);
+	
+	char* filename = (char*) malloc(sizeof(char) * (strlen(tmp) + 1));
+	sprintf(filename, "%s", tmp);
+	filename[strlen(filename) - 1] = '\0';
+	
+	return filename;
+}
+
 bool initParams(int argc, char* argv[], int* player, int* dealer, bool* soft, int* decision, int* replacement, long int* goal, char* filename)
 {
 	if (argc < 7)
@@ -96,7 +109,7 @@ bool initParams(int argc, char* argv[], int* player, int* dealer, bool* soft, in
 	}
 	else
 	{
-		sprintf(filename, "%d-%d-%d-%d-%d-%ld.txt", *player, *dealer, *soft ? 1 : 0, *decision, *replacement, *goal);
+		sprintf(filename, "%s", generateFileName(*player, *dealer, *soft, *decision, *replacement, *goal));
 	}
 	
 	DIR* output = opendir("output");
