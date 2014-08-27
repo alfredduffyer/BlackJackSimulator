@@ -113,12 +113,12 @@ bool Stats::finished()
 	return this->handsPlayed >= this->goal;
 }
 
-void Stats::printStatus(int handsPlayed)
+void Stats::printStatus(long int handsPlayed)
 {
 	this->printStatus(handsPlayed, true);
 }
 
-void Stats::printStatus(int handsPlayed, bool doClear)
+void Stats::printStatus(long int handsPlayed, bool doClear)
 {
 	char message[100];
 	char decisionString[10];
@@ -182,7 +182,7 @@ void Stats::printStatus(int handsPlayed, bool doClear)
 	
 	printHr(false);
 	
-	sprintf(message, "Total Hands played :   %'17d", handsPlayed);
+	sprintf(message, "Total Hands played :   %'17ld", handsPlayed);
 	sprintf(message, "%s    --> per second:  %'7d / %'5d", message, instantHPS, instantiHPS);
 	printBars(message);
 	

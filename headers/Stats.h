@@ -20,7 +20,7 @@ class Stats
 		int ties;
 		int startTime;
 		int lastHandsPlayed;
-		int lastTotalHandsPlayed;
+		long int lastTotalHandsPlayed;
 		double lastTime;
 		int logFile;
 		char* fileName;
@@ -39,8 +39,8 @@ class Stats
 		bool finished();
 		void addBox(int boxIndex);
 		bool isConcerned(int boxIndex);
-		void printStatus(int handsNumber);
-		void printStatus(int handsNumber, bool doClear);
+		void printStatus(long int handsNumber);
+		void printStatus(long int handsNumber, bool doClear);
 		void update(int boxIndex, int status);
 		void setTime();
 		void write(int handsPlayed);

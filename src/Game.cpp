@@ -352,7 +352,7 @@ void Game::pay()
 
 void Game::playStats(System* system)
 {
-	int handsPlayed = 0;
+	long int handsPlayed = 0;
 	int timestamp = time(NULL);
 	this->addPlayer(new Player((char*) "Don Self", 1000, 5, system));
 	this->addPlayer(new Player((char*) "The Player Who Never Busts", -1, 5, new System_ThePlayerWhoNeverBusts()));
@@ -405,11 +405,11 @@ void Game::playStats(System* system)
 			
 			if ((DEBUG || FORCEDEBUG)) printf("\n%d cards played, going to %d.\n\n", this->shoe->getIndex(), this->shoe->getLimit());
 			
-			if (STATUS) printf("[%d] Don Self has now %1.1f\n", handsPlayed, this->players[0]->getStack());
+			if (STATUS) printf("[%ld] Don Self has now %1.1f\n", handsPlayed, this->players[0]->getStack());
 			if (this->players[0]->getStack() < this->players[0]->getUnit() * MAX_HAND_VARIATION * MAX_BET_VARIATION)
 			{
 				this->players[0] = new Player((char*) "Don Self", 1000, 5, system);
-				if ((DEBUG || FORCEDEBUG)) printf("+++++++[%d] Don Self has now %1.1f\n", handsPlayed, this->players[0]->getStack());
+				if ((DEBUG || FORCEDEBUG)) printf("+++++++[%ld] Don Self has now %1.1f\n", handsPlayed, this->players[0]->getStack());
 			}
 			
 			if ((DEBUG || FORCEDEBUG)) stats.printStatus(handsPlayed);
@@ -420,6 +420,15 @@ void Game::playStats(System* system)
 	}
 	stats.printStatus(handsPlayed);
 	stats.write(handsPlayed);
+}
+
+void Game::testHS()
+{
+	/*
+	char filename[50];
+	sprintf(filename, "%d-%d-%d-%d-%d-%ld.txt", *player, *dealer, *soft ? 1 : 0, *decision, *replacement, *goal);
+	stats.init(12, 2, 0, 200, 1, 10000000, filename);
+	*/
 }
 
 int Game::play()
