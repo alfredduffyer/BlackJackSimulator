@@ -21,7 +21,7 @@ Stats::~Stats()
 	close(this->logFile);
 }
 
-void Stats::init(int playerValue, int dealerValue, bool softHand, int decisionConcerned, int decision, int goal, char* filename)
+void Stats::init(int playerValue, int dealerValue, bool softHand, int decisionConcerned, int decision, long int goal, char* filename)
 {
 	this->playerValue = playerValue;
 	this->dealerValue = dealerValue;
@@ -88,7 +88,7 @@ int Stats::getDecision()
 	return this->decision;
 }
 
-int Stats::getGoal()
+long int Stats::getGoal()
 {
 	return this->goal;
 }
@@ -190,7 +190,7 @@ void Stats::printStatus(int handsPlayed, bool doClear)
 	sprintf(message, "%s    --> per minute:          %'7d", message, instantiHPM);
 	printBars(message);
 	
-	sprintf(message, "Goal :                     %'13d", this->goal);
+	sprintf(message, "Goal :                     %'13ld", this->goal);
 	sprintf(message, "%s    --> average (s): %'7d / %'5d", message, handsPerSecond, iHandsPerSecond);
 	printBars(message);
 	

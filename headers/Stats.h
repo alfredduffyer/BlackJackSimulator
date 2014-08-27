@@ -12,7 +12,7 @@ class Stats
 		int softHand;
 		int decisionConcerned;
 		int decision;
-		int goal;
+		long int goal;
 		int handsPlayed;
 		bool* boxes;
 		int wins;
@@ -28,14 +28,14 @@ class Stats
 	public:
 		Stats();
 		~Stats();
-		void init(int playerValue, int dealerValue, bool softHand, int decisionConcerned, int decision, int handsNumber, char* filename);
+		void init(int playerValue, int dealerValue, bool softHand, int decisionConcerned, int decision, long int goal, char* filename);
 		void resetBoxes();
 		int getPlayerValue();
 		int getDealerValue();
 		int isSoftHand();
 		int getDecisionConcerned();
 		int getDecision();
-		int getGoal();
+		long int getGoal();
 		bool finished();
 		void addBox(int boxIndex);
 		bool isConcerned(int boxIndex);

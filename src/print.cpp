@@ -223,7 +223,7 @@ void debug(char* str)
 		return;
 	}
 	
-	printf(str);
+	printf("%s", str);
 	
 }
 
@@ -240,6 +240,6 @@ void debug(char* str, int color)
 	}
 	else
 	{
-		printf(str);
+		printf("%s", str);
 	}
 }
