@@ -422,14 +422,57 @@ void Game::playStats(System* system)
 	stats.write(handsPlayed);
 }
 
-void Game::testHS(System* system)
+void Game::testHS(System* system, int instance)
 {
+	int status = this->getStatus(instance);
 	
-	stats.init(12, 2, 0, 200, 1, 10000, generateFileName(12, 2, 0, 200, 1, 10000));
-	this->playStats(system);
+	int params[18][2];
+	params[1][0] = 12;
+	params[1][1] = 2;
+	params[2][0] = 13;
+	params[2][1] = 2;
+	params[3][0] = 12;
+	params[3][1] = 3;
+	params[4][0] = 13;
+	params[4][1] = 3;
+	params[5][0] = 12;
+	params[5][1] = 4;
+	params[6][0] = 12;
+	params[6][1] = 5;
+	params[7][0] = 12;
+	params[7][1] = 6;
+	params[8][0] = 16;
+	params[8][1] = 7;
+	params[9][0] = 17;
+	params[9][1] = 7;
+	params[10][0] = 16;
+	params[10][1] = 8;
+	params[11][0] = 17;
+	params[11][1] = 8;
+	params[12][0] = 16;
+	params[12][1] = 9;
+	params[13][0] = 17;
+	params[13][1] = 9;
+	params[14][0] = 16;
+	params[14][1] = 10;
+	params[15][0] = 17;
+	params[15][1] = 10;
+	params[16][0] = 16;
+	params[16][1] = 11;
+	params[17][0] = 17;
+	params[17][1] = 11;
 	
-	stats.init(13, 2, 0, 200, 1, 10000, generateFileName(13, 2, 0, 200, 1, 10000));
-	this->playStats(system);
+	for (int i = status + 1 ; i <= 17 ; i++)
+	{
+		stats.init(params[i][0], params[i][1], 0, 200, instance, 10000, generateFileName(params[i][0], params[i][1], 0, 200, instance, 10000));
+		this->playStats(system);
+		this->setStatus(instance, i);
+	}
+	
+	if (status == 17)
+	{
+		puts("Nothing to do ! Try deleting status.tmp");
+	}
 	
 }
 
@@ -539,3 +582,39 @@ void Game::playInf(System* system, double stack, int unit)
 		if (STATUS) break;
 	}
 }
+
+int Game::getStatus(int instance)
+{
+	FILE* file = NULL;
+	char filename[15];
+	
+	sprintf(filename, "status%d.tmp", instance);
+	file = fopen(filename, "r");
+	
+	if (!file)
+	{
+		return 0;
+	}
+	
+	int status = 0;
+	
+	fscanf(file, "%d", &status);
+	fclose(file);
+	
+	return status;
+}
+
+void Game::setStatus(int instance, int status)
+{
+	FILE* file = NULL;
+	char filename[15];
+	
+	sprintf(filename, "status%d.tmp", instance);
+	file = fopen(filename, "w+");
+	fprintf(file, "%d", status);
+	fclose(file);
+}
+
+
+
+

@@ -25,11 +25,22 @@ int main(int argc, char* argv[])
 	srand(getMilliTime());
 	setlocale(LC_ALL, "");
 	
+	/*
 	int player = 0, dealer = 0, decision = 0, replacement = 0;
 	long int goal = 0;
 	bool soft = false;
 	char filename[200];
+	*/
 	
+	int status = 0;
+	
+	if (!initParams(argc, argv, &status))
+	{
+		puts("Error found in params reading. Exiting...");
+		return 1;
+	}
+	
+	/*
 	if (!initParams(argc, argv, &player, &dealer, &soft, &decision, &replacement, &goal, filename))
 	{
 		puts("Error found in params reading. Exiting...");
@@ -37,7 +48,8 @@ int main(int argc, char* argv[])
 	}
 	
 	stats.init(player, dealer, soft, decision, replacement, goal, filename);
+	*/
 	
 	Game game;
-	game.testHS(new System_BasicStrategy());
+	game.testHS(new System_BasicStrategy(), status);
 }

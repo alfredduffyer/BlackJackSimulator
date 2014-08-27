@@ -29,7 +29,8 @@ long int getMilliTime();
 char* generateFileName(int player, int dealer, bool soft, int decision, int replacement, long int goal);
 
 // Initiates the program with the parameters
-bool initParams(int argc, char* argv[], int* player, int* dealer, bool* soft, int* decision, int* replacement, long int* goal, char* filename);
+//bool initParams(int argc, char* argv[], int* player, int* dealer, bool* soft, int* decision, int* replacement, long int* goal, char* filename);
+bool initParams(int argc, char* argv[], int* status);
 
 // Truncates a string
 char* truncate(char* str, int length);
