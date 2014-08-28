@@ -424,8 +424,8 @@ void Game::playStats(System* system)
 
 void Game::testHS(System* system, int instance, long int goal)
 {
-	int status = this->getStatus(instance);
-	goal = (goal > 0) ? goal : 10000000;
+	int status = this->getStatus((char*)"HS", instance);
+	goal = (goal > 0) ? goal : 5000;
 	
 	int params[18][2];
 	params[1][0] = 12;
@@ -467,10 +467,73 @@ void Game::testHS(System* system, int instance, long int goal)
 	{
 		stats.init(params[i][0], params[i][1], 0, 200, instance, goal, generateFileName(params[i][0], params[i][1], 0, 200, instance, goal));
 		this->playStats(system);
-		this->setStatus(instance, i);
+		this->setStatus((char*)"HS", instance, i);
 	}
 	
 	if (status == 17)
+	{
+		puts("Nothing to do ! Try deleting status.tmp");
+	}
+	
+}
+
+void Game::testSS(System* system, int instance, long int goal)
+{
+	int status = this->getStatus((char*)"SS", instance);
+	goal = (goal > 0) ? goal : 1000;
+	
+	int params[18][2];
+	params[1][0] = 17;
+	params[1][1] = 2;
+	params[2][0] = 18;
+	params[2][1] = 2;
+	params[3][0] = 17;
+	params[3][1] = 3;
+	params[4][0] = 18;
+	params[4][1] = 3;
+	params[5][0] = 17;
+	params[5][1] = 4;
+	params[6][0] = 18;
+	params[6][1] = 4;
+	params[7][0] = 17;
+	params[7][1] = 5;
+	params[8][0] = 18;
+	params[8][1] = 5;
+	params[9][0] = 17;
+	params[9][1] = 6;
+	params[10][0] = 18;
+	params[10][1] = 6;
+	params[11][0] = 17;
+	params[11][1] = 7;
+	params[12][0] = 18;
+	params[12][1] = 7;
+	params[13][0] = 17;
+	params[13][1] = 8;
+	params[14][0] = 18;
+	params[14][1] = 8;
+	params[15][0] = 18;
+	params[15][1] = 9;
+	params[16][0] = 19;
+	params[16][1] = 9;
+	params[17][0] = 18;
+	params[17][1] = 10;
+	params[18][0] = 19;
+	params[18][1] = 10;
+	params[19][0] = 17;
+	params[19][1] = 11;
+	params[20][0] = 18;
+	params[20][1] = 11;
+	params[21][0] = 19;
+	params[21][1] = 11;
+	
+	for (int i = status + 1 ; i <= 21 ; i++)
+	{
+		stats.init(params[i][0], params[i][1], 1, 200, instance, goal, generateFileName(params[i][0], params[i][1], 1, 200, instance, goal));
+		this->playStats(system);
+		this->setStatus((char*)"SS", instance, i);
+	}
+	
+	if (status == 21)
 	{
 		puts("Nothing to do ! Try deleting status.tmp");
 	}
@@ -584,12 +647,12 @@ void Game::playInf(System* system, double stack, int unit)
 	}
 }
 
-int Game::getStatus(int instance)
+int Game::getStatus(char* title, int instance)
 {
 	FILE* file = NULL;
 	char filename[15];
 	
-	sprintf(filename, "status%d.tmp", instance);
+	sprintf(filename, "status_%s_%d.tmp", title, instance);
 	file = fopen(filename, "r");
 	
 	if (!file)
@@ -605,12 +668,12 @@ int Game::getStatus(int instance)
 	return status;
 }
 
-void Game::setStatus(int instance, int status)
+void Game::setStatus(char* title, int instance, int status)
 {
 	FILE* file = NULL;
 	char filename[15];
 	
-	sprintf(filename, "status%d.tmp", instance);
+	sprintf(filename, "status_%s_%d.tmp", title, instance);
 	file = fopen(filename, "w+");
 	fprintf(file, "%d", status);
 	fclose(file);

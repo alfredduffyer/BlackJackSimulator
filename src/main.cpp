@@ -33,8 +33,9 @@ int main(int argc, char* argv[])
 	
 	int status = 0;
 	long int goal = 0;
+	char test = 'H';
 	
-	if (!initParams(argc, argv, &status, &goal))
+	if (!initParams(argc, argv, &status, &goal, &test))
 	{
 		puts("Error found in params reading. Exiting...");
 		return 1;
@@ -51,5 +52,10 @@ int main(int argc, char* argv[])
 	*/
 	
 	Game game;
-	game.testHS(new System_BasicStrategy(), status, goal);
+	
+	if (test == 'S') {
+		game.testSS(new System_BasicStrategy(), status, goal);
+	} else {
+		game.testHS(new System_BasicStrategy(), status, goal);
+	}
 }

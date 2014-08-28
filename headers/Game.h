@@ -38,10 +38,11 @@ class Game
 		void pay();						// Pays the players
 		int play();						// Main procedure : plays the game of Black Jack using the other methods
 		void testHS(System* system, int instance, long int goal);	// Tests all Hard Standing Numbers
+		void testSS(System* system, int instance, long int goal);	// Tests all Soft Standing Numbers
 		void playInf(System* system, double stack, int unit);	// Plays indefinitely
 		void playStats(System* system);		// Plays with statistics
-		int getStatus(int instance);
-		void setStatus(int instance, int status);
+		int getStatus(char* title, int instance);
+		void setStatus(char* title, int instance, int status);
 };
 
 #endif
