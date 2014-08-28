@@ -51,7 +51,7 @@ void Stats::init(int playerValue, int dealerValue, bool softHand, int decisionCo
 		this->fileName = filename;
 		char src[50];
 		sprintf(src, "output/%s", filename);
-		this->logFile = open(src, O_RDWR | O_APPEND | O_CREAT | O_TRUNC);
+		this->logFile = open(src, O_RDWR | O_APPEND | O_CREAT | O_TRUNC, 0755);
 	}
 }
 
