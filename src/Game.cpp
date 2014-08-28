@@ -464,7 +464,7 @@ void Game::testHS(System* system, int instance)
 	
 	for (int i = status + 1 ; i <= 17 ; i++)
 	{
-		stats.init(params[i][0], params[i][1], 0, 200, instance, 10000, generateFileName(params[i][0], params[i][1], 0, 200, instance, 10000));
+		stats.init(params[i][0], params[i][1], 0, 200, instance, 10000000, generateFileName(params[i][0], params[i][1], 0, 200, instance, 10000000));
 		this->playStats(system);
 		this->setStatus(instance, i);
 	}
