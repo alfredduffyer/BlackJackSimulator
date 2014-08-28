@@ -422,9 +422,10 @@ void Game::playStats(System* system)
 	stats.write(handsPlayed);
 }
 
-void Game::testHS(System* system, int instance)
+void Game::testHS(System* system, int instance, long int goal)
 {
 	int status = this->getStatus(instance);
+	goal = (goal > 0) ? goal : 10000000;
 	
 	int params[18][2];
 	params[1][0] = 12;
@@ -464,7 +465,7 @@ void Game::testHS(System* system, int instance)
 	
 	for (int i = status + 1 ; i <= 17 ; i++)
 	{
-		stats.init(params[i][0], params[i][1], 0, 200, instance, 10000, generateFileName(params[i][0], params[i][1], 0, 200, instance, 10000));
+		stats.init(params[i][0], params[i][1], 0, 200, instance, goal, generateFileName(params[i][0], params[i][1], 0, 200, instance, goal));
 		this->playStats(system);
 		this->setStatus(instance, i);
 	}

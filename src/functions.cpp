@@ -80,17 +80,19 @@ char* generateFileName(int player, int dealer, bool soft, int decision, int repl
 	return filename;
 }
 
-bool initParams(int argc, char* argv[], int* status)
+bool initParams(int argc, char* argv[], int* status, long int* goal)
 {
 	if (argc < 2)
 	{
-		  puts("Too few parameters. Need 1 :");
-		  puts(" - status        int     -1 or 1");
+		puts("Too few parameters. Need at least 1 :");
+		puts(" - status        int     -1 or 1");
+		puts(" - [goal]        int     How many hands to be tested");
 		puts("");
 		return false;
 	}
 	
 	*status = atoi(argv[1]);
+	*goal = (argc > 2) ? atol(argv[2]) : -1;
 	
 	return true;
 }

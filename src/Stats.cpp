@@ -182,15 +182,15 @@ void Stats::printStatus(long int handsPlayed, bool doClear)
 	
 	printHr(false);
 	
-	sprintf(message, "Total Hands played :   %'17ld", handsPlayed);
+	sprintf(message, "Total Hands played :%'20ld", handsPlayed);
 	sprintf(message, "%s    --> per second:  %'7d / %'5d", message, instantHPS, instantiHPS);
 	printBars(message);
 	
-	sprintf(message, "Interesting Hands played : %'13d", this->handsPlayed);
+	sprintf(message, "Interesting Hands played :%'14d", this->handsPlayed);
 	sprintf(message, "%s    --> per minute:          %'7d", message, instantiHPM);
 	printBars(message);
 	
-	sprintf(message, "Goal :                     %'13ld", this->goal);
+	sprintf(message, "Goal :                    %'14ld", this->goal);
 	sprintf(message, "%s    --> average (s): %'7d / %'5d", message, handsPerSecond, iHandsPerSecond);
 	printBars(message);
 	

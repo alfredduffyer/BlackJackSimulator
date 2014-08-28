@@ -27,14 +27,14 @@ int main(int argc, char* argv[])
 	
 	/*
 	int player = 0, dealer = 0, decision = 0, replacement = 0;
-	long int goal = 0;
 	bool soft = false;
 	char filename[200];
 	*/
 	
 	int status = 0;
+	long int goal = 0;
 	
-	if (!initParams(argc, argv, &status))
+	if (!initParams(argc, argv, &status, &goal))
 	{
 		puts("Error found in params reading. Exiting...");
 		return 1;
@@ -51,5 +51,5 @@ int main(int argc, char* argv[])
 	*/
 	
 	Game game;
-	game.testHS(new System_BasicStrategy(), status);
+	game.testHS(new System_BasicStrategy(), status, goal);
 }
