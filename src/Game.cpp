@@ -650,7 +650,7 @@ void Game::playInf(System* system, double stack, int unit)
 int Game::getStatus(char* title, int instance)
 {
 	FILE* file = NULL;
-	char filename[15];
+	char filename[20];
 	
 	sprintf(filename, "status_%s_%d.tmp", title, instance);
 	file = fopen(filename, "r");
@@ -671,7 +671,7 @@ int Game::getStatus(char* title, int instance)
 void Game::setStatus(char* title, int instance, int status)
 {
 	FILE* file = NULL;
-	char filename[15];
+	char filename[20];
 	
 	sprintf(filename, "status_%s_%d.tmp", title, instance);
 	file = fopen(filename, "w+");
