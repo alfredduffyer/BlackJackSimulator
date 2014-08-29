@@ -425,7 +425,7 @@ void Game::playStats(System* system)
 void Game::testHS(System* system, int instance, long int goal)
 {
 	int status = this->getStatus((char*)"HS", instance);
-	goal = (goal > 0) ? goal : 5000;
+	goal = (goal > 0) ? goal : 10000000;
 	
 	int params[18][2];
 	params[1][0] = 12;
@@ -480,7 +480,7 @@ void Game::testHS(System* system, int instance, long int goal)
 void Game::testSS(System* system, int instance, long int goal)
 {
 	int status = this->getStatus((char*)"SS", instance);
-	goal = (goal > 0) ? goal : 1000;
+	goal = (goal > 0) ? goal : 200000;
 	
 	int params[18][2];
 	params[1][0] = 17;
