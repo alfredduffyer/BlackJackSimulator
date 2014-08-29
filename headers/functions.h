@@ -30,7 +30,7 @@ char* generateFileName(int player, int dealer, bool soft, int decision, int repl
 
 // Initiates the program with the parameters
 //bool initParams(int argc, char* argv[], int* player, int* dealer, bool* soft, int* decision, int* replacement, long int* goal, char* filename);
-bool initParams(int argc, char* argv[], int* status);
+bool initParams(int argc, char* argv[], int* status, long int* goal, char* test);
 
 // Truncates a string
 char* truncate(char* str, int length);
