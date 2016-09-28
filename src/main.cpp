@@ -52,17 +52,14 @@ int main(int argc, char* argv[])
 	*/
 	
 	Game game;
-	game.playInf(new System_BasicStrategy(), 1000, 5);
-	//game.playInf(new System_SimplePointCount(), 1000, 5);
-	//game.playInf(new System_FullPointCount(), 1000, 5);
+	//game.playInf(new System_BasicStrategy(), 1000, 5);
+	//game.playInf(new System_SimplePointCount(), 10000, 5);
 	
-	/*
-	
+	/**/
 	if (test == 'S') {
 		game.testSS(new System_BasicStrategy(), status, goal);
 	} else {
 		game.testHS(new System_BasicStrategy(), status, goal);
 	}
-	
-	*/
+	/**/
 }
