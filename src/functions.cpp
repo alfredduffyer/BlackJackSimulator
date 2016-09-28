@@ -75,7 +75,7 @@ char* generateFileName(int player, int dealer, bool soft, int decision, int repl
 	
 	char* filename = (char*) malloc(sizeof(char) * (strlen(tmp) + 1));
 	sprintf(filename, "%s", tmp);
-	filename[strlen(filename) - 1] = '\0';
+	filename[strlen(filename)] = '\0';
 	
 	return filename;
 }

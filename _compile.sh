@@ -24,7 +24,7 @@ if ! [ "$1" = "x" ]; then
 	g++ -Wall -Wextra -std=gnu++0x -o BlackJackSimulator src/*.cpp
 fi
 
-# When there was an error, print the end-of-program line and exit
+# If there's an error, print the end-of-program line and exit
 if ! [ -f BlackJackSimulator ]; then
 	printf '\033[1;31;40m'
 	echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
