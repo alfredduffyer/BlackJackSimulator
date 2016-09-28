@@ -450,6 +450,7 @@ void Game::testHS(System* system, int instance, long int goal)
 	for (int i = status + 1 ; i <= 17 ; i++)
 	{
 		stats.init(params[i][0], params[i][1], 0, DRAW, instance, goal, generateFileName(params[i][0], params[i][1], 0, 200, instance, goal));
+		system->initiateStatsException();
 		this->playStats(system);
 		this->setStatus((char*)"HS", instance, i);
 	}
@@ -513,6 +514,7 @@ void Game::testSS(System* system, int instance, long int goal)
 	for (int i = status + 1 ; i <= 21 ; i++)
 	{
 		stats.init(params[i][0], params[i][1], 1, DRAW, instance, goal, generateFileName(params[i][0], params[i][1], 1, 200, instance, goal));
+		system->initiateStatsException();
 		this->playStats(system);
 		this->setStatus((char*)"SS", instance, i);
 	}
