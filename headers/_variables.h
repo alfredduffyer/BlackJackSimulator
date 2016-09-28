@@ -39,8 +39,8 @@
 #define C_WHITE 37
 
 // DEBUG options
-#define NOSTATUSLIMIT 50000000
-#define STATUS 1
+#define NOSTATUSLIMIT 10000000
+#define STATUS 0
 #define DEBUG 0
 #define FORCE_DEBUG 1
 #define PRINT_TABLE 0

@@ -20,7 +20,7 @@
  * 1 activates the bet variation
  * 0 deactivates it
  */
-#define ACTIVATE_BET_VARIATION 0
+#define ACTIVATE_BET_VARIATION 1
 
 /*
  * Percentage of how much other players play [0-100]

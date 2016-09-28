@@ -3,6 +3,7 @@
 #include "../headers/_variables.h"
 #include "../headers/_config.h"
 #include "../headers/functions.h"
+#include "../headers/print.h"
 #include "../headers/GlobalCount.h"
 #include "../headers/System_SimplePointCount.h"
 
@@ -19,16 +20,13 @@ int System_SimplePointCount::howManyHands(int maxHands)
 	
 	int index = count.getRoughCount();
 	
-	if (index < 0)
-	{
+	if (index < 0) {
 		return 1;
 	}
-	if (index <= 2)
-	{
+	if (index <= 2) {
 		return 2;
 	}
-	if (index > maxHands)
-	{
+	if (index > maxHands) {
 		return maxHands;
 	}
 	
@@ -39,13 +37,11 @@ int System_SimplePointCount::bet()
 {
 	int index = count.getRoughCount();
 	
-	if (!ACTIVATE_BET_VARIATION || MAX_BET_VARIATION <= 1 || index < 1)
-	{
+	if (!ACTIVATE_BET_VARIATION || MAX_BET_VARIATION <= 1 || index < 1) {
 		return 1;
 	}
 	
-	if (MAX_BET_VARIATION >= 3 && index >= 5)
-	{
+	if (MAX_BET_VARIATION >= 3 && index >= 5) {
 		return 3;
 	}
 	
@@ -71,6 +67,7 @@ void System_SimplePointCount::initiateTables()
 	this->initiate_hardDoublingDown();
 	this->initiate_softDoublingDown();
 	this->initiate_splittingPairs();
+	
 	/*
 	printBlackJackTables(this->hardStanding, 8, 10, SHIFT_HS, true);
 	printBlackJackTables(this->softStanding, 3, 10, SHIFT_SS, true);
