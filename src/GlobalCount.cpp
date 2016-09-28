@@ -21,25 +21,20 @@ void GlobalCount::update(int value)
 {
 	this->remainingCards--;
 	
-	if (value == 0)
-	{
+	if (value == 0) {
 		return;
 	}
 	
-	if (value == 10 || value == 1)
-	{
+	if (value == 10 || value == 1) {
 		this->count--;
 	}
-	if (value >= 2 && value <= 6)
-	{
+	if (value >= 2 && value <= 6) {
 		this->count++;
 	}
-	if (value == 10)
-	{
+	if (value == 10) {
 		this->tens--;
 	}
-	if (value != 10)
-	{
+	if (value != 10) {
 		this->others--;
 	}
 }
@@ -51,8 +46,7 @@ int GlobalCount::getCount()
 
 int GlobalCount::getRoughCount()
 {
-	if (this->remainingCards <= 1)
-	{
+	if (this->remainingCards <= 1) {
 		return 0;
 	}
 	return this->count / (((this->remainingCards-1) / 52) + 1);
@@ -65,19 +59,16 @@ int GlobalCount::getRemainingCards()
 
 int GlobalCount::getHiLoIndex()
 {
-	if (this->remainingCards == 0)
-	{
+	if (this->remainingCards == 0) {
 		return 0;
 	}
 	
 	int tmp = (int)((double)((double)this->count / (double)this->remainingCards) * 100);
 	
-	if (tmp > 98)
-	{
+	if (tmp > 98) {
 		return 98;
 	}
-	if (tmp < -98)
-	{
+	if (tmp < -98) {
 		return -98;
 	}
 	return tmp;
@@ -95,20 +86,17 @@ int GlobalCount::getOthers()
 
 double GlobalCount::getTenCount()
 {
-	if (this->tens <= 0)
-	{
+	if (this->tens <= 0) {
 		return 8;
 	}
 	
 	double tmp = (double)(this->others) / (double)(this->tens);
 	
-	if (tmp > 8)
-	{
+	if (tmp > 8) {
 		return 8;
 	}
 	
-	if (tmp < 0)
-	{
+	if (tmp < 0) {
 		return 0;
 	}
 	

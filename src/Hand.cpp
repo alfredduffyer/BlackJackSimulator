@@ -17,14 +17,9 @@ void Hand::reset()
 int Hand::add(int value)
 {
 	this->size++;
-	if (this->size == 2 && this->softValue == value)
-	{
-		this->pair = true;
-	}
-	else
-	{
-		this->pair = false;
-	}
+	
+	this->pair = (this->size == 2 && this->softValue == value);
+	
 	if (value == 1)
 	{
 		this->value += (this->value + 11 > 21) ? 1 : 11;
@@ -81,33 +76,27 @@ void Hand::setSplitted(bool isSplitted)
 
 int Hand::beats(Hand* dealer)
 {
-	if (this->isBusted())
-	{
+	if (this->isBusted()) {
 		return -1;
 	}
 	
-	if (dealer->isBusted())
-	{
+	if (dealer->isBusted()) {
 		return 1;
 	}
 	
-	if (this->isNatural() && !dealer->isNatural())
-	{
+	if (this->isNatural() && !dealer->isNatural()) {
 		return 1;
 	}
 	
-	if (dealer->isNatural() && !this->isNatural())
-	{
+	if (dealer->isNatural() && !this->isNatural()) {
 		return -1;
 	}
 	
-	if (this->getValue() > dealer->getValue())
-	{
+	if (this->getValue() > dealer->getValue()) {
 		return 1;
 	}
 	
-	if (dealer->getValue() > this->getValue())
-	{
+	if (dealer->getValue() > this->getValue()) {
 		return -1;
 	}
 	

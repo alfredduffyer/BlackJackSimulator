@@ -137,23 +137,19 @@ void printBlackJackTables(double** matrix, int y, int x, int plusy, bool simple,
 	{
 		if (subsitute == 'S')
 		{
-			if (i+plusy == 10)
-			{
+			if (i+plusy == 10) {
 				printf("10|");
 			}
-			else if (i+plusy == 11)
-			{
+			else if (i+plusy == 11) {
 				printf("AA|");
 			}
-			else
-			{
+			else {
 				printf("%d%d|", i+plusy, i+plusy);
 			}
 		}
 		else
 		{
-			if (i+plusy < 10)
-			{
+			if (i+plusy < 10) {
 				printf("%c", subsitute);
 			}
 			printf("%d|", i+plusy);

@@ -15,24 +15,19 @@ System_BasicStrategy::System_BasicStrategy() : System()
 	
 	if (!PRINT_TABLE) return;
 	
-	if (stats.getDecisionConcerned() == SPLIT)
-	{
+	if (stats.getDecisionConcerned() == SPLIT) {
 		printBlackJackTables(this->splittingPairs, 10, 10, SHIFT_SP, true, 'S');
 	}
-	else if (stats.getDecisionConcerned() == DOUBLEDOWN && stats.isSoftHand())
-	{
+	else if (stats.getDecisionConcerned() == DOUBLEDOWN && stats.isSoftHand()) {
 		printBlackJackTables(this->softDoublingDown, 9, 10, SHIFT_SDD, true, 'A');
 	}
-	else if (stats.getDecisionConcerned() == DOUBLEDOWN)
-	{
+	else if (stats.getDecisionConcerned() == DOUBLEDOWN) {
 		printBlackJackTables(this->hardDoublingDown, 10, 10, SHIFT_HDD, true);
 	}
-	else if (stats.getDecisionConcerned() == DRAW && stats.isSoftHand())
-	{
+	else if (stats.getDecisionConcerned() == DRAW && stats.isSoftHand()) {
 		printBlackJackTables(this->softStanding, 3, 10, SHIFT_SS, true);
 	}
-	else if (stats.getDecisionConcerned() == DRAW)
-	{
+	else if (stats.getDecisionConcerned() == DRAW) {
 		printBlackJackTables(this->hardStanding, 8, 10, SHIFT_HS, true);
 	}
 	//spause();
@@ -42,7 +37,7 @@ System_BasicStrategy::System_BasicStrategy() : System()
 int System_BasicStrategy::howManyHands(int maxHands)
 {
 	if (maxHands){}
-	return random(3, 7);
+	return random(1, maxHands);
 }
 
 bool System_BasicStrategy::insure()
@@ -64,6 +59,7 @@ void System_BasicStrategy::initiateTables()
 	this->initiate_hardDoublingDown();
 	this->initiate_softDoublingDown();
 	this->initiate_splittingPairs();
+	
 	/*
 	printBlackJackTables(this->hardStanding, 8, 10, SHIFT_HS, true);
 	printBlackJackTables(this->softStanding, 3, 10, SHIFT_SS, true);
@@ -85,33 +81,31 @@ void System_BasicStrategy::initiateStatsException()
 			break;
 		
 		case DOUBLEDOWN:
-			if (stats.isSoftHand())
-			{
+			if (stats.isSoftHand()) {
 				this->softDoublingDown[stats.getPlayerValue()-10-SHIFT_SDD][dealerValue] = stats.getDecision();
 			}
-			else
-			{
+			else {
 				this->hardDoublingDown[stats.getPlayerValue()-SHIFT_HDD][dealerValue] = stats.getDecision();
 			}
 			break;
 		
 		case DRAW:
-			if (stats.isSoftHand())
-			{
+			if (stats.isSoftHand()) {
 				this->softStanding[stats.getPlayerValue()-SHIFT_SS][dealerValue] = stats.getDecision();
 			}
-			else
-			{
+			else {
 				this->hardStanding[stats.getPlayerValue()-SHIFT_HS][dealerValue] = stats.getDecision();
 			}
 			break;
 	}
+	
 	/*
 	printBlackJackTables(this->hardStanding, 8, 10, SHIFT_HS, true);
 	printBlackJackTables(this->softStanding, 3, 10, SHIFT_SS, true);
 	printBlackJackTables(this->hardDoublingDown, 10, 10, SHIFT_HDD, true);
 	printBlackJackTables(this->softDoublingDown, 9, 10, SHIFT_SDD, true, 'A');
 	printBlackJackTables(this->splittingPairs, 10, 10, SHIFT_SP, true, 'S');
+	spause();
 	*/
 }
 

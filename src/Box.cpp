@@ -61,8 +61,7 @@ int Box::decision(Hand* dealerHand, bool canSplit, bool canDoubleDown)
 
 void Box::payInsurance()
 {
-	if (this->hasInsured())
-	{
+	if (this->hasInsured()) {
 		this->player->win(this->bet * 1.5);
 	}
 }

@@ -27,13 +27,11 @@ int Player::bet(int bet)
 {
 	bet *= this->unit;
 	
-	if (this->stack == -1)
-	{
+	if (this->stack == -1) {
 		return bet;
 	}
 	
-	if (this->stack >= bet)
-	{
+	if (this->stack >= bet) {
 		this->stack -= bet;
 		return bet;
 	}
@@ -53,7 +51,7 @@ void Player::betInsurance(double amount)
 
 bool Player::insure(double amount)
 {
-	return (this->stack >= amount && this->system->insure());
+	return this->stack >= amount && this->system->insure();
 }
 
 int Player::decision(Hand* playerHand, Hand* dealerHand, bool canSplit, bool canDoubleDown)
@@ -63,8 +61,7 @@ int Player::decision(Hand* playerHand, Hand* dealerHand, bool canSplit, bool can
 
 void Player::win(double amount)
 {
-	if (this->stack == -1)
-	{
+	if (this->stack == -1) {
 		return;
 	}
 	this->stack += amount;

@@ -32,16 +32,13 @@ void System::initiateTables()
 	{
 		this->hardDoublingDown[i] = (double*)calloc(10, sizeof(double));
 		this->splittingPairs[i] = (double*)calloc(10, sizeof(double));
-		if (i < 9)
-		{
+		if (i < 9) {
 			this->softDoublingDown[i] = (double*)calloc(10, sizeof(double));
 		}
-		if (i < 8)
-		{
+		if (i < 8) {
 			this->hardStanding[i] = (double*)calloc(10, sizeof(double));
 		}
-		if (i < 3)
-		{
+		if (i < 3) {
 			this->softStanding[i] = (double*)calloc(10, sizeof(double));
 		}
 	}
@@ -87,8 +84,7 @@ bool System::split(int player, int dealer)
 
 bool System::doubleDown(int player, int dealer, bool soft)
 {
-	if (soft)
-	{
+	if (soft) {
 		return (this->comparator > this->softDoublingDown[(player-SHIFT_SDD) % 10][dealer-1]);
 	}
 	return (this->comparator > this->hardDoublingDown[player-SHIFT_HDD][dealer-1]);
@@ -96,8 +92,7 @@ bool System::doubleDown(int player, int dealer, bool soft)
 
 bool System::draw(int player, int dealer, bool soft)
 {
-	if (soft)
-	{
+	if (soft) {
 		return (this->comparator <= this->softStanding[player-SHIFT_SS][dealer-1]);
 	}
 	return (this->comparator <= this->hardStanding[player-SHIFT_HS][dealer-1]);
@@ -107,8 +102,7 @@ int System::decision(Hand* player, Hand* dealer, bool canSplit, bool canDoubleDo
 {
 	this->updateComparator();
 	
-	if (int exceptionReturn = this->exception(player, dealer, canSplit, canDoubleDown))
-	{
+	if (int exceptionReturn = this->exception(player, dealer, canSplit, canDoubleDown)) {
 		return exceptionReturn;
 	}
 	

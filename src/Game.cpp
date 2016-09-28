@@ -21,6 +21,7 @@ extern Stats stats;
 
 Game::Game()
 {
+	//TODO : put min and max to parameters
 	this->init(new Shoe(), 5, 500, NB_BOXES);
 }
 
@@ -57,8 +58,7 @@ void Game::init(Shoe* shoe, int min, int max, int nbBoxes)
 
 int Game::addPlayer(Player* player)
 {
-	if (this->nbPlayers >= this->nbBoxes)
-	{
+	if (this->nbPlayers >= this->nbBoxes) {
 		return this->nbPlayers;
 	}
 	this->players[this->nbPlayers++] = player;

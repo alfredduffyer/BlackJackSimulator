@@ -112,8 +112,7 @@ bool Shoe::isTheEnd()
 
 Card Shoe::top()
 {
-	if (this->topIndex >= this->size)
-	{
+	if (this->topIndex >= this->size) {
 		this->reset();
 	}
 	count.update(this->cards[this->topIndex].value);
