@@ -93,8 +93,7 @@ int Game::bet()
 	{
 		currentBox = (this->nbBoxes/2 + i) % this->nbBoxes;
 		
-		if (this->boxes[currentBox].isFree())
-		{
+		if (this->boxes[currentBox].isFree()) {
 			this->boxes[currentBox].take(this->players[0], this->players[0]->bet());
 		}
 	}
@@ -107,6 +106,7 @@ int Game::bet()
 		
 		for (j = 0 ; j < handsnumber ; j++)
 		{
+			// TODO
 			for (k = 0 ; k < 3 ; k++)
 			{
 				if (this->boxes[currentBox].isFree())
@@ -124,8 +124,7 @@ int Game::bet()
 		for (i = 0 ; i < this->nbBoxes ; i++)
 		{
 			printf(" [%d] total bet is %d", i, this->boxes[i].getBet());
-			if (!this->boxes[i].isFree())
-			{
+			if (!this->boxes[i].isFree()) {
 				printf(" (%s)", this->boxes[i].player->getName());
 			}
 			puts("");
@@ -162,13 +161,11 @@ void Game::deal()
 	
 	for (i = 0 ; i < this->nbBoxes*2 ; i++)
 	{
-		if (i == this->nbBoxes)
-		{
+		if (i == this->nbBoxes) {
 			this->deal(-1);
 		}
 		
-		if (this->boxes[i % this->nbBoxes].isFree())
-		{
+		if (this->boxes[i % this->nbBoxes].isFree()) {
 			continue;
 		}
 		
@@ -181,8 +178,7 @@ void Game::insurance()
 	int i = 0;
 	for (i = 0 ; i < this->nbBoxes ; i++)
 	{
-		if (this->boxes[i].isFree())
-		{
+		if (this->boxes[i].isFree()) {
 			continue;
 		}
 		if (this->boxes[i].insure())
@@ -209,28 +205,24 @@ void Game::decision(int boxIndex)
 			bool matchDoubleDownStat = stats.getDecisionConcerned() == DOUBLEDOWN && box->hand.getSize() == 2 && (decision == DOUBLEDOWN || decision == DRAW || decision == STAND);
 			bool matchDrawStat = stats.getDecisionConcerned() == DRAW && (decision == DRAW || decision == STAND);
 			
-			if (matchSplitStat || matchDoubleDownStat || matchDrawStat)
-			{
+			if (matchSplitStat || matchDoubleDownStat || matchDrawStat) {
 				stats.addBox(boxIndex);
 				//FORCEDEBUG = true;
 			}
 		}
 		
-		if (decision == STAND)
-		{
+		if (decision == STAND) {
 			break;
 		}
 		
-		if (decision == DRAW)
-		{
+		if (decision == DRAW) {
 			this->deal(boxIndex);
 		}
 		
 		if (decision == DOUBLEDOWN)
 		{
 			this->deal(boxIndex);
-			if (box->doubleDown() > 0)
-			{
+			if (box->doubleDown() > 0) {
 				break;
 			}
 		}
@@ -256,12 +248,10 @@ void Game::decision(int boxIndex)
 			this->deal(boxIndex);
 			this->deal(splitBoxIndex);
 			
-			if (value != 1 || (this->boxes[boxIndex].hand.isPair() && this->splitIndexes[boxIndex % this->nbBoxes] < MAX_SPLIT))
-			{
+			if (value != 1 || (this->boxes[boxIndex].hand.isPair() && this->splitIndexes[boxIndex % this->nbBoxes] < MAX_SPLIT)) {
 				this->decision(boxIndex);
 			}
-			if (value != 1 || (this->boxes[splitBoxIndex].hand.isPair() && this->splitIndexes[splitBoxIndex % this->nbBoxes] < MAX_SPLIT))
-			{
+			if (value != 1 || (this->boxes[splitBoxIndex].hand.isPair() && this->splitIndexes[splitBoxIndex % this->nbBoxes] < MAX_SPLIT)) {
 				this->decision(splitBoxIndex);
 			}
 			
@@ -276,8 +266,7 @@ void Game::decisions()
 	
 	for (i = 0 ; i < this->nbBoxes ; i++)
 	{
-		if (this->boxes[i].isFree())
-		{
+		if (this->boxes[i].isFree()) {
 			continue;
 		}
 		this->decision(i);
@@ -291,8 +280,7 @@ void Game::payInsurance()
 	int i = 0;
 	for (i = 0 ; i < this->nbBoxes ; i++)
 	{
-		if (this->boxes[i].isFree() || !this->boxes[i].hasInsured())
-		{
+		if (this->boxes[i].isFree() || !this->boxes[i].hasInsured()) {
 			continue;
 		}
 		if ((DEBUG || FORCEDEBUG)) printf(" [%d] Paying insurance\n", i);
@@ -309,27 +297,23 @@ void Game::pay()
 	
 	for (i = this->nbBoxes + MAX_SPLIT * this->nbBoxes - 1 ; i >= 0 ; i--)
 	{
-		if (this->boxes[i].isFree())
-		{
+		if (this->boxes[i].isFree()) {
 			continue;
 		}
 		
 		status = this->boxes[i].hand.beats(&this->dealerBox->hand);
 		
-		if (stats.isConcerned(i))
-		{
+		if (stats.isConcerned(i)) {
 			stats.update(i, status);
 		}
 		
 		sprintf(text1, " [%d] has %d against %d, status is %d (%s)\n", i, this->boxes[i].hand.getValue(), this->dealerBox->hand.getValue(), status, this->boxes[i].player->getName());
 		sprintf(text2, "  --> Had %1.1f, has now ", this->boxes[i].player->getStack());
 		
-		if (status == 0)
-		{
+		if (status == 0) {
 			this->boxes[i].tie();
 		}
-		if (status == 1)
-		{
+		if (status == 1) {
 			this->boxes[i].win();
 		}
 		
@@ -655,8 +639,7 @@ int Game::getStatus(char* title, int instance)
 	sprintf(filename, "status_%s_%d.tmp", title, instance);
 	file = fopen(filename, "r");
 	
-	if (!file)
-	{
+	if (!file) {
 		return 0;
 	}
 	
