@@ -467,7 +467,7 @@ void Game::testSS(System* system, int instance, long int goal)
 	int status = this->getStatus((char*)"SS", instance);
 	goal = (goal > 0) ? goal : 200000;
 	
-	int params[18][2];
+	int params[22][2];
 	params[1][0] = 17;
 	params[1][1] = 2;
 	params[2][0] = 18;

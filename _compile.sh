@@ -41,10 +41,10 @@ printf '\033[0m'
 if ! [ "$1" = "n" ]; then
 	if [ "$1" = "v" ]; then
 #		valgrind ./BlackJackSimulator 17 2 -1 200 -1 100
-		valgrind ./BlackJackSimulator -1
+		valgrind ./BlackJackSimulator -1 S
 	else
 #		./BlackJackSimulator 17 2 1 200 -1 10000000
-		./BlackJackSimulator 1
+		./BlackJackSimulator 1 S
 	fi
 fi
 
