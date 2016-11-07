@@ -121,7 +121,7 @@ void Stats::printStatus(long int handsPlayed)
 void Stats::printStatus(long int handsPlayed, bool doClear)
 {
 	char message[100];
-	char decisionString[10];
+	char decisionString[11];
 	
 	switch (this->decisionConcerned)
 	{

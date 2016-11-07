@@ -58,6 +58,8 @@ int main(int argc, char* argv[])
 	/**/
 	if (test == 'S') {
 		game.testSS(new System_BasicStrategy(), status, goal);
+	} else if (test == 'D') {
+		game.testHDD(new System_BasicStrategy(), status, goal);
 	} else {
 		game.testHS(new System_BasicStrategy(), status, goal);
 	}

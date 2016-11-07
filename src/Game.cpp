@@ -526,6 +526,77 @@ void Game::testSS(System* system, int instance, long int goal)
 	
 }
 
+
+
+void Game::testHDD(System* system, int instance, long int goal)
+{
+	int status = this->getStatus((char*)"HD", instance);
+	goal = (goal > 0) ? goal : 200000;
+	
+	int params[20][2];
+	params[1][0] = 8;
+	params[1][1] = 2;
+	params[2][0] = 9;
+	params[2][1] = 2;
+	
+	params[3][0] = 8;
+	params[3][1] = 3;
+	params[4][0] = 9;
+	params[4][1] = 3;
+	
+	params[5][0] = 8;
+	params[5][1] = 4;
+	params[6][0] = 9;
+	params[6][1] = 4;
+	
+	params[7][0] = 7;
+	params[7][1] = 5;
+	params[8][0] = 8;
+	params[8][1] = 5;
+	
+	params[9][0] = 7;
+	params[9][1] = 6;
+	params[10][0] = 8;
+	params[10][1] = 6;
+	
+	params[11][0] = 9;
+	params[11][1] = 7;
+	params[12][0] = 10;
+	params[12][1] = 7;
+	
+	params[13][0] = 9;
+	params[13][1] = 8;
+	params[14][0] = 10;
+	params[14][1] = 8;
+	
+	params[15][0] = 9;
+	params[15][1] = 9;
+	params[16][0] = 10;
+	params[16][1] = 9;
+	
+	params[17][0] = 10;
+	params[17][1] = 10;
+	params[18][0] = 11;
+	params[18][1] = 10;
+	
+	params[19][0] = 11;
+	params[19][1] = 1;
+	
+	for (int i = status + 1 ; i <= 19 ; i++)
+	{
+		stats.init(params[i][0], params[i][1], 0, DOUBLEDOWN, instance, goal, generateFileName(params[i][0], params[i][1], 0, DOUBLEDOWN, instance, goal));
+		system->initiateStatsException();
+		this->playStats(system);
+		this->setStatus((char*)"HD", instance, i);
+	}
+	
+	if (status == 17)
+	{
+		puts("Nothing to do ! Try deleting status.tmp");
+	}
+	
+}
+
 int Game::play()
 {
 	int handsPlayed = 0;
