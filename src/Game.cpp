@@ -580,7 +580,7 @@ void Game::testHDD(System* system, int instance, long int goal)
 	params[18][1] = 10;
 	
 	params[19][0] = 11;
-	params[19][1] = 1;
+	params[19][1] = 11;
 	
 	for (int i = status + 1 ; i <= 19 ; i++)
 	{
