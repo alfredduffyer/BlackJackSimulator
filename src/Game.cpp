@@ -531,7 +531,7 @@ void Game::testSS(System* system, int instance, long int goal)
 void Game::testHDD(System* system, int instance, long int goal)
 {
 	int status = this->getStatus((char*)"HD", instance);
-	goal = (goal > 0) ? goal : 200000;
+	goal = (goal > 0) ? goal : 10000000;
 	
 	int params[20][2];
 	params[1][0] = 8;
