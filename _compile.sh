@@ -1,9 +1,10 @@
 # 
 # Compiler shell script
 # 
-# @param	n	Don't execute, just compile the sources
-# @param	x	Don't compile, just execute the old binary file
-# @param	v	Launch the program with Valgrind
+# @param:1	1/-1	Start with 1 or -1
+# @param:2	n	Don't execute, just compile the sources
+# @param:2	x	Don't compile, just execute the old binary file
+# @param:2	v	Launch the program with Valgrind
 # 
 
 # Clean directories from temp files
@@ -17,7 +18,7 @@ rm *~
 clear
 
 # Compiles the sources (after removing the old binary file)
-if ! [ "$1" = "x" ]; then
+if ! [ "$2" = "x" ]; then
 	if [ -f BlackJackSimulator ]; then
 		rm BlackJackSimulator
 	fi
@@ -38,13 +39,13 @@ echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 printf '\033[0m'
 
 # Launches the compiled program
-if ! [ "$1" = "n" ]; then
-	if [ "$1" = "v" ]; then
+if ! [ "$2" = "n" ]; then
+	if [ "$2" = "v" ]; then
 #		valgrind ./BlackJackSimulator 17 2 -1 200 -1 100
-		valgrind ./BlackJackSimulator -1 D
+		valgrind ./BlackJackSimulator $1 D
 	else
 #		./BlackJackSimulator 17 2 1 200 -1 10000000
-		./BlackJackSimulator -1 D
+		./BlackJackSimulator $1 D
 	fi
 fi
 
