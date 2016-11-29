@@ -56,11 +56,13 @@ int main(int argc, char* argv[])
 	//game.playInf(new System_SimplePointCount(), 10000, 5);
 	
 	/**/
-	if (test == 'S') {
+	if (test == 'S') {		// S = Soft Standing Numbers
 		game.testSS(new System_BasicStrategy(), status, goal);
-	} else if (test == 'D') {
+	} else if (test == 'D') {	// D = Hard Double Down
 		game.testHDD(new System_BasicStrategy(), status, goal);
-	} else {
+	} else if (test == 'E') {	// E = Soft Double Down
+		game.testSDD(new System_BasicStrategy(), status, goal);
+	} else {			// H = Hard Standing Numbers
 		game.testHS(new System_BasicStrategy(), status, goal);
 	}
 	/**/
