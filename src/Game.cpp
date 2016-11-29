@@ -600,7 +600,7 @@ void Game::testHDD(System* system, int instance, long int goal)
 void Game::testSDD(System* system, int instance, long int goal)
 {
 	int status = this->getStatus((char*)"SD", instance);
-	goal = (goal > 0) ? goal : 1;
+	goal = (goal > 0) ? goal : 100000;
 	
 	int params[15][2];
 	params[1][0] = 16;
