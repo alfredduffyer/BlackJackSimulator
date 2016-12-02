@@ -62,6 +62,8 @@ int main(int argc, char* argv[])
 		game.testHDD(new System_BasicStrategy(), status, goal);
 	} else if (test == 'E') {	// E = Soft Double Down
 		game.testSDD(new System_BasicStrategy(), status, goal);
+	} else if (test == 'P') {	// P = Split
+		game.testSP(new System_BasicStrategy(), status, goal);
 	} else {			// H = Hard Standing Numbers
 		game.testHS(new System_BasicStrategy(), status, goal);
 	}

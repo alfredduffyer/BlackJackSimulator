@@ -651,6 +651,60 @@ void Game::testSDD(System* system, int instance, long int goal)
 	
 }
 
+void Game::testSP(System* system, int instance, long int goal)
+{
+	int status = this->getStatus((char*)"SP", instance);
+	goal = (goal > 0) ? goal : 2500000;
+	
+	int params[15][2];
+	params[1][0] = 16;
+	params[1][1] = 2;
+	params[2][0] = 17;
+	params[2][1] = 2;
+	params[3][0] = 18;
+	params[3][1] = 2;
+	
+	params[4][0] = 16;
+	params[4][1] = 3;
+	params[5][0] = 17;
+	params[5][1] = 3;
+	params[6][0] = 18;
+	params[6][1] = 3;
+	params[7][0] = 19;
+	params[7][1] = 3;
+	
+	params[8][0] = 13;
+	params[8][1] = 4;
+	params[9][0] = 18;
+	params[9][1] = 4;
+	params[10][0] = 19;
+	params[10][1] = 4;
+	
+	params[11][0] = 18;
+	params[11][1] = 5;
+	params[12][0] = 19;
+	params[12][1] = 5;
+	
+	params[13][0] = 18;
+	params[13][1] = 6;
+	params[14][0] = 19;
+	params[14][1] = 6;
+	
+	for (int i = status + 1 ; i <= 14 ; i++)
+	{
+		stats.init(params[i][0], params[i][1], 1, DOUBLEDOWN, instance, goal, generateFileName(params[i][0], params[i][1], 1, DOUBLEDOWN, instance, goal));
+		system->initiateStatsException();
+		this->playStats(system);
+		this->setStatus((char*)"SP", instance, i);
+	}
+	
+	if (status == 17)
+	{
+		puts("Nothing to do ! Try deleting status.tmp");
+	}
+	
+}
+
 int Game::play()
 {
 	int handsPlayed = 0;

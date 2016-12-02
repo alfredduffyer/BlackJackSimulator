@@ -41,6 +41,7 @@ class Game
 		void testSS(System* system, int instance, long int goal);	// Tests all Soft Standing Numbers
 		void testHDD(System* system, int instance, long int goal);	// Tests doubling down on soft Numbers
 		void testSDD(System* system, int instance, long int goal);	// Tests doubling down on hard Numbers
+		void testSP(System* system, int instance, long int goal);	// Tests splits
 		void playInf(System* system, double stack, int unit);	// Plays indefinitely
 		void playStats(System* system);		// Plays with statistics
 		int getStatus(char* title, int instance);
